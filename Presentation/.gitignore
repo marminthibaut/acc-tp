@@ -1,0 +1,10 @@
+*.kilepr
+*.aux
+*.log
+*.pdf
+*.out
+*.idx
+*.toc
+*.ind
+*.ilg
+*.md5
