@@ -1,0 +1,95 @@
+\subsection{Réduction de SAT à 3--SAT}
+\begin{enumerate}[(a)]
+\item \begin{description}
+\item[Énoncé de SAT] : \\
+\begin{tabular}{r l l}
+Données : & $ U = \lbrace v_1, v_2, v_3, \ldots, v_n \rbrace $ & \textit{Ensemble de variables}\\
+& $ F = \lbrace c_1, c_2, c_3, \ldots, c_m \rbrace $ & \textit{Ensemble de clauses}\\
+où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} \vee \cdots \vee l_{ik} $ & \textit{Clauses de $n$ littéraux}\\
+avec & $ l_{ij} = v_{ij}$ ou $ \neg v_{ij} $ &\\
+\end{tabular}
+
+Problème : existe-il au moins une affectation des variables telle que chaque clause de $F$ soit vrai.
+
+\item [Énoncé de 3--SAT] : 
+
+3--SAT est identique au problème SAT avec $k = 3$.\\
+\begin{tabular}{r l}
+Données : & $ U = \lbrace v_1, v_2, v_3, \ldots, v_n \rbrace $\\
+& $ F = \lbrace c_1, c_2, c_3, \ldots, c_m \rbrace $\\
+où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} $\\
+avec & $ l_{ij} = v_{ij}$ ou $ \neg v_{ij} $\\
+\end{tabular}
+\end{description}
+\item La réduction du problème SAT peut être définit en montrant que chaque clause $C$ de $F$ peut-être transformée en un ensemble de clauses $\lbrace c_1, c_2, \ldots, c_i \rbrace$ tel que pour toute affectation rendant vraie $C$, on peut trouver une affectation rendant vrai chaque $c_i$. Chaque $c_i$ devant être de taille exactement 3. La réciproque doit également être montrée.
+
+\begin{description}
+\item[k = 4]
+
+Soit $C$ une clause de taille 4 : $C = l_1 \vee l_2 \vee l_3 \vee l_4$.
+Ajoutons une variable $v \notin U$ et transformons la clause $C$ en deux clauses :
+\[ C_1 = l_1 \vee l_2 \vee v \]
+\[ C_2 = l_3 \vee l_4 \vee \neg v \]
+\begin{description}
+\item [4 $\Rightarrow$ 3]
+Soit une affectation qui rend $C$ vrai. Il existe un $i$ tel que $l_i$ est vrai.
+
+Sans perte de généralité, prenons $i = 1$. Conservons les mêmes affectations pour les $l_i$ avec $v = faux$.
+
+On a $C_1 \wedge C_2 = vrai$.
+\item [3 $\Rightarrow$ 4]
+Soit une affectation telle que $C_1 \wedge C_2$ est vrai.
+
+Sans perte de généralité, on suppose que $v$ est vrai. Cela implique que $l_3 \vee l_4$ est vrai, et donc que $C$ est vrai.
+\end{description}
+
+\item[k = 5]
+
+Soit la clause $C = l_1 \vee l_2 \vee l_3 \vee l_4 \vee l_5$, sur le même principe que pour $k = 4$ :
+\[C \rightarrow (l_1 \vee l_2 \vee l_3 \vee v) \wedge (l_4 \vee l_5 \vee \neg v) \]
+\[\rightarrow (l_1 \vee l_2 \vee w) \wedge (l_3 \vee v \vee \neg w) \wedge (l_4 \vee l_5 \vee \neg v)\]
+
+La clause $C$ est transformée en 3 clauses de taille 3, en ajoutant 2 nouvelles variables.
+
+\item [Généralisation] :
+
+Une clause de taille $k > 3$ est transformée en 2 clauses $C_1$ et $C_2$ en ajoutant une variable :
+\begin{itemize}
+\item Taille de $C_1$ : $\left \lceil \frac{k}{2} \right \rceil + 1$
+\item Taille de $C_2$ : $\left \lfloor \frac{k}{2} \right \rfloor + 1$
+\end{itemize}
+Avec $k > 3$, chaque réduction diminue stictement la taille des clauses, car on a : \[ k > \left \lceil \frac{k}{2} \right \rceil + 1 \geq \left \lfloor \frac{k}{2} \right \rfloor + 1 \]
+
+Tout problème SAT peut dont être réduit à un problème 3--SAT.
+
+\end{description}
+
+\item Le point (b) définit la réduction de SAT à 3--SAT.
+
+Soit :
+\begin{description}
+\item $k$ la taille de la clause initiale,
+\item $v_k$ le nombre de variables à ajouter pour obtenir des clauses de taille 3,
+\item $w_k$ le nombre de clauses de taille 3 obtenues à partir de la clause initiale.
+\end{description}
+Pour $k = 3$ :
+\[ v_3 = 0 \]
+\[ w_3 = 1 \]
+Pour tout $k > 3$ :
+\[ v_k = v_{\left \lceil \frac{k}{2} \right \rceil + 1} + v_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
+\[ w_k = w_{\left \lceil \frac{k}{2} \right \rceil + 1} + w_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
+
+
+\end{enumerate}
+
+\subsection{NP-complétude de 2--SAT}
+\begin{enumerate}
+\item coucou
+\item coucou
+\end{enumerate}
+
+\subsection{2-SAT, un problème polynomial}
+\begin{enumerate}
+\item coucou
+\item coucou
+\end{enumerate}
