@@ -3,10 +3,10 @@
 \item \begin{description}
 \item[Énoncé de SAT] : \\
 \begin{tabular}{r l l}
-Données : & $ U = \lbrace v_1, v_2, v_3, \ldots, v_n \rbrace $ & \textit{Ensemble de variables}\\
-& $ F = \lbrace c_1, c_2, c_3, \ldots, c_m \rbrace $ & \textit{Ensemble de clauses}\\
-où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} \vee \cdots \vee l_{ik} $ & \textit{Clauses de $n$ littéraux}\\
-avec & $ l_{ij} = v_{ij}$ ou $ \neg v_{ij} $ &\\
+Données : & $ U = \lbrace v_1, v_2 \ldots v_n \rbrace $ & \emph{Ensemble de $n$ variables}\\
+& $ F = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $ & \emph{Ensemble de $m$ clauses}\\
+où & $ C_i = l_{i1} \vee l_{i2} \cdots l_{ik} $ & \emph{Clauses de $k$ littéraux}\\
+avec & $ l_{ij} = v$ ou $ \neg v $ & \emph{avec $v \in U$} \\
 \end{tabular}
 
 Problème : existe-il au moins une affectation des variables telle que chaque clause de $F$ soit vrai.
@@ -15,16 +15,16 @@ Problème : existe-il au moins une affectation des variables telle que chaque cl
 
 3--SAT est identique au problème SAT avec $k = 3$.\\
 \begin{tabular}{r l}
-Données : & $ U = \lbrace v_1, v_2, v_3, \ldots, v_n \rbrace $\\
-& $ F = \lbrace c_1, c_2, c_3, \ldots, c_m \rbrace $\\
+Données : & $ U = \lbrace v_1, v_2, v_3 \ldots v_n \rbrace $\\
+& $ F = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $\\
 où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} $\\
-avec & $ l_{ij} = v_{ij}$ ou $ \neg v_{ij} $\\
+avec & $ l_{ij} = v$ ou $ \neg v$\\
 \end{tabular}
 \end{description}
 \item La réduction du problème SAT peut être définit en montrant que chaque clause $C$ de $F$ peut-être transformée en un ensemble de clauses $\lbrace c_1, c_2, \ldots, c_i \rbrace$ tel que pour toute affectation rendant vraie $C$, on peut trouver une affectation rendant vrai chaque $c_i$. Chaque $c_i$ devant être de taille exactement 3. La réciproque doit également être montrée.
 
 \begin{description}
-\item[k = 4]
+\item \mathversion{bold} $k = 4$ \mathversion{normal}
 
 Soit $C$ une clause de taille 4 : $C = l_1 \vee l_2 \vee l_3 \vee l_4$.
 Ajoutons une variable $v \notin U$ et transformons la clause $C$ en deux clauses :
@@ -43,7 +43,7 @@ Soit une affectation telle que $C_1 \wedge C_2$ est vrai.
 Sans perte de généralité, on suppose que $v$ est vrai. Cela implique que $l_3 \vee l_4$ est vrai, et donc que $C$ est vrai.
 \end{description}
 
-\item[k = 5]
+\item \mathversion{bold} $k = 5$ \mathversion{normal}
 
 Soit la clause $C = l_1 \vee l_2 \vee l_3 \vee l_4 \vee l_5$, sur le même principe que pour $k = 4$ :
 \[C \rightarrow (l_1 \vee l_2 \vee l_3 \vee v) \wedge (l_4 \vee l_5 \vee \neg v) \]
@@ -72,14 +72,18 @@ Soit :
 \item $v_k$ le nombre de variables à ajouter pour obtenir des clauses de taille 3,
 \item $w_k$ le nombre de clauses de taille 3 obtenues à partir de la clause initiale.
 \end{description}
-Pour $k = 3$ :
-\[ v_3 = 0 \]
-\[ w_3 = 1 \]
+\begin{center}
+\begin{tabular}{c c}
+$v_3 = 0$ & $w_3 = 1$ \\
+$v_4 = 1$ & $w_4 = 2$ \\
+$v_5 = 2$ & $w_5 = 3$ \\
+\vdots & \vdots
+\end{tabular}
+\end{center}
+
 Pour tout $k > 3$ :
 \[ v_k = v_{\left \lceil \frac{k}{2} \right \rceil + 1} + v_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
 \[ w_k = w_{\left \lceil \frac{k}{2} \right \rceil + 1} + w_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
-
-
 \end{enumerate}
 
 \subsection{NP-complétude de 2--SAT}
