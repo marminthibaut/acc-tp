@@ -21,7 +21,9 @@ où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} $\\
 avec & $ l_{ij} = v$ ou $ \neg v$\\
 \end{tabular}
 \end{description}
-\item La réduction du problème SAT peut être définit en montrant que chaque clause $C$ de $F$ peut-être transformée en un ensemble de clauses $\lbrace c_1, c_2, \ldots, c_i \rbrace$ tel que pour toute affectation rendant vraie $C$, on peut trouver une affectation rendant vrai chaque $c_i$. Chaque $c_i$ devant être de taille exactement 3. La réciproque doit également être montrée.
+\item La réduction du problème SAT peut être définit en montrant que chaque clause $C$ de $F$ peut-être transformée en un ensemble de clauses $\lbrace c_1, c_2, \ldots, c_i \rbrace$ tel que pour toute affectation rendant vraie $C$, on peut trouver une affectation rendant vrai chaque $c_i$. Chaque $c_i$ devant être de taille exactement 3.% La réciproque doit également être montrée.
+
+Montrons les réductions $k = 4 \rightarrow 3$ et $k = 5 \rightarrow 3$, puis généralisons :
 
 \begin{description}
 \item \mathversion{bold} $k = 4$ \mathversion{normal}
@@ -30,25 +32,25 @@ Soit $C$ une clause de taille 4 : $C = l_1 \vee l_2 \vee l_3 \vee l_4$.
 Ajoutons une variable $v \notin U$ et transformons la clause $C$ en deux clauses :
 \[ C_1 = l_1 \vee l_2 \vee v \]
 \[ C_2 = l_3 \vee l_4 \vee \neg v \]
-\begin{description}
-\item [4 $\Rightarrow$ 3]
-Soit une affectation qui rend $C$ vrai. Il existe un $i$ tel que $l_i$ est vrai.
+%\begin{description}
+%\item [4 $\Rightarrow$ 3]
+Soit une affectation qui rend $C$ vrai, il existe alors un $i$ tel que $l_i$ est vrai.
 
 Sans perte de généralité, prenons $i = 1$. Conservons les mêmes affectations pour les $l_i$ avec $v = faux$.
 
 On a $C_1 \wedge C_2 = vrai$.
-\item [3 $\Rightarrow$ 4]
-Soit une affectation telle que $C_1 \wedge C_2$ est vrai.
+%\item [3 $\Rightarrow$ 4]
+%Soit une affectation telle que $C_1 \wedge C_2$ est vrai.
 
-Sans perte de généralité, on suppose que $v$ est vrai. Cela implique que $l_3 \vee l_4$ est vrai, et donc que $C$ est vrai.
-\end{description}
+%Sans perte de généralité, on suppose que $v$ est vrai. Cela implique que $l_3 \vee l_4$ est vrai, et donc que $C$ est vrai.
+%\end{description}
+
 
 \item \mathversion{bold} $k = 5$ \mathversion{normal}
 
 Soit la clause $C = l_1 \vee l_2 \vee l_3 \vee l_4 \vee l_5$, sur le même principe que pour $k = 4$ :
 \[C \rightarrow (l_1 \vee l_2 \vee l_3 \vee v) \wedge (l_4 \vee l_5 \vee \neg v) \]
 \[\rightarrow (l_1 \vee l_2 \vee w) \wedge (l_3 \vee v \vee \neg w) \wedge (l_4 \vee l_5 \vee \neg v)\]
-
 La clause $C$ est transformée en 3 clauses de taille 3, en ajoutant 2 nouvelles variables.
 
 \item [Généralisation] :
@@ -58,9 +60,9 @@ Une clause de taille $k > 3$ est transformée en 2 clauses $C_1$ et $C_2$ en ajo
 \item Taille de $C_1$ : $\left \lceil \frac{k}{2} \right \rceil + 1$
 \item Taille de $C_2$ : $\left \lfloor \frac{k}{2} \right \rfloor + 1$
 \end{itemize}
-Avec $k > 3$, chaque réduction diminue stictement la taille des clauses, car on a : \[ k > \left \lceil \frac{k}{2} \right \rceil + 1 \geq \left \lfloor \frac{k}{2} \right \rfloor + 1 \]
+Avec $k > 3$, chaque réduction diminue strictement la taille des clauses, car on a : \[ k > \left \lceil \frac{k}{2} \right \rceil + 1 \geq \left \lfloor \frac{k}{2} \right \rfloor + 1 \]
 
-Tout problème SAT peut dont être réduit à un problème 3--SAT.
+Donc tout problème SAT peut être réduit à un problème 3--SAT.
 
 \end{description}
 
@@ -83,7 +85,11 @@ $v_5 = 2$ & $w_5 = 3$ \\
 
 Pour tout $k > 3$ :
 \[ v_k = v_{\left \lceil \frac{k}{2} \right \rceil + 1} + v_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
-\[ w_k = w_{\left \lceil \frac{k}{2} \right \rceil + 1} + w_{\left \lfloor \frac{k}{2} \right \rfloor + 1} + 1 \]
+\[ w_k = w_{\left \lceil \frac{k}{2} \right \rceil + 1} + w_{\left \lfloor \frac{k}{2} \right \rfloor + 1} \]
+
+$v_k = \theta(k)$, donc borné par la taille de F. La réduction s'effectue donc en un temps polynomial.
+
+Il est possible de réduire le problème SAT à 3--SAT en un temps polynomial, SAT étant NP-complet, 3--SAT l'est aussi.
 \end{enumerate}
 
 \subsection{NP-complétude de 2--SAT}
