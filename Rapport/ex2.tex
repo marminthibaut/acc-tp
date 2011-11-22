@@ -109,7 +109,12 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
  	On a donc :
  	\[ val(I_2,ci_2) = vrai \]
  	
- 	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = vrai$.
+ 	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = vrai$ et montrons qu'il existe forcément un $i$ tel que $val(I_k,l_i) = vrai$.
+ 	
+ 	\begin{description}
+		\item[Cas 1] $val(I_k,(l_1 \vee l_2 \vee v_1)) = vrai$
+		\item[Cas 2] $val(I_k,(v_{k-3} \vee l_{k-1} \vee l_k)) = vrai$
+ 	\end{description}
  	 	
  	\end{itemize}
  
