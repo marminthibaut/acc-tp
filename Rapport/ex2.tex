@@ -3,66 +3,117 @@
 \item \begin{description}
 \item[Énoncé de SAT] : \\
 \begin{tabular}{r l l}
-Données : & $ U = \lbrace v_1, v_2 \ldots v_n \rbrace $ & \emph{Ensemble de $n$ variables}\\
-& $ F = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $ & \emph{Ensemble de $m$ clauses}\\
-où & $ C_i = l_{i1} \vee l_{i2} \cdots l_{ik} $ & \emph{Clauses de $k$ littéraux}\\
+Données : & $ \mathcal{V} = \lbrace v_1, v_2 \ldots v_n \rbrace $ & \emph{Ensemble de $n$ variables}\\
+& $ \mathcal{C} = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $ & \emph{Ensemble de $m$ clauses}\\
+où & $ c_i = ( l_{i1} \vee l_{i2} \vee \cdots \vee l_{ik} ) $ & \emph{Clauses de $k$ littéraux}\\
 avec & $ l_{ij} = v$ ou $ \neg v $ & \emph{avec $v \in U$} \\
 \end{tabular}
 
-Problème : existe-il au moins une affectation des variables telle que chaque clause de $F$ soit vrai.
+Problème : existe-il au moins une affectation des variables telle que chaque clause de $\mathcal{C}$ soit vrai.
 
 \item [Énoncé de 3--SAT] : 
 
 3--SAT est identique au problème SAT avec $k = 3$.\\
 \begin{tabular}{r l}
-Données : & $ U = \lbrace v_1, v_2, v_3 \ldots v_n \rbrace $\\
-& $ F = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $\\
-où & $ C_i = l_{i1} \vee l_{i2} \vee l_{i3} $\\
+Données : & $ \mathcal{V} = \lbrace v_1, v_2, v_3 \ldots v_n \rbrace $\\
+& $ \mathcal{C} = \lbrace c_1, c_2, c_3 \ldots c_m \rbrace $\\
+où & $ c_i = ( l_{i1} \vee l_{i2} \vee l_{i3} ) $\\
 avec & $ l_{ij} = v$ ou $ \neg v$\\
 \end{tabular}
 \end{description}
-\item La réduction du problème SAT peut être définit en montrant que chaque clause $C$ de $F$ peut-être transformée en un ensemble de clauses $\lbrace c_1, c_2, \ldots, c_i \rbrace$ tel que pour toute affectation rendant vraie $C$, on peut trouver une affectation rendant vrai chaque $c_i$. Chaque $c_i$ devant être de taille exactement 3.% La réciproque doit également être montrée.
+\item La réduction du problème SAT peut être définit en montrant que chaque clause $c$ de $\mathcal{C}$ peut-être transformée en un ensemble de clauses $\mathcal{C'}$ tel que pour toute affectation rendant vrai l'ensemble des clauses de $\mathcal{C}$, on peut trouver une affectation rendant vrai chaque clause de $\mathcal{C'}$. Chaque clause de $\mathcal{C'}$ devant être de taille exactement 3. La réciproque doit également être montrée.
 
-Montrons les réductions $k = 4 \rightarrow 3$ et $k = 5 \rightarrow 3$, puis généralisons :
+Définissons les réductions :
 
 \begin{description}
-\item \mathversion{bold} $k = 4$ \mathversion{normal}
+\item \mathversion{bold} $k = 1$ \mathversion{normal}
 
-Soit $C$ une clause de taille 4 : $C = l_1 \vee l_2 \vee l_3 \vee l_4$.
-Ajoutons une variable $v \notin U$ et transformons la clause $C$ en deux clauses :
-\[ C_1 = l_1 \vee l_2 \vee v \]
-\[ C_2 = l_3 \vee l_4 \vee \neg v \]
-%\begin{description}
-%\item [4 $\Rightarrow$ 3]
-Soit une affectation qui rend $C$ vrai, il existe alors un $i$ tel que $l_i$ est vrai.
+Soit $ci_1$ une clause de taille 1, on a $ci_1 = (l)$.
+Ajoutons deux variables $v_1, v_2 \notin \mathcal{V}$ et transformons la clause $c$ en quatre clauses. On obtient l'ensemble $\mathcal{C}_1 = \lbrace c_1, c_2, c_3, c_4 \rbrace$ avec :
+\[ c_1 = ( l \vee v_1 \vee v_2 )\]
+\[ c_2 = ( l \vee v_1 \vee \neg v_2 )\]
+\[ c_3 = ( l \vee \neg v_1 \vee v_2 )\]
+\[ c_4 = ( l \vee \neg v_1 \vee \neg v_2 )\]
 
-Sans perte de généralité, prenons $i = 1$. Conservons les mêmes affectations pour les $l_i$ avec $v = faux$.
+\item \mathversion{bold} $k = 2$ \mathversion{normal}
 
-On a $C_1 \wedge C_2 = vrai$.
-%\item [3 $\Rightarrow$ 4]
-%Soit une affectation telle que $C_1 \wedge C_2$ est vrai.
+Soit $ci_2$ une clause de taille 2, on a $ci_2 = ( l_1 \vee l_2 )$.
+Ajoutons une variable $v \notin \mathcal{V}$ et transformons la clause $c$ en deux clauses. On obtient l'ensemble $\mathcal{C}_2 = \lbrace c_1, c_2 \rbrace$ avec :
+\[ c_1 = ( l_1 \vee l_2 \vee v )\]
+\[ c_2 = ( l_1 \vee l_2 \vee \neg v )\]
 
-%Sans perte de généralité, on suppose que $v$ est vrai. Cela implique que $l_3 \vee l_4$ est vrai, et donc que $C$ est vrai.
-%\end{description}
+\item \mathversion{bold} $k = 3$ \mathversion{normal}
 
+La clause $ci_3$ ne subit pas de transformation.
+\[ \mathcal{C}_3 = \lbrace ci_3 \rbrace \]
 
-\item \mathversion{bold} $k = 5$ \mathversion{normal}
+\item \mathversion{bold} $k > 3$ \mathversion{normal}
 
-Soit la clause $C = l_1 \vee l_2 \vee l_3 \vee l_4 \vee l_5$, sur le même principe que pour $k = 4$ :
-\[C \rightarrow (l_1 \vee l_2 \vee l_3 \vee v) \wedge (l_4 \vee l_5 \vee \neg v) \]
-\[\rightarrow (l_1 \vee l_2 \vee w) \wedge (l_3 \vee v \vee \neg w) \wedge (l_4 \vee l_5 \vee \neg v)\]
-La clause $C$ est transformée en 3 clauses de taille 3, en ajoutant 2 nouvelles variables.
+Soit la clause $ci_k = ( l_1 \vee l_2 \vee \cdots \vee l_k )$. On ajoute $(k - 3)$ nouvelles variables $(v_1, v_2 \ldots v_{k-3})$.
 
-\item [Généralisation] :
+\[ \mathcal{C}_k = (l_1 \vee l_2 \vee v_1) \bigwedge_{i=1}^{k-4}(\neg v_i \vee l_{i+2} \vee v_{i+1}) \wedge (\neg v_{k-3} \vee l_{k-1} \vee l_{k}) \]
 
-Une clause de taille $k > 3$ est transformée en 2 clauses $C_1$ et $C_2$ en ajoutant une variable :
-\begin{itemize}
-\item Taille de $C_1$ : $\left \lceil \frac{k}{2} \right \rceil + 1$
-\item Taille de $C_2$ : $\left \lfloor \frac{k}{2} \right \rfloor + 1$
-\end{itemize}
-Avec $k > 3$, chaque réduction diminue strictement la taille des clauses, car on a : \[ k > \left \lceil \frac{k}{2} \right \rceil + 1 \geq \left \lfloor \frac{k}{2} \right \rfloor + 1 \]
+Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
 
-Donc tout problème SAT peut être réduit à un problème 3--SAT.
+\begin{description}
+ \item \textbf{SAT $\rightarrow$ 3--SAT}
+ 
+ 	\begin{itemize}
+ 		\item Soit une interprétation $I_1$ qui satisfasse la clause $ci_1$ :
+ 		 \[ val(I_1,ci_1) = val(I_1,l) = vrai\]
+ 		
+ 		Prenons une interprétation $I_1'$ avec $val(I_1,l) = val(I_1',l)$, peu importe les affectations de $v_1$ et $v_2$, $l$ étant présent dans toutes les clauses de $\mathcal{C}_1$ :
+ 		\[ val(I_1',\mathcal{C}) = vrai \]
+ 		
+ 		\item Soit une interprétation $I_2$ qui satisfasse la clause $ci_2$ :
+ 		\[ \exists i, val(I_2,l_i) = vrai \]
+ 		Prenons une interprétation $I_2'$ avec :
+ 		\[ val(I_2,l_1) = val(I_2',l_1) \]
+  		\[ val(I_2,l_2) = val(I_2',l_2) \]
+  		Peu importe l'affectation de $v$ dans $I_2'$, on a $val(I_2',\mathcal{C}_2) = vrai$.
+  		
+  		\item Soit une interprétation $I_k$ qui satisfasse la clause $ci_k$ :
+  		\[ \exists i, val(I_k,l_i) = vrai \]
+  		
+  		Prenons une interprétation $I_k'$ telle que :
+  		\begin{eqnarray*}
+  		val(I_k,l_i) & = & val(I_k',l_i)  \\
+  		\forall j \in [1;(i-2)], val(I_k', v_j) & = & vrai \\
+  		\forall j \in [(i-1);(k-3)], val(I_k', v_j) & = & faux \\
+  		\end{eqnarray*}
+  		
+  		On obtient :
+  		\[ val(I_k',\mathcal{C}_k) = vrai\]
+  		
+ 	\end{itemize}
+ 	
+ \item \textbf{3--SAT $\rightarrow$ SAT}
+ 
+ 	\begin{itemize}
+ 	\item Prenons une interprétation $I_1$ telle que $val(I_1,\mathcal{C}_1) = vrai$.
+ 	
+ 	Sans perte de généralité, on suppose que : 
+ 	\[ val(I_1,v_1) = val(I_1,v_2) = vrai \]
+ 	La clause $c_4$ de $\mathcal{C}_1$ ne peut être satisfaite que si $val(I_1,l) = vrai$.
+ 	
+ 	On a donc :
+ 	\[ val(I_1,ci_1) = vrai \]
+ 	
+ 	\item Prenons une interprétation $I_2$ telle que $val(I_2,\mathcal{C}_2) = vrai$.
+ 	
+ 	Sans perte de généralité on suppose que :
+ 	\[val(I_2,v) = vrai \]
+ 	
+ 	La clause $c_2$ de $\mathcal{C}_2$ ne peut être satisfaire que si $val(I_2,(l_1 \vee l_2)) = vrai$.
+ 	
+ 	On a donc :
+ 	\[ val(I_2,ci_2) = vrai \]
+ 	
+ 	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = vrai$.
+ 	 	
+ 	\end{itemize}
+ 
+\end{description}
 
 \end{description}
 
