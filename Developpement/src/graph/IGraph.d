@@ -1,3 +1,4 @@
+module graph;
 
 interface IGraph
 {
@@ -7,3 +8,5 @@ interface IGraph
   uint getNbrVertices();
   neighbor_t[] getNeighbors(vertex_id_t idVertexSrc);
 }
+
+
