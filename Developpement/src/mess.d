@@ -1,12 +1,6 @@
-typedef uint weight_t ;
 typedef vertex_id[] path_t ;
-typedef uint vertex_id_t ;
 
-struct neighbor_t
-{
-	weight_t weight;
-	vertex_id vertex;
-}
+
 
 struct arc_t; //????
 
