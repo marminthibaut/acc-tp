@@ -1,4 +1,4 @@
-\subsection{Réduction de SAT vers 3--SAT}
+\subsection{SAT $\propto$ 3--SAT}
 \begin{enumerate}[(a)]
 \item \begin{description}
 \item[Énoncé de SAT] : \\
@@ -51,7 +51,7 @@ La clause $ci_3$ ne subit pas de transformation.
 
 Soit la clause $ci_k = ( l_1 \vee l_2 \vee \cdots \vee l_k )$. On ajoute $(k - 3)$ nouvelles variables $(v_1, v_2 \ldots v_{k-3})$.
 
-\[ \mathcal{C}_k = (l_1 \vee l_2 \vee v_1) \bigwedge_{i=1}^{k-4}(\neg v_i \vee l_{i+2} \vee v_{i+1}) \wedge (\neg v_{k-3} \vee l_{k-1} \vee l_{k}) \]
+\[ \mathcal{C}_k = \underbrace{(l_1 \vee l_2 \vee v_1)}_{c_1} \bigwedge_{i=1}^{k-4}\left[ \underbrace{(\neg v_i \vee l_{i+2} \vee v_{i+1})}_{c_{i+1}}\right]  \wedge \underbrace{(\neg v_{k-3} \vee l_{k-1} \vee l_{k})}_{c_{k-2}} \]
 
 Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
 
@@ -111,10 +111,22 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
  	
  	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = vrai$ et montrons qu'il existe forcément un $i$ tel que $val(I_k,l_i) = vrai$.
  	
- 	\begin{description}
-		\item[Cas 1] $val(I_k,(l_1 \vee l_2 \vee v_1)) = vrai$
-		\item[Cas 2] $val(I_k,(v_{k-3} \vee l_{k-1} \vee l_k)) = vrai$
- 	\end{description}
+ 	Supposons que l'interprétation $I_k$ est modèle de $\mathcal{C}_k$ avec 
+ 	\[ \forall i \in [1;k], val(I_k,l_i) = faux \]
+	\[ \Rightarrow val(I_k,v_1) = vrai  \textrm{ (dans $c_1$)} \]
+	Donc :
+	
+	\begin{tabular}{lrl}
+		& $\forall i \in [1;(k-4)], val(I_k,v_{i+1})$ & $= vrai$ \\
+		$\Rightarrow$ & $val(I_k,v_{k-3})$ & $= vrai$ \\
+		$\Rightarrow$ & $val(I_k,c_{k-2})$ & $= faux$ \\
+		$\Rightarrow$ & $val(I_k,\mathcal{C}_k)$ & $= faux$
+	\end{tabular}
+	
+	Pour que l'interprétation $I_k$ satisfasse $\mathcal{C}_k$, il doit exister un $i \in [1;k]$ tel que $val(I_k,l_i) = vrai$.
+	
+	On a donc :
+	\[ val(I_k,ci_k) = vrai \]
  	 	
  	\end{itemize}
  
@@ -146,6 +158,8 @@ Pour tout $k > 3$ :
 $v_k = \theta(k)$, donc borné par la taille de F. La réduction s'effectue donc en un temps polynomial.
 
 Il est possible de réduire le problème SAT à 3--SAT en un temps polynomial, SAT étant NP-complet, 3--SAT l'est aussi.
+
+\item 
 \end{enumerate}
 
 \subsection{NP-complétude de 2--SAT}
@@ -154,7 +168,7 @@ Il est possible de réduire le problème SAT à 3--SAT en un temps polynomial, S
 \item coucou
 \end{enumerate}
 
-\subsection{2-SAT, un problème polynomial}
+\subsection{2--SAT, un problème polynomial}
 \begin{enumerate}
 \item coucou
 \item coucou
