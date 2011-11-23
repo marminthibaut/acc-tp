@@ -158,15 +158,69 @@ Pour tout $k > 3$ :
 $v_k = \theta(k)$, donc borné par la taille de F. La réduction s'effectue donc en un temps polynomial.
 
 Il est possible de réduire le problème SAT à 3--SAT en un temps polynomial, SAT étant NP-complet, 3--SAT l'est aussi.
+\item Soit $\mathcal{C}$ un ensemble de clause à $n_v$ variables avec $n_1$ clauses de taille 1, $n_2$ clauses de taille 2, $n_3$ clauses de taille 3, $n_4$ clauses de taille 4 et $n_5$ clauses de taille 5. Calculons le nombre de variables et le nombre de clauses obtenues après réduction (respectivement $n_v'$ et $n_c'$).
 
-\item 
+Les points (b) et (c) permettent de déterminer pour une clause de taille $k$, le nombre de clause obtenues et le nombre de variables ajoutées après réduction. On peut donc en déduire la tableau suivant :
+
+\begin{tabularx}{\textwidth}{| X || c | c | c | c | c |}
+\hline
+Taille de la clause dans $\mathcal{C}$	& 1 	& 2 	& 3 	& 4 	& 5 	\\
+\hline
+Nombre de clauses						& $n_1$	& $n_2$	& $n_3$	& $n_4$	& $n_5$	\\
+\hline
+Nombre de variables ajoutées par clause	& 2		& 1 	& 0 	& 1 	& 2 	\\
+\hline
+\textbf{Nombre de variables ajoutées au total} 	& $2n_1$& $n_2$	& 0		& $n_4$	& $2n_5$\\
+\hline
+Nombre de clauses obtenues par clause 	& 4 	& 2 	& 1 	& 2 	& 3 	\\
+\hline
+\textbf{Nombre de clauses obtenues au total}	& $4n_1$& $2n_2$& $n_3$	& $2n_4$& $3n_5$\\
+\hline
+
+\end{tabularx}
+
+On a donc :
+\[ n_v' = n_v + 2n_1 + n_2 + n_4 + 2n_5 \]
+\[ n_c' = 4n_1 + 2n_2 + n_3 + 2n_4 + 3n_5 \]
 \end{enumerate}
 
-\subsection{NP-complétude de 2--SAT}
-\begin{enumerate}
-\item coucou
-\item coucou
-\end{enumerate}
+\subsection{3--SAT $\propto$ 2--SAT ?}
+Cette réduction repose sur un principe qui consiste à décomposer une clause de taille $k$ en plusieurs clauses de tailles inférieures.
+
+Soit une clause $c = (l_1 \vee l_2 \vee l_3)$ une clause de taille 3 et $I$ une interprétation qui satisfait $c$.
+
+\begin{description}
+\item[Cas 1 :] décomposons cette clause en deux clauses $c_1$ et $c_2$ de tailles 1 et 2 :
+\begin{eqnarray*}
+c_1&=&(l_1) \\
+c_2&=&(l_2 \vee l_3)
+\end{eqnarray*}
+Pour montrer l'équivalence 3--SAT $\leftrightarrow$ 2--SAT, il faut ajouter une variable $v$ aux deux clauses créées :
+\begin{eqnarray*}
+c_1&=&(l_1 \vee v) \\
+c_2&=&(l_2 \vee l_3 \vee \neg v)
+\end{eqnarray*}
+
+On a donc la clause $c_2$ de taille 3.
+
+\item[Cas 2 :] décomposons cette clause en trois clauses $c_1$, $c_2$ et $c_3$ de taille 1 :
+\begin{eqnarray*}
+c_1 & = & (l_1) \\
+c_2 & = & (l_2) \\
+c_3 & = & (l_3)
+\end{eqnarray*}
+
+Pour montrer l'équivalence 3--SAT $\leftrightarrow$ 2--SAT, il faut ajouter deux variables $v_1$ et $v_2$ aux trois clauses créées :
+\begin{eqnarray*}
+c_1 & = & (l_1 \vee v_1 \vee \neg v_2) \\
+c_2 & = & (l_2 \vee \neg v_1 \vee v_2)\\
+c_3 & = & (l_3 \vee v_1 \vee v_2)
+\end{eqnarray*}
+On a donc également des clauses de taille 3.
+\end{description}
+
+
+
 
 \subsection{2--SAT, un problème polynomial}
 \begin{enumerate}
