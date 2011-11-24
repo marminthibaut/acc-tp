@@ -30,9 +30,9 @@ $c_2(x+y)$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \ldots \\
 Les fonctions de décodage ne peuvent pas être décrites sous la forme de formules arithmétiques. Elles nécessitent l'algorithme suivant :
 
 \begin{algorithm}[H]
-  \caption{CalculXY}
-  \Donnees{\\
-  $z$; \textit{// Rang du couple (x,y)}
+  \caption{CalculXY($z$)}
+  \Donnees{
+  $z$ \textit{// Rang du couple (x,y)}
   }
   \Deb{
   $s \leftarrow 0$\;
@@ -63,5 +63,28 @@ Les fonctions de décodage ne peuvent pas être décrites sous la forme de formu
 
 
 \end{description}
+
+\item Prenons une suite $r=(r_1,r_2,r_3,\ldots)$ qui énumère les réels de l'intervalle $[0;1]$, puis créons un réel x compris dans cet intervalle, tel que si la n\up{ième} de $r_n$ est égale à $1$, la n\up{ième} décimale de $x$ est égale à 2. Dans la cas contraire, la n\up{ième} décimale de $x$ est égale à 1.
+
+On obtient sur cet exemple :
+
+\begin{tabular}{r c c c c c c c c c c c c}
+$r_1$ & = &0&,&\textbf{4}&2&9&6&4&6&1 &\ldots\\
+$r_2$ & = &0&,&2&\textbf{7}&3&2&9&4&0 &\ldots\\
+$r_3$ & = &0&,&6&4&\textbf{1}&1&5&1&2 &\ldots\\
+$r_4$ & = &0&,&3&0&5&\textbf{9}&0&4&3 &\ldots\\
+$r_5$ & = &0&,&9&1&3&3&\textbf{1}&8&2 &\ldots\\
+$r_6$ & = &0&,&0&2&0&8&3&\textbf{2}&7 &\ldots\\
+$r_7$ & = &0&,&2&5&7&3&6&4&\textbf{0} &\ldots\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & $\ddots$ \\
+&&&&$\downarrow$ &$\downarrow$ &$\downarrow$ &$\downarrow$ &$\downarrow$ &$\downarrow$ &$\downarrow$ &\\
+$x$ & = &0&,&1&1&2&1&2&1&1&\ldots\\
+\end{tabular}
+
+Le réel $x$ ne peut pas être énuméré par la suite $r$ car il diffère de sa première décimale dans $r_1$, de sa deuxième décimale dans $r_2$, \ldots de sa n\up{ième} décimale dans $r_n$. Pourtant le réel $x$ est clairement dans l'intervalle $[0;1]$.
+
+L'ensemble des éléments de l'intervalle $[0;1]$ ne sont donc pas dénombrables, donc pas énumérables. On ne peut donc pas trouver de fonction de codage pour cet ensemble.
+
+On peu généraliser à l'ensemble $\mathbb{R}$ : $[0;1]$ étant inclus dans $\mathbb{R}$, et $[0;1]$ n'étant pas dénombrable, l'ensemble $\mathbb{R}$ n'est pas dénombrable.
 
 \end{enumerate}
