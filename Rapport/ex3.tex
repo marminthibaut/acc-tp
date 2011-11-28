@@ -42,7 +42,7 @@ Les fonctions de décodage ne peuvent pas être décrites sous la forme de formu
 		$t \leftarrow t+1$\;
     }
     $t \leftarrow t-2$\;
-    $z \leftarrow \frac{t*(t+1)}{2}$\;
+    $s \leftarrow \frac{t*(t+1)}{2}$\;
     $y \leftarrow z-s$\;
     $x \leftarrow t-y$\;
     \Retour Couple($x$,$y$)\;
@@ -64,7 +64,7 @@ Les fonctions de décodage ne peuvent pas être décrites sous la forme de formu
 
 \end{description}
 
-\item Prenons une suite $r=(r_1,r_2,r_3,\ldots)$ qui énumère les réels de l'intervalle $[0;1]$, puis créons un réel x compris dans cet intervalle, tel que si la n\up{ième} de $r_n$ est égale à $1$, la n\up{ième} décimale de $x$ est égale à 2. Dans la cas contraire, la n\up{ième} décimale de $x$ est égale à 1.
+\item Prenons une suite $r=(r_1,r_2,r_3,\ldots)$ qui énumère les réels de l'intervalle $[0;1]$, puis créons un réel x compris dans cet intervalle, tel que si la n\up{ième} décimale de $r_n$ est égale à $1$, la n\up{ième} décimale de $x$ est égale à 2. Dans la cas contraire, la n\up{ième} décimale de $x$ est égale à 1.
 
 On obtient sur cet exemple :
 
@@ -83,7 +83,7 @@ $x$ & = &0&,&1&1&2&1&2&1&1&\ldots\\
 
 Le réel $x$ ne peut pas être énuméré par la suite $r$ car il diffère de sa première décimale dans $r_1$, de sa deuxième décimale dans $r_2$, \ldots de sa n\up{ième} décimale dans $r_n$. Pourtant le réel $x$ est clairement dans l'intervalle $[0;1]$.
 
-L'ensemble des éléments de l'intervalle $[0;1]$ ne sont donc pas dénombrables, donc pas énumérables. On ne peut donc pas trouver de fonction de codage pour cet ensemble.
+L'ensemble des éléments de l'intervalle $[0;1]$ n'est donc pas dénombrable, donc pas énumérable. On ne peut donc pas trouver de fonction de codage pour cet ensemble.
 
 On peu généraliser à l'ensemble $\mathbb{R}$ : $[0;1]$ étant inclus dans $\mathbb{R}$, et $[0;1]$ n'étant pas dénombrable, l'ensemble $\mathbb{R}$ n'est pas dénombrable.
 

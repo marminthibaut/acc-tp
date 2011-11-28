@@ -223,7 +223,107 @@ On a donc également des clauses de taille 3. La réduction définie ci-avant ne
 
 
 \subsection{2--SAT, un problème polynomial}
-\begin{enumerate}
-\item coucou
-\item coucou
+\begin{enumerate}[(a)]
+\item Systèmes de deux clauses à deux littéraux :
+\begin{description}
+\item[Insatisfiable] : $(x \vee x) \wedge (\neg x \vee \neg x)$ \\
+\includegraphics[width=5cm]{files/g1ex3.pdf}
+\item[Valide] : $(x \vee \neg x) \wedge (x \vee \neg x)$ \\
+\includegraphics[width=5cm]{files/g2ex3.pdf}
+\item[Contingent] : $(x \vee x) \wedge (x \vee x)$ \\
+\includegraphics[width=5cm]{files/g3ex3.pdf}
+\end{description}
+\item 
+
+L'insatisfiabilité du premier ensemble de clauses est clairement visible sur le graphe car les sommets $x$ et $\neg x$ sont dans la même composante fortement connexe.
+
+Le deux autres ensembles sont satisfiables, les deux sommets ne sont pas dans la même composante fortement connexe.
+
+\item L'algorithme suivant permet la génération du graphe correspondant à l'ensemble de clauses passé en paramètres.
+
+\begin{algorithm}[H]
+  \caption{GenererGraphe($\mathcal{C},\mathcal{V}$)}
+  \Donnees{\\
+  $\mathcal{C}$ \textit{// Ensemble de clauses}\\
+  $\mathcal{V}$ \textit{// Ensemble des variables}
+  }
+  \Deb{
+  Graphe.$\mathcal{S} = \emptyset$; \textit{// Ensemble des sommets du graphe}\\
+  Graphe.$\mathcal{A} = \emptyset$; \textit{// Ensemble des arcs du graphe}\\
+  \textit{// Initialisation des sommets}\\
+  \PourTous{$v \in \mathcal{V}$}{
+  ajouter(Graphe.$\mathcal{S}$,$v$)\;
+  ajouter(Graphe.$\mathcal{S}$,$\neg v$)\;
+  }
+  \textit{// Parcours des clauses}\\
+  \PourTous{$c \in \mathcal{C}$}{
+  	ajouter(Graphe.$\mathcal{A}$,$(\neg c.x,c.y)$)\;
+  	ajouter(Graphe.$\mathcal{A}$,$(\neg c.y,c.x)$)\;
+  }
+    \Retour Graphe\;
+  }
+\end{algorithm}
+Cet algorithme effectue un parcours de $\mathcal{V}$ et un parcours de $\mathcal{C}$, sa complexité est donc $O(|\mathcal{C}|+|\mathcal{V}|)$.
+
+\item Les composantes fortement connexes du graphe généré peuvent être calculées par l'algorithme de Tarjan.
+
+\begin{algorithm}[H]
+  \caption{Principale($G$)}
+  \Donnees{
+  $G$ \textit{// Le graphe}
+  }
+  \Deb{
+  date\;
+  \PourTous{$x \in G.\mathcal{S}$}{
+  DEBUT[$x$] $\leftarrow 0$\;
+  CFC[$x$] $\leftarrow 0$\;
+  }
+  Pile $\leftarrow \emptyset$\;
+  numCFC $\leftarrow 0$\;
+  
+  \PourTous{$s \in G.\mathcal{S}$}{
+  \Si{DEBUT[$s$] $= 0$}{
+  Tarjan($s$,date,DEBUT,Pile,numCFC,CFC)\;
+  }
+  
+  }
+    \Retour Comp;
+  }
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Tarjan($s$,date,DEBUT,Pile,numCFC,CFC)}
+  \Donnees{\\
+  s \textit{// Le sommet}\\
+  date \textit{// Date de visite}\\
+  DEBUT \textit{// Tableau de visites}\\
+  Pile \textit{// Pile de sommets}\\
+  numCFC \textit{// Numéro de la CFC}\\
+  CFC \textit{// Liste des CFC}\\
+  }
+  \Deb{
+	date $\leftarrow$ date$+1$\;
+	DEBUT[$s$]=date\;
+	min $\leftarrow$ DEBUT[$s$]\;
+	Empiler(Pile,$s$)\;
+	\PourTous{$j \in $Adj[$i$]}{
+	\lSi{DEBUT[$j$]$=0$}{
+	min $\leftarrow$ MIN(min,Tarjan($j$))\;
+	}
+	\lSinonSi{CFC[$j$]$=0$}{
+	min $\leftarrow$ MIN(min,DEBUT[$j$])\;
+	}
+	}
+	\Si{min$=$DEBUT[$i$]}{
+	Ncfc $\leftarrow$ numCFC $+1$\;
+	}
+	\Repeter{$k \neq i$}{
+	$k \leftarrow$ Depiler(Pile)\;
+	CFC[$k$] $\leftarrow$ numCFC\;
+	}
+    \Retour Comp;
+	}
+  
+\end{algorithm}
+
 \end{enumerate}
