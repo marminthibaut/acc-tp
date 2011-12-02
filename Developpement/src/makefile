@@ -1,24 +1,17 @@
 DEBUG=yes
 ifeq ($(DEBUG),yes)
-	CFLAGS=-funittest
+	CFLAGS=-pg
 else
 	CFLAGS=
 endif
-CC=gdc-4.6
+CC=g++
 LDFLAGS=
 
-main: main.o IGraph.o VertexListGraph.o
-	${CC} -o ../bin/$@ ../bin/*.o ${LDFLAGS}
+main: main.o graph.o VertexListGraph.o graphGenerator.o algo.o flow.o
+	${CC} -o ../bin/$@ ../bin/*.o ${CFLAGS} ${LDFLAGS}
 
-IGraph.o: graph/IGraph.d
-	${CC} -o ../bin/$@ -c $< ${CFLAGS}
-
-VertexListGraph.o: graph/VertexListGraph.d
-	${CC} -o ../bin/$@ -c $< ${CFLAGS}
-
-
-%.o: %.d
-	${CC} -o ../bin/$@ -c $< ${CFLAGS}
+%.o: %.cpp
+	${CC} -c -o ../bin/$@ $< ${CFLAGS}
 
 
 clean:

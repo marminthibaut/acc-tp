@@ -1,0 +1,8 @@
+
+
+Plus court chemin?
+
+Bellman -> O(SA)
+Dijkstra -> O(S²)
+
+Simple parcours en largeur? O( S + A )
