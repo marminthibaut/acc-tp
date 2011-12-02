@@ -20,28 +20,26 @@ updateArc(AbstractGraph& g, vertex_t src, vertex_t dest, int k)
 
   arc.weight = g.getWeight(arc.vertex_src, arc.vertex_dest) - k;
 
-   if(arc.weight <= 0)
-     g.rmArc(arc);
-   else
-     {
-       g.updateArc(arc);
+  if (arc.weight <= 0)
+    g.rmArc(arc);
+  else
+    g.updateArc(arc);
 
-       arc_inverse.vertex_src = arc.vertex_dest;
-       arc_inverse.vertex_dest = arc.vertex_src;
-       arc_inverse.weight = g.getWeight(arc.vertex_dest, arc.vertex_src);
+  arc_inverse.vertex_src = arc.vertex_dest;
+  arc_inverse.vertex_dest = arc.vertex_src;
+  arc_inverse.weight = g.getWeight(arc.vertex_dest, arc.vertex_src);
 
-       if(arc_inverse.weight >= 0)
-         {
-           arc_inverse.weight += k;
-           g.updateArc(arc_inverse);
-         }
-       else
-         {
-           arc_inverse.weight = k;
-           g.addArc(arc_inverse);
-         }
+  if (arc_inverse.weight >= 0)
+    {
+      arc_inverse.weight += k;
+      g.updateArc(arc_inverse);
+    }
+  else
+    {
+      arc_inverse.weight = k;
+      g.addArc(arc_inverse);
+    }
 
-     }
 }
 
 void
@@ -51,8 +49,7 @@ updateResidualNetwork(AbstractGraph& g, path_t path, uint k)
   vertex_t src;
   vertex_t dest = *it;
 
-
-  while(++it != path.end())
+  while (++it != path.end())
     {
       src = dest;
       dest = *it;
@@ -60,6 +57,4 @@ updateResidualNetwork(AbstractGraph& g, path_t path, uint k)
       updateArc(g, src, dest, k);
     }
 }
-
-
 

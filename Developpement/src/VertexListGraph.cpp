@@ -52,17 +52,13 @@ VertexListGraph::rmArc(const arc_t &arc)
 void
 VertexListGraph::updateArc(const arc_t &arc)
 {
-  list < neighbor_t > neighbors = this->getNeighbors(arc.vertex_src);
+  list<neighbor_t> &neighbors = this->vertex_list[arc.vertex_src];
   list<neighbor_t>::iterator it;
 
   cout << "********" << endl;
   for (it = neighbors.begin(); it != neighbors.end(); it++)
-    if(it->vertex == arc.vertex_dest)
-      {
-        cout << "maj " << arc.vertex_src << " " << arc.vertex_dest <<  " width " << arc.weight << endl;
+    if (it->vertex == arc.vertex_dest)
         it->weight = arc.weight;
-      }
-  cout << "^^^^^^^" << endl;
 
 }
 
@@ -88,11 +84,11 @@ VertexListGraph::getNeighbors(vertex_t vertex_src) const
 weight_t
 VertexListGraph::getWeight(vertex_t src, vertex_t dest) const
 {
-  list < neighbor_t > neighbors = this->getNeighbors(src);
+  list<neighbor_t> &neighbors = this->getNeighbors(src);
   list<neighbor_t>::iterator it;
 
   for (it = neighbors.begin(); it != neighbors.end(); it++)
-    if(it->vertex == dest)
+    if (it->vertex == dest)
       return it->weight;
 
   return -1;
