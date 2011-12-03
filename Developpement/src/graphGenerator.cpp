@@ -22,10 +22,11 @@ graphGenerator(VertexListGraph& graph, uint min_weight, uint max_weight)
       arc_t arc;
       arc.vertex_src = rand() % graph.getNbrVertices();
       arc.vertex_dest = rand() % graph.getNbrVertices();
-      arc.weight = (rand() % (max_weight)); //@FIXME min_weight
+      arc.weight = (rand() % (max_weight)) + 1; //@FIXME min_weight
 
       if(arc.vertex_src != arc.vertex_dest)
-          if( graph.getWeight(arc.vertex_src, arc.vertex_dest) < 0 )
+          if( graph.getWeight(arc.vertex_src, arc.vertex_dest) < 0  &&
+              graph.getWeight(arc.vertex_dest, arc.vertex_src) < 0)
             graph.addArc(arc);
 
     }

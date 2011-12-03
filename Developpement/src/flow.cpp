@@ -6,12 +6,11 @@
  */
 
 #include "includes/flow.h"
-#include <iostream>
+#include <sstream>
 
 void
 updateArc(AbstractGraph& g, vertex_t src, vertex_t dest, int k)
 {
-  cout << "update " << src << " - " << dest << " de " << k << endl;
 
   arc_t arc, arc_inverse;
   arc.vertex_src = src;
@@ -58,3 +57,27 @@ updateResidualNetwork(AbstractGraph& g, path_t path, uint k)
     }
 }
 
+string
+flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork)
+{
+  stringstream s;
+  weight_t flow;
+
+  for (vertex_t v = 0; v < graph.getNbrVertices(); ++v)
+    {
+      s << v << " : ";
+
+      list<neighbor_t>::iterator it;
+      for (it = graph.getNeighbors(v).begin();
+          it != graph.getNeighbors(v).end(); it++)
+        {
+          flow = residualNetwork.getWeight(it->vertex, v);
+          if(flow < 0)
+            flow = 0;
+          s << it->vertex << "(" << flow << "/" << it->weight << ")" << ", ";
+        }
+
+      s << endl;
+    }
+  return s.str();
+}

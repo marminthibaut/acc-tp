@@ -6,7 +6,6 @@
  */
 
 #include "includes/algo.h"
-#include <iostream>
 
 path_t
 leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)

@@ -14,6 +14,8 @@ public:
 
   VertexListGraph(uint nbr_vertices);
 
+  VertexListGraph(VertexListGraph& graph);
+
   virtual
   ~VertexListGraph();
 

@@ -15,6 +15,21 @@ VertexListGraph::VertexListGraph(uint nbr_vertices)
   this->nbr_vertices = nbr_vertices;
 }
 
+VertexListGraph::VertexListGraph(VertexListGraph& graph)
+{
+  this->nbr_vertices = graph.nbr_vertices;
+  vertex_list = new list<neighbor_t> [nbr_vertices];
+  list<neighbor_t> neighbors;
+
+  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
+    {
+      neighbors = graph.getNeighbors(v);
+      this->vertex_list[v].splice(this->vertex_list[v].begin(),
+          neighbors);
+    }
+
+}
+
 VertexListGraph::~VertexListGraph()
 {
   delete[] vertex_list;
@@ -58,7 +73,7 @@ VertexListGraph::updateArc(const arc_t &arc)
   cout << "********" << endl;
   for (it = neighbors.begin(); it != neighbors.end(); it++)
     if (it->vertex == arc.vertex_dest)
-        it->weight = arc.weight;
+      it->weight = arc.weight;
 
 }
 

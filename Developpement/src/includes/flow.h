@@ -10,8 +10,10 @@
 
 #include "graph.h"
 
+void
+updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
 
-void updateResidualNetwork(AbstractGraph& graph, path_t p, uint k);
-
+string
+flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork);
 
 #endif /* FLOW_H_ */

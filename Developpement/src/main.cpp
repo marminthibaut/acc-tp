@@ -33,19 +33,34 @@ main()
 
   cout << g.toString() << endl;
 
-  path_t path = leastArcsPath(g, 0, 19);
 
+  //****************************************
+  // residual network
+  VertexListGraph residual_network(g);
+  cout << residual_network.toString() << endl;
+
+  path_t path = leastArcsPath(residual_network, 0, 19);
+
+  //****************************************
+  //affichage du chemin
   path_t::iterator it;
   for(it = path.begin(); it != path.end(); it++)
     cout << (*it) << " -> ";
 
   cout << endl;
   int k = lightestArc(g, path);
-  cout << "-->" << k << endl;
+  cout << "lightest arc : " << k << endl;
 
-  updateResidualNetwork(g, path, k);
+  //****************************************
+  // mise à jour du residual network
+  cout <<
+      "//****************************************" << endl <<
+  "// mise à jour du residual network" << endl;
 
-  cout << g.toString() << endl;
+  updateResidualNetwork(residual_network, path, k);
+
+  cout << flowToString(g, residual_network) << endl;
+
 
 
   return 0;

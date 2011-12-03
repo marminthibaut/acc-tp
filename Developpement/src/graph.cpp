@@ -7,7 +7,6 @@
 
 #include "includes/graph.h"
 #include <sstream>
-#include <iostream>
 
 bool
 operator==(const neighbor_t& n1, const neighbor_t& n2)
