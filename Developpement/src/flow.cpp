@@ -6,7 +6,10 @@
  */
 
 #include "includes/flow.h"
+#include "includes/algo.h"
+#include "includes/VertexListGraph.h"
 #include <sstream>
+#include <iostream>
 
 void
 updateArc(AbstractGraph& g, vertex_t src, vertex_t dest, int k)
@@ -72,7 +75,7 @@ flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork)
           it != graph.getNeighbors(v).end(); it++)
         {
           flow = residualNetwork.getWeight(it->vertex, v);
-          if(flow < 0)
+          if (flow < 0)
             flow = 0;
           s << it->vertex << "(" << flow << "/" << it->weight << ")" << ", ";
         }
@@ -80,4 +83,45 @@ flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork)
       s << endl;
     }
   return s.str();
+}
+
+void
+edmondsKarp(AbstractGraph& graph, vertex_t src, vertex_t dest)
+{
+  //****************************************
+  // residual network
+  VertexListGraph residual_network(graph);
+
+  path_t path;
+  while((path = leastArcsPath(residual_network, src, dest)).size() != 0)
+    {
+      //****************************************
+      //affichage du chemin
+      path_t::iterator it;
+
+      cout << "chaine améliorante : " << endl;
+      for(it = path.begin(); it != path.end(); it++)
+          cout << (*it) << " -> ";
+
+      cout << endl;
+
+      int k = lightestArc(residual_network, path);
+      cout << "lightest arc : " << k << endl;
+
+
+      //****************************************
+      // mise à jour du residual network
+
+      updateResidualNetwork(residual_network, path, k);
+      cout << "//****************************************" << endl
+              << "// Residual network" << endl;
+      cout << residual_network.toString() << endl;
+
+      cout << "//****************************************" << endl
+          << "// nouveau flot" << endl;
+      cout << flowToString(graph, residual_network) << endl;
+
+    }
+
+
 }

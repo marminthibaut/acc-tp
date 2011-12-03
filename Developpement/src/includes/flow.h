@@ -16,4 +16,7 @@ updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
 string
 flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork);
 
+void
+edmondsKarp(AbstractGraph& graph, vertex_t src, vertex_t dest);
+
 #endif /* FLOW_H_ */

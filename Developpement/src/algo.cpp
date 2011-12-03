@@ -56,6 +56,9 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
   while (parent[path.front()] > -1)
     path.push_front(parent[path.front()]);
 
+  if(path.front() != start)
+    path.clear();
+
   return path;
 }
 

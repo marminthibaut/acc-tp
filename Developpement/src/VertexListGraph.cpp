@@ -7,17 +7,15 @@
 
 #include "includes/VertexListGraph.h"
 
-#include <iostream>
-
 VertexListGraph::VertexListGraph(uint nbr_vertices)
 {
   vertex_list = new list<neighbor_t> [nbr_vertices];
   this->nbr_vertices = nbr_vertices;
 }
 
-VertexListGraph::VertexListGraph(VertexListGraph& graph)
+VertexListGraph::VertexListGraph(AbstractGraph& graph)
 {
-  this->nbr_vertices = graph.nbr_vertices;
+  this->nbr_vertices = graph.getNbrVertices();
   vertex_list = new list<neighbor_t> [nbr_vertices];
   list<neighbor_t> neighbors;
 
@@ -70,7 +68,6 @@ VertexListGraph::updateArc(const arc_t &arc)
   list<neighbor_t> &neighbors = this->vertex_list[arc.vertex_src];
   list<neighbor_t>::iterator it;
 
-  cout << "********" << endl;
   for (it = neighbors.begin(); it != neighbors.end(); it++)
     if (it->vertex == arc.vertex_dest)
       it->weight = arc.weight;

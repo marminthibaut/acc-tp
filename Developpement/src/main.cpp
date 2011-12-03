@@ -19,47 +19,16 @@ int
 main()
 {
 
-  cout << "Hello World" << endl; // prints !!!Hello World!!!
-
   VertexListGraph g(20);
-  cout << "--" << endl;
+  cout << "------------------------------------------------------" << endl;
   graphGenerator(g, 0 , 30);
-
-  arc_t arc;
-       arc.vertex_src = 1;
-       arc.vertex_dest = 0;
-       arc.weight = 1;
-       g.addArc(arc);
-
   cout << g.toString() << endl;
 
+  cout << "Edmonds-Karp S = 0, P = 19" << endl;
 
-  //****************************************
-  // residual network
-  VertexListGraph residual_network(g);
-  cout << residual_network.toString() << endl;
+  edmondsKarp(g, 0, 19);
 
-  path_t path = leastArcsPath(residual_network, 0, 19);
 
-  //****************************************
-  //affichage du chemin
-  path_t::iterator it;
-  for(it = path.begin(); it != path.end(); it++)
-    cout << (*it) << " -> ";
-
-  cout << endl;
-  int k = lightestArc(g, path);
-  cout << "lightest arc : " << k << endl;
-
-  //****************************************
-  // mise à jour du residual network
-  cout <<
-      "//****************************************" << endl <<
-  "// mise à jour du residual network" << endl;
-
-  updateResidualNetwork(residual_network, path, k);
-
-  cout << flowToString(g, residual_network) << endl;
 
 
 
