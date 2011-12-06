@@ -63,70 +63,70 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
  		 \[ val(I_1,ci_1) = val(I_1,l) = vrai\]
  		
  		Prenons une interprétation $I_1'$ avec $val(I_1,l) = val(I_1',l)$, peu importe les affectations de $v_1$ et $v_2$, $l$ étant présent dans toutes les clauses de $\mathcal{C}_1$ :
- 		\[ val(I_1',\mathcal{C}) = vrai \]
+ 		\[ val(I_1',\mathcal{C}) = \top \]
  		
  		\item Soit une interprétation $I_2$ qui satisfasse la clause $ci_2$ :
- 		\[ \exists i, val(I_2,l_i) = vrai \]
+ 		\[ \exists i, val(I_2,l_i) = \top \]
  		Prenons une interprétation $I_2'$ avec :
  		\[ val(I_2,l_1) = val(I_2',l_1) \]
   		\[ val(I_2,l_2) = val(I_2',l_2) \]
-  		Peu importe l'affectation de $v$ dans $I_2'$, on a $val(I_2',\mathcal{C}_2) = vrai$.
+  		Peu importe l'affectation de $v$ dans $I_2'$, on a $val(I_2',\mathcal{C}_2) = \top$.
   		
   		\item Soit une interprétation $I_k$ qui satisfasse la clause $ci_k$ :
-  		\[ \exists i, val(I_k,l_i) = vrai \]
+  		\[ \exists i, val(I_k,l_i) = \top \]
   		
   		Prenons une interprétation $I_k'$ telle que :
   		\begin{eqnarray*}
   		val(I_k,l_i) & = & val(I_k',l_i)  \\
-  		\forall j \in [1;(i-2)], val(I_k', v_j) & = & vrai \\
-  		\forall j \in [(i-1);(k-3)], val(I_k', v_j) & = & faux \\
+  		\forall j \in \mathbb{N}^* \mid j \leq (i-2), val(I_k', v_j) & = & \top \\
+  		\forall j \in \mathbb{N}^* \mid (i-1) \leq j \leq (k-3), val(I_k', v_j) & = & \bot \\
   		\end{eqnarray*}
   		
   		On obtient :
-  		\[ val(I_k',\mathcal{C}_k) = vrai\]
+  		\[ val(I_k',\mathcal{C}_k) = \top\]
   		
  	\end{itemize}
  	
  \item \textbf{3--SAT $\rightarrow$ SAT}
  
  	\begin{itemize}
- 	\item Prenons une interprétation $I_1$ telle que $val(I_1,\mathcal{C}_1) = vrai$.
+ 	\item Prenons une interprétation $I_1$ telle que $val(I_1,\mathcal{C}_1) = \top$.
  	
  	Sans perte de généralité, on suppose que : 
- 	\[ val(I_1,v_1) = val(I_1,v_2) = vrai \]
- 	La clause $c_4$ de $\mathcal{C}_1$ ne peut être satisfaite que si $val(I_1,l) = vrai$.
+ 	\[ val(I_1,v_1) = val(I_1,v_2) = \top \]
+ 	La clause $c_4$ de $\mathcal{C}_1$ ne peut être satisfaite que si $val(I_1,l) = \top$.
  	
  	On a donc :
- 	\[ val(I_1,ci_1) = vrai \]
+ 	\[ val(I_1,ci_1) = \top \]
  	
- 	\item Prenons une interprétation $I_2$ telle que $val(I_2,\mathcal{C}_2) = vrai$.
+ 	\item Prenons une interprétation $I_2$ telle que $val(I_2,\mathcal{C}_2) = \top$.
  	
  	Sans perte de généralité on suppose que :
- 	\[val(I_2,v) = vrai \]
+ 	\[val(I_2,v) = \top \]
  	
- 	La clause $c_2$ de $\mathcal{C}_2$ ne peut être satisfaire que si $val(I_2,(l_1 \vee l_2)) = vrai$.
+ 	La clause $c_2$ de $\mathcal{C}_2$ ne peut être satisfaire que si $val(I_2,(l_1 \vee l_2)) = \top$.
  	
  	On a donc :
- 	\[ val(I_2,ci_2) = vrai \]
+ 	\[ val(I_2,ci_2) = \top \]
  	
- 	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = vrai$ et montrons qu'il existe forcément un $i$ tel que $val(I_k,l_i) = vrai$.
+ 	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = \top$ et montrons qu'il existe forcément un $i$ tel que $val(I_k,l_i) = \top$.
  	
  	Supposons que l'interprétation $I_k$ est modèle de $\mathcal{C}_k$ avec 
- 	\[ \forall i \in [1;k], val(I_k,l_i) = faux \]
-	\[ \Rightarrow val(I_k,v_1) = vrai  \textrm{ (dans $c_1$)} \]
+ 	\[ \forall i \in \mathbb{N}^* \mid i \leq k, val(I_k,l_i) = \bot \]
+	\[ \Rightarrow val(I_k,v_1) = \top  \textrm{ (dans $c_1$)} \]
 	Donc :
 	
 	\begin{tabular}{lrl}
-		& $\forall i \in [1;(k-4)], val(I_k,v_{i+1})$ & $= vrai$ \\
-		$\Rightarrow$ & $val(I_k,v_{k-3})$ & $= vrai$ \\
-		$\Rightarrow$ & $val(I_k,c_{k-2})$ & $= faux$ \\
-		$\Rightarrow$ & $val(I_k,\mathcal{C}_k)$ & $= faux$
+		& $\forall i \in \mathbb{N}^* \mid i \leq (k-4), val(I_k,v_{i+1})$ & $= \top$ \\
+		$\Rightarrow$ & $val(I_k,v_{k-3})$ & $= \top$ \\
+		$\Rightarrow$ & $val(I_k,c_{k-2})$ & $= \bot$ \\
+		$\Rightarrow$ & $val(I_k,\mathcal{C}_k)$ & $= \bot$
 	\end{tabular}
 	
-	Pour que l'interprétation $I_k$ satisfasse $\mathcal{C}_k$, il doit exister un $i \in [1;k]$ tel que $val(I_k,l_i) = vrai$.
+	Pour que l'interprétation $I_k$ satisfasse $\mathcal{C}_k$, il doit exister un $i \in \mathbb{N}^*$ tel que $i \leq k$ et que $val(I_k,l_i) = \top$.
 	
 	On a donc :
-	\[ val(I_k,ci_k) = vrai \]
+	\[ val(I_k,ci_k) = \top \]
  	 	
  	\end{itemize}
  
