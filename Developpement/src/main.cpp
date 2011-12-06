@@ -20,13 +20,19 @@ main()
 {
 
   VertexListGraph g(20);
+  VertexListGraph level_graph(20);
   cout << "------------------------------------------------------" << endl;
   graphGenerator(g, 0 , 30);
   cout << g.toString() << endl;
 
-  cout << "Edmonds-Karp S = 0, P = 19" << endl;
+  //cout << "Edmonds-Karp S = 0, P = 19" << endl;
 
-  edmondsKarp(g, 0, 19);
+  //edmondsKarp(g, 0, 19);
+
+  levelGraph(g, level_graph, 0, 19);
+
+  cout << "********************" << endl;
+  cout << level_graph.toString()<< endl;
 
 
 

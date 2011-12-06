@@ -19,4 +19,8 @@ flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork);
 void
 edmondsKarp(AbstractGraph& graph, vertex_t src, vertex_t dest);
 
+void
+levelGraph(AbstractGraph& residual_network, AbstractGraph& level_graph,
+    vertex_t src, vertex_t dest);
+
 #endif /* FLOW_H_ */

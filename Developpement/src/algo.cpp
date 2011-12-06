@@ -24,7 +24,7 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
       parent[v] = -1;
     }
 
-  already_view[0] = true;
+  already_view[start] = true;
 
   //***************************************************************************
   // Parcours
@@ -32,7 +32,9 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
   vertex_t u, v;
   list<neighbor_t> neighbors;
   list<neighbor_t>::iterator it;
-  while (file.size() != 0)
+  bool find_end = false;
+
+  while (file.size() != 0 && !find_end)
     {
       u = file.front();
       file.pop_front();
@@ -46,6 +48,12 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
               file.push_back(v);
               parent[v] = u;
               already_view[v] = true;
+              if (v == end)
+                {
+                  find_end = true;
+                  break;
+                }
+
             }
         }
     }
@@ -56,7 +64,7 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
   while (parent[path.front()] > -1)
     path.push_front(parent[path.front()]);
 
-  if(path.front() != start)
+  if (path.front() != start)
     path.clear();
 
   return path;
@@ -79,12 +87,12 @@ lightestArc(AbstractGraph& g, path_t path)
   vertex_t dest = *it;
   min = g.getWeight(src, dest);
 
-  for(; it != path.end(); it++)
+  for (; it != path.end(); it++)
     {
       src = dest;
       dest = *it;
       current = g.getWeight(src, dest);
-      if(current >= 0 && current < min)
+      if (current >= 0 && current < min)
         min = current;
     }
 

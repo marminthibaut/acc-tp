@@ -1,3 +1,7 @@
 *~
 *.backup
 /tmp/*
+.cproject
+Developpement/.cproject
+Developpement/Debug
+Developpement/bin/gmon.out

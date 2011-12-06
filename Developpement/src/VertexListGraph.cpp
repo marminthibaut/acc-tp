@@ -7,23 +7,22 @@
 
 #include "includes/VertexListGraph.h"
 
-VertexListGraph::VertexListGraph(uint nbr_vertices)
+VertexListGraph::VertexListGraph(uint nbr_vertices):
+    nbr_vertices(nbr_vertices)
 {
   vertex_list = new list<neighbor_t> [nbr_vertices];
-  this->nbr_vertices = nbr_vertices;
 }
 
 VertexListGraph::VertexListGraph(AbstractGraph& graph)
 {
   this->nbr_vertices = graph.getNbrVertices();
-  vertex_list = new list<neighbor_t> [nbr_vertices];
+  vertex_list = new list<neighbor_t> [this->nbr_vertices];
   list<neighbor_t> neighbors;
 
   for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
     {
       neighbors = graph.getNeighbors(v);
-      this->vertex_list[v].splice(this->vertex_list[v].begin(),
-          neighbors);
+      this->vertex_list[v].splice(this->vertex_list[v].begin(), neighbors);
     }
 
 }
@@ -32,6 +31,8 @@ VertexListGraph::~VertexListGraph()
 {
   delete[] vertex_list;
 }
+
+
 
 //*****************************************************************************
 //      METHODS
