@@ -7,7 +7,7 @@
 
 #include "includes/graphGenerator.h"
 #include <stdlib.h>
-
+#include <iostream>
 uint
 randMinMax(uint min, uint max)
 {
@@ -20,7 +20,7 @@ randMinMax(uint min, uint max)
 
 
 void
-graphGenerator(VertexListGraph& graph, uint min_weight, uint max_weight)
+graphGenerator(AdjacencyListGraph& graph, uint min_weight, uint max_weight)
 {
   srand(time(NULL));
 
@@ -42,11 +42,12 @@ graphGenerator(VertexListGraph& graph, uint min_weight, uint max_weight)
               graph.getWeight(arc.vertex_dest, arc.vertex_src) < 0)
             graph.addArc(arc);
 
+
     }
 }
 
 void
-generateChemin(VertexListGraph& graph, uint min_weight, uint max_weight)
+generateChemin(AdjacencyListGraph& graph, uint min_weight, uint max_weight)
 {
   arc_t arc;
   for (vertex_t v = 1; v < graph.getNbrVertices(); ++v)

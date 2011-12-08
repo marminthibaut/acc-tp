@@ -49,11 +49,20 @@ public:
   virtual bool
   addArc(const arc_t &arc) = 0;
 
+  virtual bool
+  addArc(vertex_t src, vertex_t dest, weight_t w) = 0;
+
   virtual void
   rmArc(const arc_t &arc) = 0;
 
   virtual void
+  rmArc(vertex_t src, vertex_t dest) = 0;
+
+  virtual void
   updateArc(const arc_t &arc) = 0;
+
+  virtual weight_t
+  increaseWeight(vertex_t src, vertex_t dest, weight_t w) = 0;
 
   virtual uint
   getNbrVertices() const = 0;
@@ -61,8 +70,11 @@ public:
   virtual string
   toString() const;
 
-  virtual list<neighbor_t>&
-  getNeighbors(vertex_t vertex_src) const = 0;
+  virtual list<neighbor_t>
+  getSuccessors(vertex_t vertex) const = 0;
+
+  virtual list<neighbor_t>
+  getPredecessors(vertex_t vertex) const = 0;
 
   virtual weight_t
   getWeight(vertex_t src, vertex_t dest) const = 0;

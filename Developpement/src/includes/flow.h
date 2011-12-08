@@ -9,18 +9,27 @@
 #define FLOW_H_
 
 #include "graph.h"
+#include "LevelGraph.h"
 
 void
 updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
 
 string
-flowToString(AbstractGraph& graph, AbstractGraph& residualNetwork);
+flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork);
 
 void
-edmondsKarp(AbstractGraph& graph, vertex_t src, vertex_t dest);
+edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest);
+
+LevelGraph
+levelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t dest);
+
+AdjacencyListGraph
+blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest);
 
 void
-levelGraph(AbstractGraph& residual_network, AbstractGraph& level_graph,
-    vertex_t src, vertex_t dest);
+addFlow(AbstractGraph& graph, AbstractGraph& flow);
+
+void
+dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest);
 
 #endif /* FLOW_H_ */

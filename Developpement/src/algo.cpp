@@ -39,7 +39,7 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
       u = file.front();
       file.pop_front();
 
-      neighbors = g.getNeighbors(u);
+      neighbors = g.getSuccessors(u);
       for (it = neighbors.begin(); it != neighbors.end(); it++)
         {
           v = it->vertex;

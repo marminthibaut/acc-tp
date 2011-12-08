@@ -7,7 +7,7 @@ endif
 CC=g++
 LDFLAGS=
 
-main: main.o graph.o VertexListGraph.o graphGenerator.o algo.o flow.o
+main: main.o LevelGraph.o graph.o AdjacencyListGraph.o graphGenerator.o algo.o flow.o utils.o
 	${CC} -o ../bin/$@ ../bin/*.o ${CFLAGS} ${LDFLAGS}
 
 %.o: %.cpp
