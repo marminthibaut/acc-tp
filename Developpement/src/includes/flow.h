@@ -21,7 +21,7 @@ void
 edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest);
 
 LevelGraph
-levelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t dest);
+generateLevelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t dest);
 
 AdjacencyListGraph
 blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest);

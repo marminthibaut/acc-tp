@@ -1,10 +1,4 @@
-//============================================================================
-// Name        : acc.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+
 
 #include <iostream>
 using namespace std;
@@ -20,23 +14,28 @@ int
 main()
 {
 
+
   vertex_t src, dest;
   src = 0;
   dest = 19;
 
+  //Création du graph
   AdjacencyListGraph g(20);
-  cout << "------------------------------------------------------" << endl;
   graphGenerator(g, 1 , 30);
-  cout << "------------------------------------------------------" << endl;
+
+  //affichage du graph
   cout << g.toString() << endl;
-  cout << "------------------------------------------------------" << endl;
+  cout << "1------------------------------------------------------" << endl;
+
   dinic(g, src, dest);
 
   //cout << "Edmonds-Karp S = 0, P = 19" << endl;
 
   //edmondsKarp(g, 0, 19);
 
- /* LevelGraph level_graph = levelGraph(g, src, dest);
+  cout << g.toString() << endl;
+
+  /*LevelGraph level_graph = levelGraph(residual_network, src, dest);
   cout << "********************" << endl;
   cout << "LEVEL GRAPH " << endl;
   cout << level_graph.toString() << endl;
@@ -44,15 +43,7 @@ main()
   AdjacencyListGraph flow = blockingFlow(level_graph, src, dest);
   cout << "********************" << endl;
   cout << "BLOCKING FLOW" << endl;
-  cout << flow.toString() << endl;
-
-  cout << "********************" << endl;
-   cout << "LEVEL GRAPH " << endl;
-   cout << level_graph.toString() << endl; */
-
-
-
-
+  cout << flow.toString() << endl;*/
 
 
   return 0;

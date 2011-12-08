@@ -143,7 +143,7 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 }
 
 LevelGraph
-levelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t dest)
+generateLevelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t dest)
 {
   bool already_view[residual_network.getNbrVertices()];
   list<vertex_t> file, next_level;
@@ -332,7 +332,7 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
 
       cout << "mise a jour du graphe de couche" << endl;
 
-      for (uint level = 1; level < level_graph.getNbrlevels(); ++level)
+      for (uint level = 1; level < level_graph.getNbrLevels(); ++level)
         {
           file = level_graph.getLevel(level);
           for (it_vertex = file.begin(); it_vertex != file.end(); it_vertex++)
@@ -369,8 +369,10 @@ dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
   AdjacencyListGraph flow(0);
 
   cout << "Dinic" << endl;
-  LevelGraph level_graph(0,0);
-  while ((level_graph = levelGraph(residual_network, src, dest)).getLevel(0).size() != 0)
+
+  LevelGraph level_graph = generateLevelGraph(residual_network, src, dest);
+
+  while (level_graph.getLevel(0).size() != 0)
     {
       //****************************************
       // level graph printing
@@ -389,6 +391,9 @@ dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
       cout << "//****************************************" << endl
           << "// nouveau flot" << endl;
       cout << flowToString(graph, residual_network) << endl;
+
+      level_graph = generateLevelGraph(residual_network, src, dest);
+
 
     }
 

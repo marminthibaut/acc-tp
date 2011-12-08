@@ -15,6 +15,8 @@ public:
   AdjacencyListGraph(uint nbr_vertices);
 
   AdjacencyListGraph(const AbstractGraph& graph);
+  AdjacencyListGraph(const AdjacencyListGraph& graph);
+
 
   virtual
   ~AdjacencyListGraph();

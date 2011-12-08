@@ -7,12 +7,22 @@
 
 #include "includes/LevelGraph.h"
 #include <sstream>
-#include <iostream>
 
 LevelGraph::LevelGraph(uint nbr_vertices, uint nbr_level) :
     AdjacencyListGraph(nbr_vertices), nbr_level(nbr_level)
 {
   this->levels = new list<vertex_t> [nbr_level];
+}
+
+LevelGraph::LevelGraph(const LevelGraph &level_graph) :
+  AdjacencyListGraph(level_graph)
+{
+  this->nbr_level = level_graph.getNbrLevels();
+  this->levels = new list<vertex_t>[this->nbr_level];
+
+  for(uint i = 0; i < this->nbr_level; ++i)
+    this->levels[i] = level_graph.getLevel(i);
+
 }
 
 LevelGraph::~LevelGraph()
@@ -21,13 +31,13 @@ LevelGraph::~LevelGraph()
 }
 
 uint
-LevelGraph::getNbrlevels()
+LevelGraph::getNbrLevels() const
 {
   return this->nbr_level;
 }
 
 list<vertex_t>
-LevelGraph::getLevel(uint level)
+LevelGraph::getLevel(uint level) const
 {
   return this->levels[level];
 }
@@ -45,29 +55,24 @@ LevelGraph::rmVertexToLevel(vertex_t v, uint level)
 }
 
 string
-LevelGraph::toString()
+LevelGraph::toString() const
 {
-  cout << "levelgraph toString" << endl;
   stringstream s;
   s << AdjacencyListGraph::toString();
-  cout << "???" << endl;
   list<vertex_t>::iterator it;
   list<vertex_t> vertices;
 
   s << "-------------------------------" << endl;
-  cout << "-------------------------------" << endl;
-  for(uint i = 0; i < this->getNbrlevels(); ++i)
+  for(uint i = 0; i < this->getNbrLevels(); ++i)
     {
       s << "Level " << i << " : " ;
-      cout << "Level " << i << " : ";
       vertices = this->getLevel(i);
+
       for(it = vertices.begin(); it != vertices.end(); it++)
         s << *it << ", ";
 
       s << endl;
     }
-
-  cout << "end levelgraph toString" << endl;
 
   return s.str();
 

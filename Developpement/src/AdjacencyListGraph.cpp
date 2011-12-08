@@ -16,7 +16,6 @@ AdjacencyListGraph::AdjacencyListGraph(uint nbr_vertices) :
 
 AdjacencyListGraph::AdjacencyListGraph(const AbstractGraph& graph)
 {
-  list<neighbor_t> neighbors;
   this->nbr_vertices = graph.getNbrVertices();
 
   this->successors = new list<neighbor_t> [this->nbr_vertices];
@@ -24,18 +23,29 @@ AdjacencyListGraph::AdjacencyListGraph(const AbstractGraph& graph)
 
   for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
     {
-      neighbors = graph.getSuccessors(v);
-      this->successors[v].splice(this->successors[v].begin(), neighbors);
-      neighbors = graph.getPredecessors(v);
-      this->predecessors[v].splice(this->predecessors[v].begin(), neighbors);
+      this->successors[v] = graph.getSuccessors(v);
+      this->predecessors[v] = graph.getPredecessors(v);
     }
+}
 
+AdjacencyListGraph::AdjacencyListGraph(const AdjacencyListGraph& graph)
+{
+  this->nbr_vertices = graph.getNbrVertices();
+
+  this->successors = new list<neighbor_t> [this->nbr_vertices];
+  this->predecessors = new list<neighbor_t> [this->nbr_vertices];
+
+  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
+    {
+      this->successors[v] = graph.getSuccessors(v);
+      this->predecessors[v] = graph.getPredecessors(v);
+    }
 }
 
 AdjacencyListGraph::~AdjacencyListGraph()
 {
-  delete[] successors;
-  delete[] predecessors;
+  delete[] this->successors;
+  delete[] this->predecessors;
 }
 
 //*****************************************************************************
