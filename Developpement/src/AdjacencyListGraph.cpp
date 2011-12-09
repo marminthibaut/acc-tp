@@ -16,36 +16,40 @@ AdjacencyListGraph::AdjacencyListGraph(uint nbr_vertices) :
 
 AdjacencyListGraph::AdjacencyListGraph(const AbstractGraph& graph)
 {
-  this->nbr_vertices = graph.getNbrVertices();
-
-  this->successors = new list<neighbor_t> [this->nbr_vertices];
-  this->predecessors = new list<neighbor_t> [this->nbr_vertices];
-
-  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
-    {
-      this->successors[v] = graph.getSuccessors(v);
-      this->predecessors[v] = graph.getPredecessors(v);
-    }
+  this->_construct(graph);
 }
 
 AdjacencyListGraph::AdjacencyListGraph(const AdjacencyListGraph& graph)
 {
-  this->nbr_vertices = graph.getNbrVertices();
+  this->_construct(graph);
+}
 
-  this->successors = new list<neighbor_t> [this->nbr_vertices];
-  this->predecessors = new list<neighbor_t> [this->nbr_vertices];
 
-  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
+AdjacencyListGraph &
+AdjacencyListGraph::operator=(const AbstractGraph& graph)
+{
+  if(this != &graph)
     {
-      this->successors[v] = graph.getSuccessors(v);
-      this->predecessors[v] = graph.getPredecessors(v);
+      this->_clear();
+      this->_construct(graph);
     }
+  return *this;
+}
+
+AdjacencyListGraph &
+AdjacencyListGraph::operator=(const AdjacencyListGraph& graph)
+{
+  if(this != &graph)
+     {
+       this->_clear();
+       this->_construct(graph);
+     }
+  return *this;
 }
 
 AdjacencyListGraph::~AdjacencyListGraph()
 {
-  delete[] this->successors;
-  delete[] this->predecessors;
+  this->_clear();
 }
 
 //*****************************************************************************
@@ -189,6 +193,8 @@ AdjacencyListGraph::getPredecessors(vertex_t vertex) const
 weight_t
 AdjacencyListGraph::getWeight(vertex_t src, vertex_t dest) const
 {
+  if(src >= this->nbr_vertices)
+    return -1;
 
   list<neighbor_t> neighbors = this->getSuccessors(src);
   list<neighbor_t>::iterator it;
@@ -199,4 +205,32 @@ AdjacencyListGraph::getWeight(vertex_t src, vertex_t dest) const
 
   return -1;
 }
+
+
+//************************************************************************************************
+//      PROTECTED METHODS
+//************************************************************************************************
+
+void
+AdjacencyListGraph::_clear()
+{
+  delete[] this->successors;
+  delete[] this->predecessors;
+}
+
+void
+AdjacencyListGraph::_construct(const AbstractGraph& graph)
+{
+  this->nbr_vertices = graph.getNbrVertices();
+
+  this->successors = new list<neighbor_t> [this->nbr_vertices];
+  this->predecessors = new list<neighbor_t> [this->nbr_vertices];
+
+  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
+    {
+      this->successors[v] = graph.getSuccessors(v);
+      this->predecessors[v] = graph.getPredecessors(v);
+    }
+}
+
 

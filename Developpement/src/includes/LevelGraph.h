@@ -16,6 +16,9 @@ public:
   LevelGraph(uint nbr_vertices, uint nbr_level);
   LevelGraph(const LevelGraph& level_graph);
 
+  LevelGraph &
+  operator=(const LevelGraph& graph);
+
   virtual
   ~LevelGraph();
 
@@ -37,6 +40,13 @@ public:
 private:
   list<vertex_t> *levels;
   uint nbr_level;
+
+protected:
+  void
+  _clear();
+
+  void
+  _construct(const LevelGraph& level_graph);
 };
 
 #endif /* LEVELGRAPH_H_ */

@@ -24,16 +24,16 @@ main()
   graphGenerator(g, 1 , 30);
 
   //affichage du graph
+  cout << "//****************************************" << endl;
+  cout << "// Graph" << endl;
   cout << g.toString() << endl;
-  cout << "1------------------------------------------------------" << endl;
 
   dinic(g, src, dest);
 
   //cout << "Edmonds-Karp S = 0, P = 19" << endl;
 
-  //edmondsKarp(g, 0, 19);
+  edmondsKarp(g, src, dest);
 
-  cout << g.toString() << endl;
 
   /*LevelGraph level_graph = levelGraph(residual_network, src, dest);
   cout << "********************" << endl;

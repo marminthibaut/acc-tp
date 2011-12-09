@@ -17,17 +17,25 @@ LevelGraph::LevelGraph(uint nbr_vertices, uint nbr_level) :
 LevelGraph::LevelGraph(const LevelGraph &level_graph) :
   AdjacencyListGraph(level_graph)
 {
-  this->nbr_level = level_graph.getNbrLevels();
-  this->levels = new list<vertex_t>[this->nbr_level];
+  this->_construct(level_graph);
+}
 
-  for(uint i = 0; i < this->nbr_level; ++i)
-    this->levels[i] = level_graph.getLevel(i);
-
+LevelGraph &
+LevelGraph::operator=(const LevelGraph& level_graph)
+{
+  if(this != &level_graph)
+    {
+      AdjacencyListGraph::_clear();
+      this->_clear();
+      AdjacencyListGraph::_construct(level_graph);
+      this->_construct(level_graph);
+    }
+  return *this;
 }
 
 LevelGraph::~LevelGraph()
 {
-  delete[] this->levels;
+  this->_clear();
 }
 
 uint
@@ -76,4 +84,25 @@ LevelGraph::toString() const
 
   return s.str();
 
+}
+
+
+//************************************************************************************************
+//      PROTECTED METHODS
+//************************************************************************************************
+
+void
+LevelGraph::_construct(const LevelGraph &level_graph)
+{
+  this->nbr_level = level_graph.getNbrLevels();
+  this->levels = new list<vertex_t>[this->nbr_level];
+
+  for(uint i = 0; i < this->nbr_level; ++i)
+    this->levels[i] = level_graph.getLevel(i);
+}
+
+void
+LevelGraph::_clear()
+{
+  delete[] this->levels;
 }

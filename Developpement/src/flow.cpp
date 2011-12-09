@@ -71,11 +71,10 @@ updateResidualNetwork(AbstractGraph& graph, AbstractGraph& flow)
   for (vertex_t v = 0; v < flow.getNbrVertices(); ++v)
     {
       successors = flow.getSuccessors(v);
-
       for (it = successors.begin(); it != successors.end(); it++)
         updateArc(graph, v, it->vertex, it->weight);
-
     }
+
 }
 
 string
@@ -83,18 +82,20 @@ flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
 {
   stringstream s;
   weight_t flow;
+  list<neighbor_t>::iterator it;
+  list<neighbor_t> successors;
 
   for (vertex_t v = 0; v < graph.getNbrVertices(); ++v)
     {
       s << v << " : ";
 
-      list<neighbor_t>::iterator it;
-      for (it = graph.getSuccessors(v).begin();
-          it != graph.getSuccessors(v).end(); it++)
+      successors = graph.getSuccessors(v);
+      for (it = successors.begin(); it != successors.end(); it++)
         {
           flow = residualNetwork.getWeight(it->vertex, v);
           if (flow < 0)
             flow = 0;
+
           s << it->vertex << "(" << flow << "/" << it->weight << ")" << ", ";
         }
 
@@ -111,34 +112,41 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
   AdjacencyListGraph residual_network(graph);
 
   path_t path;
+  path_t::iterator it;
+
   while ((path = leastArcsPath(residual_network, src, dest)).size() != 0)
     {
-      //****************************************
-      //affichage du chemin
-      path_t::iterator it;
 
-      cout << "chaine améliorante : " << endl;
+      int k = lightestArc(residual_network, path);
+      updateResidualNetwork(residual_network, path, k);
+
+
+      //****************************************
+      // affichage
+     /* cout << "chaine améliorante : " << endl;
       for (it = path.begin(); it != path.end(); it++)
         cout << (*it) << " -> ";
 
       cout << endl;
 
-      int k = lightestArc(residual_network, path);
       cout << "lightest arc : " << k << endl;
 
       //****************************************
       // mise à jour du residual network
 
-      updateResidualNetwork(residual_network, path, k);
       cout << "//****************************************" << endl
           << "// Residual network" << endl;
       cout << residual_network.toString() << endl;
 
       cout << "//****************************************" << endl
           << "// nouveau flot" << endl;
-      cout << flowToString(graph, residual_network) << endl;
+      cout << flowToString(graph, residual_network) << endl; */
 
     }
+
+  cout << "//****************************************" << endl
+            << "// Flot par Edmonds Karp" << endl;
+        cout << flowToString(graph, residual_network) << endl;
 
 }
 
@@ -150,8 +158,6 @@ generateLevelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t
   list<neighbor_t> parent[residual_network.getNbrVertices()];
   int level[residual_network.getNbrVertices()];
   bool find_dest = false;
-
-  cout << "calcul level graph" << endl;
 
   //***************************************************************************
   // initialisation
@@ -238,8 +244,6 @@ generateLevelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t
       file.pop_front();
       arc.vertex_dest = u;
 
-      cout << u << " ( ";
-
       for (it = parent[u].begin(); it != parent[u].end(); it++)
         {
           if (!already_view[it->vertex])
@@ -248,20 +252,13 @@ generateLevelGraph(const AbstractGraph& residual_network, vertex_t src, vertex_t
               level_graph.addVertexToLevel(it->vertex, level[it->vertex]);
             }
 
-          cout << it->vertex << " - ";
-
           already_view[it->vertex] = true;
 
           arc.vertex_src = it->vertex;
           arc.weight = it->weight;
           level_graph.addArc(arc);
         }
-      cout << " ) " << endl;
     }
-  cout << endl;
-
-  cout << "end level graph" << endl;
-
 
   return level_graph;
 }
@@ -275,9 +272,6 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
   int val;
   path_t path;
 
-  cout << "********************" << endl;
-  cout << "création du flot bloquant" << endl;
-
   do
     {
       v = dest;
@@ -285,10 +279,8 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
       path.clear();
       path.push_front(v);
 
-      cout << "parcours du graphe de couche" << endl;
       while (v != src)
         {
-          cout << v << " - ";
           u = level_graph.getPredecessors(v).front().vertex;
 
           if (v == dest)
@@ -299,8 +291,6 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
           path.push_front(u);
           v = u;
         }
-      cout << v << endl;
-      cout << "weight : " << weight << endl;
 
       path_t::iterator it = path.begin();
       v = *it;
@@ -310,7 +300,6 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
           u = v;
           v = *it;
 
-          cout << u << " <-> " << v << endl;
           if (flow.getWeight(u, v) == -1)
             flow.addArc(u, v, weight);
           else
@@ -330,8 +319,6 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
       list<neighbor_t>::iterator it_neighbor;
       file.push_back(dest);
 
-      cout << "mise a jour du graphe de couche" << endl;
-
       for (uint level = 1; level < level_graph.getNbrLevels(); ++level)
         {
           file = level_graph.getLevel(level);
@@ -344,15 +331,12 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
                       it_neighbor != neighbors.end(); it_neighbor++)
                     {
                       level_graph.rmVertexToLevel(*it_vertex, level);
-                      cout << "rm " << *it_vertex << " - "
-                          << it_neighbor->vertex << endl;
                       level_graph.rmArc(*it_vertex, it_neighbor->vertex);
                     }
                 }
             }
 
         }
-
     }
   while ((level_graph.getPredecessors(dest)).size() != 0);
 
@@ -368,34 +352,34 @@ dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
   AdjacencyListGraph residual_network(graph);
   AdjacencyListGraph flow(0);
 
-  cout << "Dinic" << endl;
-
   LevelGraph level_graph = generateLevelGraph(residual_network, src, dest);
 
   while (level_graph.getLevel(0).size() != 0)
     {
       //****************************************
-      // level graph printing
-      cout << "***" << endl;
-      cout << level_graph.toString() << endl;
-
-      //****************************************
       // mise à jour du residual network
       flow = blockingFlow(level_graph, src, dest);
 
       updateResidualNetwork(residual_network, flow);
-      cout << "//****************************************" << endl
+      /*cout << "//****************************************" << endl
+       * //****************************************
+      // level graph printing
+      cout << "***" << endl;
+      cout << level_graph.toString() << endl;
           << "// Residual network" << endl;
       cout << residual_network.toString() << endl;
 
       cout << "//****************************************" << endl
           << "// nouveau flot" << endl;
-      cout << flowToString(graph, residual_network) << endl;
+      cout << flowToString(graph, residual_network) << endl; */
 
       level_graph = generateLevelGraph(residual_network, src, dest);
 
-
     }
+
+  cout << "//****************************************" << endl
+            << "// Flot par Dinic" << endl;
+        cout << flowToString(graph, residual_network) << endl;
 
 }
 

@@ -17,6 +17,10 @@ public:
   AdjacencyListGraph(const AbstractGraph& graph);
   AdjacencyListGraph(const AdjacencyListGraph& graph);
 
+  AdjacencyListGraph &
+  operator=(const AbstractGraph& graph);
+  AdjacencyListGraph &
+  operator=(const AdjacencyListGraph& graph);
 
   virtual
   ~AdjacencyListGraph();
@@ -54,6 +58,14 @@ public:
 private:
   list<neighbor_t> *successors, *predecessors;
   uint nbr_vertices;
+
+protected:
+  void
+  _clear();
+
+  void
+  _construct(const AbstractGraph& graph);
+
 };
 
 #endif /* VERTEXLISTGRAPH_H_ */
