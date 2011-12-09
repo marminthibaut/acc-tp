@@ -1,0 +1,75 @@
+\documentclass{beamer}
+\usepackage[utf8x]{inputenc}
+\usepackage{hyperref}
+\usepackage[footheight=1em]{beamerthemeboxes}
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen=left}
+\usetheme{Singapore}
+
+%\usetheme{Frankfurt}
+
+
+%\addfootboxtemplate{\color{white}}{\color{gray}
+  %\insertframenumber/\inserttotalframenumber\null}
+
+
+
+%\setbeamertemplate{background canvas}{\includegraphics
+%   [width=\paperwidth,height=\paperheight]{img/fond.png}}
+
+
+\title{TP Algorithmique, Complexité \& Calculabilité}
+\author{William Dyce \and Thibaut Marmin \\ Clément Sipieter}
+\institute{Université Montpellier 2}
+\date{15 Décembre 2011}
+
+\begin{document}
+
+\AtBeginSection[]
+{
+  \begin{frame}{TP Algorithmique, Complexité \& Calculabilité}
+  \begin{columns}[t]
+  \begin{column}{5cm}
+  \tableofcontents[sections={1-3},currentsection,hideothersubsections]
+  \end{column}
+  \begin{column}{5cm}
+  \tableofcontents[sections={4-6},currentsection,hideothersubsections]
+  \end{column}
+  \end{columns}
+  \end{frame}
+}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{TP Algorithmique, Complexité \& Calculabilité}
+    
+
+  \begin{columns}[t]
+  \begin{column}{5cm}
+  \tableofcontents[sections={1-3},hideallsubsections]
+  \end{column}
+  \begin{column}{5cm}
+  \tableofcontents[sections={4-6},hideallsubsections]
+  \end{column}
+  \end{columns}
+
+\end{frame}
+
+\section{Présentation du sujet}
+\input{diapo_presentation_du_sujet}
+
+\section{Implémentation}
+\input{diapo_implementation}
+
+\section{Tests \& résultats}
+\input{diapo_tests_et_resultats}
+
+\section{Conclusion}
+\input{diapo_conclusion}
+
+\section{Démonstration}
+\input{diapo_demonstration}
+
+\end{document}
