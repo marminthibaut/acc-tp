@@ -5,13 +5,69 @@
  *      Author: clement
  */
 
+#include <sstream>
+#include <iostream>
+#include <stdlib.h>
+
 #include "includes/flow.h"
 #include "includes/algo.h"
 #include "includes/AdjacencyListGraph.h"
 #include "includes/utils.h"
 #include "includes/LevelGraph.h"
-#include <sstream>
-#include <iostream>
+#include "includes/utils.h"
+
+
+/**
+ * Generate a flow network with the vertex 0 as source and the vertex which has
+ * the max value as sink
+ */
+void
+flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight,
+    uint max_weight)
+{
+  edge e;
+  list<edge>::iterator it;
+  list<edge> list;
+  uint val;
+
+  uint nbr_vertices = graph.getNbrVertices();
+  uint nbr_arcs_max = (nbr_vertices * (nbr_vertices - 1)) / 2;
+  uint nbr_arcs = nbr_arcs_max * rate;
+
+  uint current_arc = 1;
+
+  for (vertex_t u = 0; u < nbr_vertices - 1; ++u)
+    {
+      //Pour tout u, on crée l'arc u, u+1 afin d'assurer l'existance
+      //d'un chemin de la source vers le puit
+      graph.addArc(u,u+1,randMinMax(min_weight, max_weight));
+      ++current_arc;
+
+      for (vertex_t v = u + 2; v < nbr_vertices; ++v)
+        {
+          e.u = u;
+          e.v = v;
+          list.push_back(e);
+        }
+    }
+
+
+  while(current_arc <= nbr_arcs)
+    {
+      it = list.begin();
+      val = rand() % list.size();
+      advance(it, val);
+
+      if(it->u == 0 || it->v == (nbr_vertices - 1) || rand() % 2 == 1)
+        graph.addArc(it->u,it->v,randMinMax(min_weight, max_weight));
+      else
+        graph.addArc(it->v,it->u,randMinMax(min_weight, max_weight));
+
+      ++current_arc;
+      list.erase(it);
+    }
+
+}
 
 void
 updateArc(AbstractGraph& g, vertex_t src, vertex_t dest, int k)

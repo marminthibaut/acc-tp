@@ -12,6 +12,10 @@
 #include "LevelGraph.h"
 
 void
+flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight = 1,
+    uint max_weight = 1);
+
+void
 updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
 
 string

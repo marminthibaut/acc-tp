@@ -19,6 +19,12 @@ typedef uint vertex_t;
 
 typedef struct
 {
+  vertex_t u;
+  vertex_t v;
+} edge;
+
+typedef struct
+{
   vertex_t vertex_src;
   vertex_t vertex_dest;
   weight_t weight;
