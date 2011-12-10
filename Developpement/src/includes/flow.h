@@ -8,8 +8,7 @@
 #ifndef FLOW_H_
 #define FLOW_H_
 
-#include "graph.h"
-#include "LevelGraph.h"
+#include "../graph/LevelGraph.h"
 
 void
 flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight = 1,

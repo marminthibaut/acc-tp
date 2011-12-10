@@ -5,7 +5,7 @@
  *      Author: clement
  */
 
-#include "includes/MatrixGraph.h"
+#include "../MatrixGraph.h"
 
 MatrixGraph::MatrixGraph(uint nbr_vertices)
 {

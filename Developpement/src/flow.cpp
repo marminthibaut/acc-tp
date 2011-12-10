@@ -9,11 +9,11 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include "graph/AdjacencyListGraph.h"
+#include "graph/LevelGraph.h"
+
 #include "includes/flow.h"
-#include "includes/algo.h"
-#include "includes/AdjacencyListGraph.h"
 #include "includes/utils.h"
-#include "includes/LevelGraph.h"
 #include "includes/utils.h"
 
 

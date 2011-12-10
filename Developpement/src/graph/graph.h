@@ -10,7 +10,8 @@
 
 #include <string>
 #include <list>
-#include "types.h"
+
+#include "../includes/types.h"
 
 using namespace std;
 
@@ -41,9 +42,23 @@ operator==(const neighbor_t& n1, const neighbor_t& n2);
 
 typedef list<vertex_t> path_t;
 
-/**
- * Class IGraph
- */
+/*******************************************************************************
+ * Functions
+ ******************************************************************************/
+
+class AbstractGraph;
+
+path_t
+leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
+
+path_t
+leastFirst(AbstractGraph &g, vertex_t start, vertex_t end);
+
+weight_t lightestArc(AbstractGraph& g, path_t);
+
+/*******************************************************************************
+ * Class AbstractGraph
+ ******************************************************************************/
 class AbstractGraph
 {
 public:

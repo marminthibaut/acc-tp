@@ -5,7 +5,7 @@
  *      Author: clement
  */
 
-#include "includes/AdjacencyListGraph.h"
+#include "../AdjacencyListGraph.h"
 
 AdjacencyListGraph::AdjacencyListGraph(uint nbr_vertices) :
     nbr_vertices(nbr_vertices)
