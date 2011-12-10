@@ -59,8 +59,8 @@ AdjacencyListGraph::~AdjacencyListGraph()
 bool
 AdjacencyListGraph::addArc(const arc_t &arc)
 {
-  if (arc.vertex_src > this->getNbrVertices()
-      || arc.vertex_dest > this->getNbrVertices())
+  if (arc.vertex_src >= this->getNbrVertices()
+      || arc.vertex_dest >= this->getNbrVertices())
     return false;
 
   neighbor_t neighbor;
