@@ -112,6 +112,27 @@ lightestArc(AbstractGraph& g, path_t path)
 
 }
 
+
+string
+pathToString(path_t path, const AbstractGraph& g)
+{
+  stringstream s;
+  path_t::iterator it = path.begin();
+   vertex_t src = *it;
+   it++;
+   vertex_t dest = *it;
+   s << src << "--(" << g.getWeight(src, dest) << ")-->" << dest << endl;
+
+   for (; it != path.end(); it++)
+     {
+       src = dest;
+       dest = *it;
+       s << " --(" << g.getWeight(src, dest) << ")--> " << dest << endl;
+     }
+
+   return s.str();
+}
+
 /*******************************************************************************
  * Class AbstractGraph
  ******************************************************************************/

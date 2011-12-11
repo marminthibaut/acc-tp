@@ -54,7 +54,11 @@ leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
 path_t
 leastFirst(AbstractGraph &g, vertex_t start, vertex_t end);
 
-weight_t lightestArc(AbstractGraph& g, path_t);
+weight_t
+lightestArc(AbstractGraph& g, path_t);
+
+string
+pathToString(path_t path, const AbstractGraph& g);
 
 /*******************************************************************************
  * Class AbstractGraph
