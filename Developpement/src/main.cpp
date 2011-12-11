@@ -1,32 +1,35 @@
 
-
 #include <iostream>
+#include <stdlib.h>
 using namespace std;
 
-#include "includes/AdjacencyListGraph.h"
-#include "includes/graphGenerator.h"
-#include "includes/algo.h"
+#include "graph/AdjacencyListGraph.h"
+#include "graph/LevelGraph.h"
+#include "graph/MatrixGraph.h"
+
 #include "includes/flow.h"
-#include "includes/LevelGraph.h"
 
 
 int
 main()
 {
 
-
   vertex_t src, dest;
   src = 0;
   dest = 19;
 
   //Création du graph
-  AdjacencyListGraph g(20);
-  graphGenerator(g, 1 , 30);
+  AdjacencyListGraph g(50);
+  uint seed = time(NULL);
+  srand(seed);
+  cout << "seed : " << seed << endl;
+  flowNetworkGenerator(g, 0.5, 1, 30);
 
   //affichage du graph
   cout << "//****************************************" << endl;
   cout << "// Graph" << endl;
   cout << g.toString() << endl;
+
 
   dinic(g, src, dest);
 
@@ -36,15 +39,14 @@ main()
 
 
   /*LevelGraph level_graph = levelGraph(residual_network, src, dest);
-  cout << "********************" << endl;
-  cout << "LEVEL GRAPH " << endl;
-  cout << level_graph.toString() << endl;
+   cout << "********************" << endl;
+   cout << "LEVEL GRAPH " << endl;
+   cout << level_graph.toString() << endl;
 
-  AdjacencyListGraph flow = blockingFlow(level_graph, src, dest);
-  cout << "********************" << endl;
-  cout << "BLOCKING FLOW" << endl;
-  cout << flow.toString() << endl;*/
-
+   AdjacencyListGraph flow = blockingFlow(level_graph, src, dest);
+   cout << "********************" << endl;
+   cout << "BLOCKING FLOW" << endl;
+   cout << flow.toString() << endl;*/
 
   return 0;
 }

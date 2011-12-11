@@ -5,7 +5,7 @@
  *      Author: clement
  */
 
-#include "includes/LevelGraph.h"
+#include "../LevelGraph.h"
 #include <sstream>
 
 LevelGraph::LevelGraph(uint nbr_vertices, uint nbr_level) :

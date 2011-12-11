@@ -1,11 +1,23 @@
 /*
- * algo.cpp
+ * graph.cpp
  *
  *  Created on: 1 déc. 2011
  *      Author: clement
  */
 
-#include "includes/algo.h"
+#include <sstream>
+
+#include "../graph.h"
+
+/*******************************************************************************
+ * Functions
+ ******************************************************************************/
+
+bool
+operator==(const neighbor_t& n1, const neighbor_t& n2)
+{
+  return n1.vertex == n2.vertex;
+}
 
 path_t
 leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
@@ -98,5 +110,38 @@ lightestArc(AbstractGraph& g, path_t path)
 
   return min;
 
+}
+
+/*******************************************************************************
+ * Class AbstractGraph
+ ******************************************************************************/
+
+AbstractGraph::AbstractGraph()
+{
+}
+
+AbstractGraph::~AbstractGraph()
+{
+}
+
+string
+AbstractGraph::toString() const
+{
+  stringstream s;
+  list<neighbor_t>::iterator it;
+  list<neighbor_t> successors;
+
+  for (vertex_t v = 0; v < this->getNbrVertices(); ++v)
+    {
+      s << v << " : ";
+      successors = this->getSuccessors(v);
+
+      for (it = successors.begin(); it != successors.end(); it++)
+          s << it->vertex << "(" << it->weight << ")" << ", ";
+
+      s << endl;
+    }
+
+  return s.str();
 }
 
