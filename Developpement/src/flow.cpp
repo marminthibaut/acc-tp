@@ -137,9 +137,21 @@ string
 flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
 {
   stringstream s;
-  weight_t flow;
+  weight_t flow, total_flow;
   list<neighbor_t>::iterator it;
   list<neighbor_t> successors;
+
+  //Calcul de la valeur du flow
+  successors = graph.getSuccessors(0);
+  total_flow = 0;
+  for (it = successors.begin(); it != successors.end(); it++)
+    {
+      flow = residualNetwork.getWeight(it->vertex, 0);
+      if (flow > 0)
+        total_flow += flow;
+    }
+
+  cout << "Flow : " << total_flow << endl;
 
   for (vertex_t v = 0; v < graph.getNbrVertices(); ++v)
     {
@@ -160,6 +172,7 @@ flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
   return s.str();
 }
 
+
 void
 edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 {
@@ -169,11 +182,11 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 
   path_t path;
   path_t::iterator it;
+  int k;
 
   while ((path = leastArcsPath(residual_network, src, dest)).size() != 0)
     {
-
-      int k = lightestArc(residual_network, path);
+      k = lightestArc(residual_network, path);
       updateResidualNetwork(residual_network, path, k);
 
 
