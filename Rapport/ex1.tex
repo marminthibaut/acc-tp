@@ -1,15 +1,12 @@
 \begin{enumerate}
 \item Le nombre de manières de colorier un graphe est le produit des nombres de façons de colorier chaque arc.
 \begin{itemize}
-\item Si le graphe $G$ est complet, on arua $k$ couleurs possibles pour le premier sommet, $(k-1)$ pour le deuxième, etc\ldots (Le graphe G étant complet, la couleur du premier sommet est nécessairement exclu des autres sommets)
+\item Si le graphe $G$ est complet, on aura $k$ couleurs possibles pour le premier sommet, $(k-1)$ pour le deuxième, etc\ldots (Le graphe G étant complet, la couleur du premier sommet est nécessairement exclu des autres sommets)
 
 Le $n$\^{ième} sommet pourra être colorié de $k-(n-1)$ manières. D'où :
-\[ P_{K_n}(k)=\prod_{i=1}^{n} \left( k-(k-1) \right)\]
-ou
-\[ P_{Kn}(k)=\prod_{i=0}^{n-1}(k-i) \]
-(au choix)
+\[ P_{K_n}(k)=\prod_{i=0}^{n-1}(k-i) \]
 
-\item Si $G$ est vide, la coloration d'un sommet ne contraint pas la coloration des autres sommet. On obtient :
+\item Si $G$ est vide, la coloration d'un sommet ne contraint pas la coloration des autres sommets. On obtient alors :
 \[ P_{\overline{K_n}}(k)=k^n \]
 \end{itemize}
 \item $\chi(G)$ étant, par définition, le nombre minimum de couleurs nécessaires pour colorier $G$, si $k < \chi(G)$ alors le graphe $G$ ne peut pas être colorié par $k$ couleurs. Si $k \geq \chi(G)$ alors il doit y avoir au moins une manière de colorier $G$, celui utilisant $\chi(G)$ couleurs.
@@ -22,9 +19,39 @@ On a donc :
 	\end{array} \right.
 \end{displaymath}
 
-\item 
+\item Montrons d'aboard que la propriété est vraie pour tout graphe complet $K_n$. Pour commencer on remarque que, pour tout arrête $e$:
+
+\begin{itemize}
+\item $K_{n\backslash e}$ est exactement $K_{n-1}$, et donc: 
+
+\[ P_{K_n\backslash e}(k) = P_{K_{n-1}} = \prod_{i=0}^{n-2}(k-i) \]
+
+
+\item Soit $e = (a,b)$. On peut supposer (sans perte de généralité) que $b$ est considéré en dernier lors de la coloration de $K_n$, donc qu'il lui reste $k-(n-1)$ couleurs. Pour colorier $K_{n-e}$ on aura un choix de plus pour lui, à savoir la couleur de $a$, donc $k-(n-2)$ en totale. De ce fait:
+
+\[ P_{K_n-e}(k) = P_{K_{n-1}}(k)(k-(n-2)) = (\prod_{i=0}^{n-2}(k-i))(k-(n-2)) \]
+\end{itemize}
+
+On a donc très clairement:
+\begin{eqnarray*}
+P_{K_n-e}(k) -  P_{K_n\backslash e}(k) &=& (\prod_{i=0}^{n-2}(k-i))(k-(n-2)) - \prod_{i=0}^{n-2}(k-i)\\
+&=& \prod_{i=0}^{n-2}(k-i)(k-(n-1))\\
+&=& \prod_{i=0}^{n-1}(k-i)\\
+&=& P_{K_n}(k)
+\end{eqnarray*}
+Tout graphe de rang $n$ pouvant se générer à partir de $K_n$ (en enlevant des arrêtes) on cherchera à prouver que la suppression d'arrête conserve notre propriété. Autrement dit on aimerait montrer que pour tout graphe $G$ et tout arrête $a$ de celui-ci:
+
+\begin{eqnarray*}
+&&P_G(k) = P_{G-e}(k) - P_{G \backslash e}(k) \\
+&\Rightarrow&  P_{G-a}(k) = P_{G-e-a}(k) - P_{G \backslash e-a}(k)
+\end{eqnarray*}
+
+On supposera évidemment que $a$ et $e$ sont distinctes. 
+
+TODO FINISH
+
 \item
-\item Utilisons la formule de récurrence trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
+\item Utilisons la formule trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
 \[ P_n(k) = k(k-1)^{n-1} \]
 
 Prenons $A$ le graphe initial :

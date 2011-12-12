@@ -8,6 +8,8 @@
 #include <sstream>
 #include <iostream>
 #include <stdlib.h>
+#include <vector>
+#include <stdio.h>
 
 #include "graph/AdjacencyListGraph.h"
 #include "graph/LevelGraph.h"
@@ -26,14 +28,12 @@ flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight,
     uint max_weight)
 {
   edge e;
-  list<edge>::iterator it;
-  list<edge> list;
+  vector<edge> list;
   uint val;
 
   uint nbr_vertices = graph.getNbrVertices();
   uint nbr_arcs_max = (nbr_vertices * (nbr_vertices - 1)) / 2;
-  uint nbr_arcs = nbr_arcs_max * rate;
-
+  uint nbr_arcs_wanted = nbr_arcs_max * rate;
   uint current_arc = 1;
 
   for (vertex_t u = 0; u < nbr_vertices - 1; ++u)
@@ -51,22 +51,24 @@ flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight,
         }
     }
 
+  uint size = list.size();
 
-  while(current_arc <= nbr_arcs)
+  while(current_arc <= nbr_arcs_wanted)
     {
-      it = list.begin();
-      val = rand() % list.size();
-      advance(it, val);
+      val = rand() % size;
+      e = list[val];
 
-      if(it->u == 0 || it->v == (nbr_vertices - 1) || rand() % 2 == 1)
-        graph.addArc(it->u,it->v,randMinMax(min_weight, max_weight));
+      while(list[val].v == 0)
+          val = ++val % size;
+
+      if(e.u == 0 || e.v == (nbr_vertices - 1) || rand() % 2 == 1)
+        graph.addArc(e.u,e.v,randMinMax(min_weight, max_weight));
       else
-        graph.addArc(it->v,it->u,randMinMax(min_weight, max_weight));
+        graph.addArc(e.v,e.u,randMinMax(min_weight, max_weight));
 
       ++current_arc;
-      list.erase(it);
+      list[val].v = 0;
     }
-
 }
 
 void
@@ -137,9 +139,21 @@ string
 flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
 {
   stringstream s;
-  weight_t flow;
+  weight_t flow, total_flow;
   list<neighbor_t>::iterator it;
   list<neighbor_t> successors;
+
+  //Calcul de la valeur du flow
+  successors = graph.getSuccessors(0);
+  total_flow = 0;
+  for (it = successors.begin(); it != successors.end(); it++)
+    {
+      flow = residualNetwork.getWeight(it->vertex, 0);
+      if (flow > 0)
+        total_flow += flow;
+    }
+
+  cout << "Flow : " << total_flow << endl;
 
   for (vertex_t v = 0; v < graph.getNbrVertices(); ++v)
     {
@@ -160,6 +174,7 @@ flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
   return s.str();
 }
 
+
 void
 edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 {
@@ -169,11 +184,11 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 
   path_t path;
   path_t::iterator it;
+  int k;
 
   while ((path = leastArcsPath(residual_network, src, dest)).size() != 0)
     {
-
-      int k = lightestArc(residual_network, path);
+      k = lightestArc(residual_network, path);
       updateResidualNetwork(residual_network, path, k);
 
 
@@ -200,9 +215,9 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 
     }
 
-  cout << "//****************************************" << endl
+  /*cout << "//****************************************" << endl
             << "// Flot par Edmonds Karp" << endl;
-        cout << flowToString(graph, residual_network) << endl;
+        cout << flowToString(graph, residual_network) << endl;*/
 
 }
 
@@ -433,9 +448,9 @@ dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 
     }
 
-  cout << "//****************************************" << endl
+  /* cout << "//****************************************" << endl
             << "// Flot par Dinic" << endl;
-        cout << flowToString(graph, residual_network) << endl;
+        cout << flowToString(graph, residual_network) << endl; */
 
 }
 
