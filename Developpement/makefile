@@ -1,6 +1,6 @@
 DEBUG=yes
 ifeq ($(DEBUG),yes)
-	CFLAGS=-W -Wall -ansi -pedantic -g
+	CFLAGS=-W -Wall -ansi -pedantic -pg
 else
 	CFLAGS=
 endif
