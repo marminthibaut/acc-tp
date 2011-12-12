@@ -50,7 +50,27 @@ On supposera évidemment que $a$ et $e$ sont distinctes.
 
 TODO FINISH
 
-\item
+\item Soit $H$ un prédicat tel que :
+\begin{displaymath}
+	H(m) \left\{ \begin{array}{ll}
+	\top & \textrm{si $\forall$ $G$, graphe de $m$ arrêtes ou moins, $P_G(k)$ est polynomiale.} \\
+	\bot & \textrm{sinon.}
+	\end{array} \right.
+\end{displaymath} 
+\begin{itemize} 
+\item Nous rappellons que $P_{\overline{K_n}}(k)=k^n$, donc $H(0)$ est vraie. 
+\item Supposons $\exists m \in \mathbb{N}$ $|$ $H(m)$ l'est également. Soit $G_{m+1}$ un graphe à $m+1$ arrêtes:
+
+\[ P_{G_{m+1}} = P_{G_{m+1}-e} - P_{G_{m+1} \backslash e} \]
+
+Clairement $P_{G_{m+1}-e}$ et $P_{G_{m+1} \backslash e}$ ont $(m+1)-1 = m$ arrêtes. Or par hypothèse de recurrence $H(m)$ est vraie,
+$P_{G_{m+1}}$ est la différence entre deux polynomiales, donc est polynomiale lui-même. On a donc $H(m+1)$.
+\item On vient de montrer $H(0) \wedge (H(m) \Rightarrow H(m+1))$. Par récurrence on a donc $H(m) \forall m \in \mathbb{N}$. 
+
+\end{itemize} 
+
+
+
 \item Utilisons la formule trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
 \[ P_n(k) = k(k-1)^{n-1} \]
 
