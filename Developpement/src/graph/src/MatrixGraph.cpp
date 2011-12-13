@@ -91,6 +91,14 @@ MatrixGraph::rmArc(vertex_t src, vertex_t dest)
 }
 
 void
+MatrixGraph::rmAllArc()
+{
+  for(vertex_t v = 0; v < this->nbr_vertices; ++v)
+    for(vertex_t u = 0; u < this->nbr_vertices; ++u)
+      this->matrix[v][u] = -1;
+}
+
+void
 MatrixGraph::updateArc(const arc_t &arc)
 {
   this->matrix[arc.vertex_src][arc.vertex_dest] = arc.weight;

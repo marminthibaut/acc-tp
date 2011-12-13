@@ -48,15 +48,32 @@ typedef list<vertex_t> path_t;
 
 class AbstractGraph;
 
+/**
+ * Cette fonction retourne le plus court chemin en nombre d'arcs depuis
+ * le sommet start jusqu'au sommet end
+ * @param g un graphe
+ * @param start le sommet de départ
+ * @param end le sommet d'arriver
+ * @return le plus court chemin en nombre d'arcs de start à end
+ */
 path_t
 leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
 
-path_t
-leastFirst(AbstractGraph &g, vertex_t start, vertex_t end);
-
+/**
+ * Cette fonction retourne la plus petite valuation présente sur un chemin
+ * donné dans un graphe
+ * @param g un graphe
+ * @param path une chemin dans g
+ * @return la plus petite valuation présente sur le chemin path dans g
+ */
 weight_t
-lightestArc(AbstractGraph& g, path_t);
+lightestArc(AbstractGraph& g, path_t path);
 
+/**
+ * Cette fonction converti un chemin en chaîne de caractère dans un but d'affichage
+ * @param path le chemin
+ * @param g le graphe
+ */
 string
 pathToString(path_t path, const AbstractGraph& g);
 
@@ -82,6 +99,9 @@ public:
 
   virtual void
   rmArc(vertex_t src, vertex_t dest) = 0;
+
+  virtual void
+  rmAllArc() = 0;
 
   virtual void
   updateArc(const arc_t &arc) = 0;

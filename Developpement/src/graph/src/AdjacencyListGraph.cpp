@@ -125,6 +125,16 @@ AdjacencyListGraph::rmArc(vertex_t src, vertex_t dest)
 }
 
 void
+AdjacencyListGraph::rmAllArc()
+{
+  for(vertex_t v = 0; v < this->nbr_vertices; ++v)
+    {
+      this->successors[v].clear();
+      this->predecessors[v].clear();
+    }
+}
+
+void
 AdjacencyListGraph::updateArc(const arc_t &arc)
 {
   list<neighbor_t> &succ = this->successors[arc.vertex_src];

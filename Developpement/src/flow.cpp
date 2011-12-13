@@ -36,6 +36,8 @@ flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight,
   uint nbr_arcs_wanted = nbr_arcs_max * rate;
   uint current_arc = 1;
 
+  graph.rmAllArc();
+
   for (vertex_t u = 0; u < nbr_vertices - 1; ++u)
     {
       //Pour tout u, on crée l'arc u, u+1 afin d'assurer l'existance
@@ -175,7 +177,7 @@ flowToString(const AbstractGraph& graph, const AbstractGraph& residualNetwork)
 }
 
 
-void
+AdjacencyListGraph
 edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 {
   //****************************************
@@ -214,6 +216,8 @@ edmondsKarp(const AbstractGraph& graph, vertex_t src, vertex_t dest)
       cout << flowToString(graph, residual_network) << endl; */
 
     }
+
+    return residual_network;
 
   /*cout << "//****************************************" << endl
             << "// Flot par Edmonds Karp" << endl;
@@ -415,7 +419,7 @@ blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest)
 }
 
 
-void
+AdjacencyListGraph
 dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
 {
   //****************************************
@@ -447,6 +451,9 @@ dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest)
       level_graph = generateLevelGraph(residual_network, src, dest);
 
     }
+
+    return residual_network;
+
 
   /* cout << "//****************************************" << endl
             << "// Flot par Dinic" << endl;
