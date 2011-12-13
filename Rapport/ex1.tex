@@ -140,7 +140,17 @@ Notre premier exemple sera donc $P_5$ le chemin de taille $5$. Ensuite d'après 
 \end{tabular}
 
 \subsection{Polynôme chromatique de $K_{2,5}$}
-polychrome of K2,5
+Nous avions déjà calculé le polynôme chromatique de $K_{1,5}$ :
+
+\[ P_{K_{1,5}}(k) = k^6 - 5k^5  + 10k^4 - 10k^3 + 5k^2 - k \]
+
+Or $K_{2,5}$ se construit à partir de $K_{1,5}$ par l'ajout d'un sommet relié au $5$ de la partition majoritaire. Ce nouveau sommet pourra être colorié de $(k-5)$ manières, car seront interdis les couleurs de ses $5$ voisins. On a donc :
+
+\begin{eqnarray*}
+P_{K_{2,5}} & = &	(P_{K_{1,5}}(k))(k-5)								\\
+			& = & 	(k^6 - 5k^5  + 10k^4 - 10k^3 + 5k^2 - k)(k-5)		\\	
+			& = &	k^7 - 10k^6 + 35k^5 - 60k^4 + 55k^3 - 26k^2 + 5k	\\
+\end{eqnarray*}
 
 \subsection{Polynômes chromatiques de $C_4$ et $C_5$}
 \begin {itemize}
