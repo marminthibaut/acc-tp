@@ -6,7 +6,7 @@
 
 Le programme doit être capable de :
 \begin{itemize}
-\item générer et d'actualiser les graphes d'écart successifs
+\item générer et d'actualiser les graphes d'écarts successifs
 \item calculer la valeur du flot obtenu à partir du graphe d'écart final
 \item résoudre le problème de flot maximum en suivant l'algorithme d'\textbf{Edmonds-Karp}
 \item résoudre le problème de flot maximum en suivant l'algorithme de \textbf{Dinic}
@@ -26,13 +26,13 @@ Parce qu'il s'agit d'un bon compromis entre langage orienté objet et langage de
 
 \subsection{Structures de données}
 
-Plusieurs structures de données sont possibles. Nous avons choisi d'implémenter une représentation par liste d'adjacence et par matrice d'adjacence.
+Plusieurs structures de données sont possibles. Nous avons choisi d'implémenter une représentation par listes d'adjacences et une autre par matrice d'adjacences.
 \begin{description}
 \item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
-\item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$).
+\item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$). Cette structure a l'avantage d'offrir un accès direct à un arc pour deux sommets donnés.
 \end{description}
 
-Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante au nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacence. Sur des graphes très dense, on utilisera plutôt des matrice d'adjacence, permettant un accès au données plus rapide. 
+Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera plutôt des matrice d'adjacences, permettant un accès aux données plus rapide. 
 
 Ce choix s'effectue en général en fonction des ressources matériels disponibles.
 
