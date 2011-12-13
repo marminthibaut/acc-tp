@@ -37,7 +37,7 @@ Dans un but d'optimisation mémoire, on utilise en général des listes d'adjace
 Ce choix s'effectue en général en fonction des ressources matériels disponibles.
 
 \subsection{Modélisation}
-Dans un but d'abstraction de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}.
+Dans un but d'abstraction de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}. Cela permet une grande généricité des algorithme développés, ce qui permet d'utiliser une structure de données de manière totalement détachée des algorithmes.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=\textwidth]{files/diag_class}
@@ -46,8 +46,17 @@ Dans un but d'abstraction de la structure de donnée, nous avons choisi de crée
 \end{figure}
 
 \FloatBarrier
+\subsection{Implémentation}
+
+\subsubsection{Types et structures}
+
+Déclaration des types \texttt{weight\_t}, \texttt{vertex\_t} et \texttt{path\_t}, et des structures \texttt{edge}, \texttt{neighbor\_t}
+
+\lstinputlisting[language=C++,morekeywords={}]{./sources/structs}
 
 \subsubsection{Classe \texttt{AbstractGraph}}
+
+Cette classe déclare une série de méthodes qui doivent êtres implémentés dans les classes filles.
 
 Header de la classe \texttt{AbstractGraph}
 
@@ -81,37 +90,6 @@ bla
 \subsection{Analyse des résultats}
 
 ///////////////////////////////////////////////////////////////////////////////////////
-
-\subsection{Structures}
-
-La représentation des 
-
-\begin{verbatim}
-typedef int weight_t;
-typedef uint vertex_t;
-
-typedef struct
-{
-  vertex_t u;
-  vertex_t v;
-} edge;
-
-typedef struct
-{
-  vertex_t vertex_src;
-  vertex_t vertex_dest;
-  weight_t weight;
-} arc_t;
-
-typedef struct
-{
-  vertex_t vertex;
-  weight_t weight;
-} neighbor_t;
-  
-typedef list<vertex_t> path_t;
-
-\end{verbatim}
 
 
 \subsection{Génération aléatoire d'un graphe}

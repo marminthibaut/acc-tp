@@ -1,0 +1,23 @@
+typedef int weight_t;
+typedef uint vertex_t;
+
+typedef struct
+{
+  vertex_t u;
+  vertex_t v;
+} edge;
+
+typedef struct
+{
+  vertex_t vertex_src;
+  vertex_t vertex_dest;
+  weight_t weight;
+} arc_t;
+
+typedef struct
+{
+  vertex_t vertex;
+  weight_t weight;
+} neighbor_t;
+  
+typedef list<vertex_t> path_t;
