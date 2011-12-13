@@ -1,5 +1,5 @@
-\begin{enumerate}
-\item Le nombre de manières de colorier un graphe est le produit des nombres de façons de colorier chaque arc.
+\subsection{Fonction chromatique}
+Le nombre de manières de colorier un graphe est le produit des nombres de façons de colorier chaque arc.
 \begin{itemize}
 \item Si le graphe $G$ est complet, on aura $k$ couleurs possibles pour le premier sommet, $(k-1)$ pour le deuxième, etc\ldots (Le graphe G étant complet, la couleur du premier sommet est nécessairement exclu des autres sommets)
 
@@ -9,7 +9,9 @@ Le $n$\^{ième} sommet pourra être colorié de $k-(n-1)$ manières. D'où :
 \item Si $G$ est vide, la coloration d'un sommet ne contraint pas la coloration des autres sommets. On obtient alors :
 \[ P_{\overline{K_n}}(k)=k^n \]
 \end{itemize}
-\item $\chi(G)$ étant, par définition, le nombre minimum de couleurs nécessaires pour colorier $G$, si $k < \chi(G)$ alors le graphe $G$ ne peut pas être colorié par $k$ couleurs. Si $k \geq \chi(G)$ alors il doit y avoir au moins une manière de colorier $G$, celui utilisant $\chi(G)$ couleurs.
+
+\subsection{Des cas un peu spéciaux\ldots}
+$\chi(G)$ étant, par définition, le nombre minimum de couleurs nécessaires pour colorier $G$, si $k < \chi(G)$ alors le graphe $G$ ne peut pas être colorié par $k$ couleurs. Si $k \geq \chi(G)$ alors il doit y avoir au moins une manière de colorier $G$, celui utilisant $\chi(G)$ couleurs.
 
 On a donc :
 \begin{displaymath}
@@ -19,7 +21,8 @@ On a donc :
 	\end{array} \right.
 \end{displaymath}
 
-\item Montrons d'aboard que la propriété est vraie pour tout graphe complet $K_n$. Pour commencer on remarque que, pour tout arrête $e$:
+\subsection{Décomposition de $P_G$}
+Montrons d'abord que la propriété est vraie pour tout graphe complet $K_n$. Pour commencer on remarque que, pour tout arrête $e$:
 
 \begin{itemize}
 \item $K_{n\backslash e}$ est exactement $K_{n-1}$, et donc: 
@@ -50,7 +53,8 @@ On supposera évidemment que $a$ et $e$ sont distinctes.
 
 TODO FINISH
 
-\item Soit $H$ un prédicat tel que :
+\subsection{Polynôme chromatique ?}
+Soit $H$ un prédicat tel que :
 \begin{displaymath}
 	H(m) = \left\{ \begin{array}{ll}
 	\top & \textrm{si $\forall$ $G$, graphe de $m$ arrêtes ou moins, $P_G(k)$ est polynomiale.} \\
@@ -69,7 +73,8 @@ $P_{G_{m+1}}$ est la différence entre deux polynomiales, donc est polynomiale l
 
 \end{itemize} 
 
-\item Utilisons la formule trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
+\subsection{Application}
+Utilisons la formule trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
 \[ P_{P_n}(k) = k(k-1)^{n-1} \]
 
 Prenons $A$ le graphe initial :
@@ -94,31 +99,37 @@ $D = C-(a,b)$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gDex1
 $F = C-(b,ed)$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gFex1.pdf}}& et & $C \backslash(b,ed) = P_3$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gC-ex1.pdf}}
 \end{tabular}
 
-\item TODO coéfficient de $k^n$ est 1, alternating - and + etc 
+\subsection{Coefficients alternatifs}
+TODO coéfficient de $k^n$ est 1, alternating - and + etc 
 
 
-\item $K_{1,5}$ étant un arbre, on aura $k$ choix de coloration pour la racine, peu importe le choix de celle-ci, et $k-1$ pour les autres, car chacun qu'on considère sera relié à exactement une autre déjà colorié. En totale ça nous fait donc:
+\subsection{Application à $K_{1,5}$}
+$K_{1,5}$ étant un arbre, on aura $k$ choix de coloration pour la racine, peu importe le choix de celle-ci, et $k-1$ pour les autres, car chacun qu'on considère sera relié à exactement une autre déjà colorié. En totale ça nous fait donc:
 \begin{eqnarray*}
 P_{K_{1,5}}(k) 	& = & k(k-1)^5 \\
 				& = & k{((k-1)^2)}^2(k-1)	\\
 				& = & k(k^2 - (2k - 1))^2(k-1)	\\
 				& = & (k^5 - 4k^4  + 6k^3 - 4k^2 + k)(k-1)  \\
-				& = & k^6 - 5k^5  + 10k^4 - 10k^3 + 5k^2 + k	\\ 
+				& = & k^6 - 5k^5  + 10k^4 - 10k^3 + 5k^2 - k	\\ 
 \end{eqnarray*}
 
-\item La coloration de chaque composante connexe $C_i$ n'influx pas sur celui des autres. Du coup le nombre de manières de colorier un graphe entier est le produit des polynômes chromatiques de ses composantes connexes:
+\subsection{Application aux graphes non connexes}
+La coloration de chaque composante connexe $C_i$ n'influx pas sur celui des autres. Du coup le nombre de manières de colorier un graphe entier est le produit des polynômes chromatiques de ses composantes connexes:
 
 \begin{eqnarray*}
 G = \bigcup_{i=0}^n C_i & \Rightarrow & P_G(k)=\prod_{i=0}^n P_{C_i}(k) \\
 \end{eqnarray*}
 
-\item arbre
+\subsection{Application aux arbres}
+arbre
 
-\item D'après la propriété de la question $6$, nos trois graphes $G_1$, $G_2$ et $G_3$ auront 5 sommets et 4 arrêtes chacun.   
+\subsection{$k^5 - 4k^4 + 6k^3 - 4k^2 + k$}
+D'après la propriété de la question $6$, nos trois graphes $G_1$, $G_2$ et $G_3$ auront 5 sommets et 4 arrêtes chacun.   
 
-\item polychrome of K2,5
+\subsection{Application à $K_{2,5}$}
+polychrome of K2,5
 
-\item 
+\subsection{Application aux cycles}
 \begin {itemize}
 \item Pour calculer $P_{C_4}$, commençons par constater que $C_3 = K_3$ :
 \begin{eqnarray*}
@@ -139,7 +150,8 @@ P_{C_5}		& = &	P_{P_5} - P_{C_4}					\\
 
 \end {itemize}
 
-\item cycles générales
-\item graphe bipartie générale
+\subsection{Démonstration sur les cycles}
+cycles générales
 
-\end{enumerate}
+\subsection{Démonstration sur les graphes bipartis complets}
+graphe bipartie générale
