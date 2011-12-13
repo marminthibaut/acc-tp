@@ -1,7 +1,7 @@
-\subsection{Fonction chromatique}
+\subsection{Fonction chromatique $P_G(k)$}
 Le nombre de manières de colorier un graphe est le produit des nombres de façons de colorier chaque arc.
 \begin{itemize}
-\item Si le graphe $G$ est complet, on aura $k$ couleurs possibles pour le premier sommet, $(k-1)$ pour le deuxième, etc\ldots (Le graphe G étant complet, la couleur du premier sommet est nécessairement exclu des autres sommets)
+\item Si le graphe $G$ est complet, on aura $k$ couleurs possibles pour le premier sommet, $(k-1)$ pour le deuxième, etc\ldots (Le graphe G étant complet, la couleur du premier sommet est nécessairement exclu des autres sommets).
 
 Le $n$\^{ième} sommet pourra être colorié de $k-(n-1)$ manières. D'où :
 \[ P_{K_n}(k)=\prod_{i=0}^{n-1}(k-i) \]
@@ -10,8 +10,8 @@ Le $n$\^{ième} sommet pourra être colorié de $k-(n-1)$ manières. D'où :
 \[ P_{\overline{K_n}}(k)=k^n \]
 \end{itemize}
 
-\subsection{Des cas un peu spéciaux\ldots}
-$\chi(G)$ étant, par définition, le nombre minimum de couleurs nécessaires pour colorier $G$, si $k < \chi(G)$ alors le graphe $G$ ne peut pas être colorié par $k$ couleurs. Si $k \geq \chi(G)$ alors il doit y avoir au moins une manière de colorier $G$, celui utilisant $\chi(G)$ couleurs.
+\subsection{Nombre chromatique $\chi(G)$}
+On l'appelle "nombre chromatique" de $G$: $\chi(G)$ étant, par définition, le nombre minimum de couleurs nécessaires pour colorier $G$, si $k < \chi(G)$ alors le graphe $G$ ne peut pas être colorié par $k$ couleurs. Si $k \geq \chi(G)$ alors il doit y avoir au moins une manière de colorier $G$, celui utilisant $\chi(G)$ couleurs.
 
 On a donc :
 \begin{displaymath}
@@ -73,7 +73,7 @@ $P_{G_{m+1}}$ est la différence entre deux polynomiales, donc est polynomiale l
 
 \end{itemize} 
 
-\subsection{Application}
+\subsection{Application de la décomposition}
 Utilisons la formule trouvée au point précédent, et admettons que pour $P_n$ une chaîne de taille $n$ on a :
 \[ P_{P_n}(k) = k(k-1)^{n-1} \]
 
@@ -103,7 +103,7 @@ $F = C-(b,ed)$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gFex
 TODO coéfficient de $k^n$ est 1, alternating - and + etc 
 
 
-\subsection{Application à $K_{1,5}$}
+\subsection{Polynôme chromatique de $K_{1,5}$}
 $K_{1,5}$ étant un arbre, on aura $k$ choix de coloration pour la racine, peu importe le choix de celle-ci, et $k-1$ pour les autres, car chacun qu'on considère sera relié à exactement une autre déjà colorié. En totale ça nous fait donc:
 \begin{eqnarray*}
 P_{K_{1,5}}(k) 	& = & k(k-1)^5 \\
@@ -113,27 +113,40 @@ P_{K_{1,5}}(k) 	& = & k(k-1)^5 \\
 				& = & k^6 - 5k^5  + 10k^4 - 10k^3 + 5k^2 - k	\\ 
 \end{eqnarray*}
 
-\subsection{Application aux graphes non connexes}
+\subsection{Coloration de graphes non-connexes}
 La coloration de chaque composante connexe $C_i$ n'influx pas sur celui des autres. Du coup le nombre de manières de colorier un graphe entier est le produit des polynômes chromatiques de ses composantes connexes:
 
 \begin{eqnarray*}
 G = \bigcup_{i=0}^n C_i & \Rightarrow & P_G(k)=\prod_{i=0}^n P_{C_i}(k) \\
 \end{eqnarray*}
 
-\subsection{Application aux arbres}
+\subsection{Coloration d'arbres}
 arbre
 
 \subsection{$k^5 - 4k^4 + 6k^3 - 4k^2 + k$}
-D'après la propriété de la question $6$, nos trois graphes $G_1$, $G_2$ et $G_3$ auront 5 sommets et 4 arrêtes chacun.   
+Grace aux dévelopments précédentes (questions $7$ et $12$) on reconnait:
 
-\subsection{Application à $K_{2,5}$}
+\begin{eqnarray*}
+&&		k^5 - 4k^4 + 6k^3 - 4k^2 + k \\	
+&=&		k(k-1)^4	\\
+&=&		P_{P_5}(k)	\\
+\end{eqnarray*}
+
+Notre premier exemple sera donc $P_5$ le chemin de taille $5$. Ensuite d'après la propriété de la question $6$ nous ne cherchions que des graphes aillant $5$ sommets et $4$ arrêtes, et d'après celle de la question $9$ ils doivent en plus être arbres. Nous proposons donc le graphe étoile $S_5 = K_{1,4}$ ainsi que l'arbre à $5$ sommets dont la particularité est d'être sans particularité:
+
+\begin{tabular}{llcll}
+& $S_5$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/s5ex1.pdf}} 
+& $A_5$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/a5ex1.pdf}} \\
+\end{tabular}
+
+\subsection{Polynôme chromatique de $K_{2,5}$}
 polychrome of K2,5
 
-\subsection{Application aux cycles}
+\subsection{Polynômes chromatiques de $C_4$ et $C_5$}
 \begin {itemize}
 \item Pour calculer $P_{C_4}$, commençons par constater que $C_3 = K_3$ :
 \begin{eqnarray*}
-P_{C_4}		& = &	P_{P_4} - P_{K_3}					\\
+P_{C_4}(k)	& = &	P_{P_4}(k) - P_{K_3}(k)				\\
 			& = & 	k(k-1)^3 - k(k-1)(k-2)				\\
 			& = & 	(k^2 - k)((k-1)^2 - (k-2))			\\
 			& = &	(k^2 - k)(k^2 - 3k + 3)				\\
@@ -143,15 +156,15 @@ P_{C_4}		& = &	P_{P_4} - P_{K_3}					\\
 \item On peut alors utiliser $P_{C_4}$ pour calculer $P_{C_5}$ :
 
 \begin{eqnarray*}
-P_{C_5}		& = &	P_{P_5} - P_{C_4}					\\
+P_{C_5}(k)	& = &	P_{P_5}(k) - P_{C_4}(k)				\\
 			& = & 	k(k-1)^4 - k^4 -4k^3 + 6k^2 - 3k	\\
 			& = &	k^5 - 5k^4 + 10k^3 - 10k^2 + 4k		\\ 
 \end{eqnarray*}
 
 \end {itemize}
 
-\subsection{Démonstration sur les cycles}
+\subsection{Coloration de cycles}
 cycles générales
 
-\subsection{Démonstration sur les graphes bipartis complets}
+\subsection{Coloration de graphes bipartis complets}
 graphe bipartie générale
