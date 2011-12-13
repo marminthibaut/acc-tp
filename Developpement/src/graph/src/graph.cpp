@@ -19,8 +19,9 @@ operator==(const neighbor_t& n1, const neighbor_t& n2)
   return n1.vertex == n2.vertex;
 }
 
+
 path_t
-leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
+leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end)
 {
   path_t path;
   list<vertex_t> file;
@@ -82,11 +83,7 @@ leastFirst(AbstractGraph &g, vertex_t start, vertex_t end)
   return path;
 }
 
-path_t
-leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end)
-{
-  return leastFirst(g, start, end);
-}
+
 
 weight_t
 lightestArc(AbstractGraph& g, path_t path)

@@ -38,6 +38,9 @@ public:
   rmArc(vertex_t src, vertex_t dest);
 
   virtual void
+  rmAllArc();
+
+  virtual void
   updateArc(const arc_t &arc);
 
   virtual weight_t

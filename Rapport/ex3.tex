@@ -1,5 +1,5 @@
-\begin{enumerate}
-\item La stratégie d'énumération des couples d'entier peut être visualisée sur un graphique en suivant les diagonales successives comme sur l'image\footnote{Image provenant de Wikipedia, ce fichier est disponible selon les termes de la licence
+\subsection{Énumération des couples d'entiers}
+La stratégie d'énumération des couples d'entiers peut être visualisée sur un graphique en suivant les diagonales successives comme sur l'image\footnote{Image provenant de Wikipedia, ce fichier est disponible selon les termes de la licence
  Creative Commons.} suivante :
 \begin{figure*}[!h]
 \begin{center}
@@ -21,7 +21,7 @@ $c_2(x+y)$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \ldots \\
 \hline
 \end{tabularx}
 
-\item
+\subsection{Codons et décodons\ldots}
 \begin{description}
 \item[Fonction de codage]
 \[ c_2(x,y)= \frac{(x+y)(x+y+1)}{2}+y \]
@@ -50,7 +50,7 @@ Les fonctions de décodage ne peuvent pas être décrites sous la forme de formu
 \end{algorithm}
 \end{description}
 
-\item 
+\subsection{Énumération des triplets d'entiers}
 \begin{description}
 \item[Codage des triplets] : il peut avoir lieu de manière récursive :
 \[ c_3(x,y,z)=c_2(x,c_2(y,z)) \]
@@ -64,7 +64,8 @@ Les fonctions de décodage ne peuvent pas être décrites sous la forme de formu
 
 \end{description}
 
-\item Prenons une suite $r=(r_1,r_2,r_3,\ldots)$ qui énumère les réels de l'intervalle $[0;1]$, puis créons un réel x compris dans cet intervalle, tel que si la n\up{ième} décimale de $r_n$ est égale à $1$, la n\up{ième} décimale de $x$ est égale à 2. Dans la cas contraire, la n\up{ième} décimale de $x$ est égale à 1.
+\subsection{Énumération de l'ensemble $[0;1]$}
+Prenons une suite $r=(r_1,r_2,r_3,\ldots)$ qui énumère les réels de l'intervalle $[0;1]$, puis créons un réel x compris dans cet intervalle, tel que si la n\up{ième} décimale de $r_n$ est égale à $1$, la n\up{ième} décimale de $x$ est égale à 2. Dans la cas contraire, la n\up{ième} décimale de $x$ est égale à 1.
 
 On obtient sur cet exemple :
 
@@ -86,5 +87,3 @@ Le réel $x$ ne peut pas être énuméré par la suite $r$ car il diffère de sa
 L'ensemble des éléments de l'intervalle $[0;1]$ n'est donc pas dénombrable, donc pas énumérable. On ne peut donc pas trouver de fonction de codage pour cet ensemble.
 
 On peu généraliser à l'ensemble $\mathbb{R}$ : $[0;1]$ étant inclus dans $\mathbb{R}$, et $[0;1]$ n'étant pas dénombrable, l'ensemble $\mathbb{R}$ n'est pas dénombrable.
-
-\end{enumerate}
