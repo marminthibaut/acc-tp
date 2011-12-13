@@ -82,142 +82,43 @@ Header de la classe \texttt{MatrixGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/MatrixGraph}
 
+\section{Génération de réseaux de transport aléatoires}
+
+\lstinputlisting[language=C++,morekeywords={}]{./sources/aleatoire}
+
+\section{Procédures principales}
+
+\subsection{Algorithme de Dinic}
+\subsubsection{Mise à jour du graphe d'écart}
+\lstinputlisting[language=C++,morekeywords={}]{./sources/ecart}
+
+\subsubsection{Calcul du flot bloquant}
+\lstinputlisting[language=C++,morekeywords={}]{./sources/bloquant}
+
+\subsubsection{Exécution de Dinic}
+\lstinputlisting[language=C++,morekeywords={}]{./sources/dinic}
+
 
 \section{Tests \& résultats}
-bla
+
 \subsection{Méthode de test}
 
+\subsubsection{Série de tests}
+Pour tester les performances des deux algorithmes implémentés, nous avons générer une série de problèmes à résoudre sur des réseaux de transports ayant les paramètres suivants :
+\begin{itemize}
+\item nombre de sommets variant de 100 à 1000 par palier de 100,
+\item densité du graphe variant de 10\% à 100\% par palier de 10.
+\end{itemize}
+Pour chaque test (un nombre de sommets et une densité donnés), nous avons généré dix graphes afin de travailler sur des moyennes lors de l'analyse.
+
+\subsubsection{GNU gprof}
+Nous avons évalué les algorithmes en fonction de leurs temps d'exécution. Le temps réel d'exécution (real time) ayant peu de sens pour effectuer des statistiques correctes, nous avons choisi de mesurer les temps CPU (CPU time). Le temps CPU est le temps alloué au processus par le système d'exploitation sur le processeur. Contrairement au temps réel, le temps CPU est indépendant des autres processus en cours d'activité et aux interruptions systèmes : il s'agit du temps effectivement passé par le CPU pour traiter le processus.
+
+L'analyse des temps CPU a été faite à l'aide de l'outil GNU gprof. Son utilisation requière l'ajout de l'argument \texttt{-pg} lors la compilation. A l'exécution du programme, un fichier \texttt{gmon.out} est généré. La commande \texttt{gprof} permet ensuite de créer un fichier texte de statistiques. Pour chaque méthode, un grand nombre de données sont disponibles, nous nous sommes intéressés principalement aux suivantes :
+\begin{itemize}
+\item pourcentage du temps CPU total,
+\item temps CPU total,
+\item temps CPU par appel, de manière cumulative (en prenant en compte les appel à d'autres fonctions) ou non.
+\end{itemize}
+
 \subsection{Analyse des résultats}
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-
-\subsection{Génération aléatoire d'un graphe}
-
-\begin{verbatim}
-/**
- * A random flow network generator
- * Attention si le graph passé en paramètre contient des arcs ceux-ci seront
- * supprimé.
- * @param graph une référence vers un graph initialiser avec un nombre de sommets
- * @param rate la proportion d'arcs à ajouter au graphe en pourcentage par rapport au graphe complet.
- * @param min_weight valuation minimal des arcs
- * @param max_weight valuation maximal des arcs
- */
-void
-flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight = 1,
-    uint max_weight = 1);
-
-\subsection{Fonctions générales}
-
-/**
- * Cette procédure génère une chaîne de caractères représentant l'affichage
- * de la valeur total du flot sur le réseau de transport ainsi que la valeur
- * du flot sur chaque arc.
- * @param flow_network le réseau de transport
- * @param residual_network le graphe d'écart associé
- */
-string
-flowToString(const AbstractGraph& flow_network,
-    const AbstractGraph& residual_network);
-
-
-
-\subsection{Edmonds-Karp}
-
-/**
- * Cette fonction retourne le plus court chemin en nombre d'arcs depuis
- * le sommet start jusqu'au sommet end
- * @param g un graphe
- * @param start le sommet de départ
- * @param end le sommet d'arriver
- * @return le plus court chemin en nombre d'arcs de start à end
- */
-path_t
-leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
-
-/**
- * Cette fonction retourne la plus petite valuation présente sur un chemin 
- * donné dans un graphe
- * @param g un graphe
- * @param path une chemin dans g
- * @return la plus petite valuation présente sur le chemin path dans g 
- */
-weight_t
-lightestArc(AbstractGraph& g, path_t path);
-
-/**
- * Cette fonction converti un chemin en chaîne de caractère dans un but d'affichage
- * @param path le chemin
- * @param g le graphe
- */
-string
-pathToString(path_t path, const AbstractGraph& g);
-
-/**
- * Mise à jour du graphe d'écart depuis un chemin et la valeur du flot à ajouter
- * sur ce chemin
- * @param le graphe de couche
- * @param p le chemin
- * @param k la valeur du flot à ajouter
- */
-void
-updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
-
-
-/**
- * algorithme d'Edmonds-Karp
- * @param flow_network le réseau de transport
- * @param src le sommet source
- * @param dest le puit
- * @return le graphe d'écart final
- */
-AdjacencyListGraph
-edmondsKarp(const AbstractGraph& flow_network, vertex_t src, vertex_t dest);
-
-\end{verbatim}
-
-\subsection{Dinic}
-
-\begin{verbatim}
-/**
- * Mise à jour du graphe d'écart depuis un flot
- * @param residual_network le graphe de couche
- * @param p le flot
- */
-void
-updateResidualNetwork(AbstractGraph& residual_network, AbstractGraph& flow);
-
-/**
- * Génération du graphe de couche associé au réseau de transport
- * @param residual_network le graphe d'écart
- * @param src la source
- * @param dest le puit
- * @return le graphe de couche
- */
-LevelGraph
-generateLevelGraph(const AbstractGraph& residual_network, vertex_t src,
-    vertex_t dest);
-
-/**
- * Calcul du flot bloquant
- * @param level_graph le graphe de couche
- * @param src la source
- * @param dest le puit
- * @return un flot bloquant
- */
-AdjacencyListGraph
-blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest);
-
-
-/**
- * algorithme de Dinic
- * @param flow_network le réseau de transport
- * @param src le sommet source
- * @param dest le puit
- * @return le graphe d'écart final
- */
-AdjacencyListGraph
-dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest);
-
-\end{verbatim}
