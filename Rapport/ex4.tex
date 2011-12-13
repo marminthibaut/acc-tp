@@ -1,4 +1,4 @@
-\textit{Le but de ce TP est d'implémenter deux algorithme de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées.}
+\textit{Le but de ce TP est d'implémenter deux algorithme de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées. Une troisième partie sera consacrée aux tests effectués sur les deux algorithmes ainsi qu'à l'analyse des résultats.}
 
 \section{Spécification fonctionnelles}
 
@@ -15,9 +15,9 @@ Le programme doit être capable de :
 
 Il faudra veiller à conserver les complexités des deux algorithmes, notamment en prenant garde aux structures de données et librairies utilisées.
 
-\subsection{Génération de graphes aléatoires}
+\subsection{Génération aléatoire d'un réseau de transport}
 
-La génération aléatoire de graphes de type \emph{réseau de transport} permettra de tester les deux algorithmes. Il faudra tout de même veiller à ce que le graphe soit connexe. La génération du graphe devra être paramétrable selon la taille (nombre de sommets) et la couverture (nombre d'arcs).
+La génération aléatoire de graphes de type réseau de transport permettra de tester les deux algorithmes. Il faudra veiller à ce que le graphe respecte les conditions d'un réseau de transport notamment la possession d'une source et d'un puits, la pondération des arcs (capacités), et assurer la connexité du graphe. La génération de ce réseau de transport devra être paramétrable selon la taille (nombre de sommets) et la couverture (nombre d'arcs).
 
 \section{Spécification technique}
 
@@ -38,6 +38,47 @@ Ce choix s'effectue en général en fonction des ressources matériels disponibl
 
 \subsection{Modélisation}
 Dans un but d'abstraction de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}.
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=\textwidth]{files/diag_class}
+\end{center}
+\caption{Diagramme de classes.}
+\end{figure}
+
+\FloatBarrier
+
+\subsubsection{Classe \texttt{AbstractGraph}}
+
+Header de la classe \texttt{AbstractGraph}
+
+\lstinputlisting[language=C++,morekeywords={}]{./sources/AbstractGraph}
+
+\subsubsection{Classe \texttt{AdjacencyListGraph}}
+Cette classe représente un réseau de transport sous la forme
+de deux listes d'adjacences : une représente les 
+successeurs d'un sommet, l'autre les prédécesseurs.
+
+Ce doublon d'information permet d'accélérer l'accès aux voisins d'un sommet, notamment à ces prédécesseurs. En effet, cette méthode nous permet d'accéder aux prédécesseurs directement (complexité de $O(m)$) alors que l'accès via la liste des successeurs implique une recherche des arcs pour chaque sommet (complexité de $O(nm)$).
+
+Ces doubles listes d'adjacences nous assurent un gain de performances en terme de rapidité, qui se fait au détriment de la quantité de mémoire utilisé, qui se trouve doublée.
+
+Header de la classe \texttt{AdjacencyListGraph}
+
+\lstinputlisting[language=C++,morekeywords={}]{./sources/AdjacencyListGraph}
+
+
+\subsubsection{Classe \texttt{MatrixGraph}}
+
+Header de la classe \texttt{MatrixGraph}
+
+\lstinputlisting[language=C++,morekeywords={}]{./sources/MatrixGraph}
+
+
+\section{Tests \& résultats}
+bla
+\subsection{Méthode de test}
+
+\subsection{Analyse des résultats}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -72,222 +113,6 @@ typedef list<vertex_t> path_t;
 
 \end{verbatim}
 
-\subsection{XXXXReprésentation d'un graphe}
-
-Nous avons choisi d'abstraire la représentation d'un graphe via une
-classe abstraite que nous avons nommé AbstractGraph dont nous proposerons
-deux implémentations une par liste d'adjacence \emph{AdjacencyListGraph} 
-et une par matrice \emph{MatrixGraph}
-
-\begin{verbatim}
-class AbstractGraph
-{
-public:
-
-  AbstractGraph();
-  virtual
-  ~AbstractGraph() = 0;
-
-  virtual bool
-  addArc(const arc_t &arc) = 0;
-
-  virtual bool
-  addArc(vertex_t src, vertex_t dest, weight_t w) = 0;
-
-  virtual void
-  rmArc(const arc_t &arc) = 0;
-
-  virtual void
-  rmArc(vertex_t src, vertex_t dest) = 0;
-
-  virtual void
-  rmAllArc() = 0;
-
-  virtual void
-  updateArc(const arc_t &arc) = 0;
-
-  virtual weight_t
-  increaseWeight(vertex_t src, vertex_t dest, weight_t w) = 0;
-
-  virtual uint
-  getNbrVertices() const = 0;
-
-  virtual string
-  toString() const;
-
-  virtual list<neighbor_t>
-  getSuccessors(vertex_t vertex) const = 0;
-
-  virtual list<neighbor_t>
-  getPredecessors(vertex_t vertex) const = 0;
-
-  virtual weight_t
-  getWeight(vertex_t src, vertex_t dest) const = 0;
-
-};
-
-\end{verbatim}
-
-\subsection{AdjacencyListGraph}
-
-La classes AdjacencyListGraph devra représenter un graphe sous forme
-de deux liste d'adjacence une liste d'adjacence représentant les 
-successeur d'un sommet et l'autre représentant les prédécesseur d'un sommet.
-
-Ce doublon de l'information permet d'accéléré l'accès au voisin d'un sommet, 
-notament à ces prédécesseur. En effet en sauvegardant une liste des prédécesseurs
-de chaque arcs nous accédons a un prédécesseur d'un sommet en O(m) alors 
-que si nous avions qu'une liste des successeur cette accès ce ferait en 
-O(nm).
-
-Ce gain de performance en terme de rapidité ce fait au détriment de la
-quantité de mémoire utilisé, mais celle-ci n'augmente que d'une valeur
-constante par rapport au nombre d'arcs.
-
-\begin{verbatim}
-class AdjacencyListGraph : public AbstractGraph
-{
-
-public:
-  //************************************************************************************************
-  //      CONSTRUCTOR
-  //************************************************************************************************
-
-  AdjacencyListGraph(uint nbr_vertices);
-
-  AdjacencyListGraph(const AbstractGraph& graph);
-  AdjacencyListGraph(const AdjacencyListGraph& graph);
-
-  AdjacencyListGraph &
-  operator=(const AbstractGraph& graph);
-  AdjacencyListGraph &
-  operator=(const AdjacencyListGraph& graph);
-
-  virtual
-  ~AdjacencyListGraph();
-
-  virtual bool
-  addArc(const arc_t &arc);
-
-  virtual bool
-  addArc(vertex_t src, vertex_t dest, weight_t w);
-
-  virtual void
-  rmArc(const arc_t &arc);
-
-  virtual void
-  rmArc(vertex_t src, vertex_t dest);
-
-  virtual void
-  rmAllArc();
-
-  virtual void
-  updateArc(const arc_t &arc);
-
-  virtual weight_t
-  increaseWeight(vertex_t src, vertex_t dest, weight_t w);
-
-  virtual uint
-  getNbrVertices() const;
-
-  virtual list<neighbor_t>
-  getSuccessors(vertex_t vertex) const;
-
-  virtual list<neighbor_t>
-  getPredecessors(vertex_t vertex) const;
-
-  virtual weight_t
-  getWeight(vertex_t src, vertex_t dest) const;
-
-private:
-  list<neighbor_t> *successors, *predecessors;
-  uint nbr_vertices;
-
-protected:
-  void
-  _clear();
-
-  void
-  _construct(const AbstractGraph& graph);
-
-};
-\end{verbatim}
-
-\subsection{MatrixGraph}
-
-\begin{verbatim}
-class MatrixGraph : public AbstractGraph
-{
-
-public:
-  //************************************************************************************************
-  //      CONSTRUCTOR
-  //************************************************************************************************
-
-  MatrixGraph(uint nbr_vertices);
-
-  MatrixGraph(const AbstractGraph& graph);
-
-  MatrixGraph(const MatrixGraph& graph);
-
-  MatrixGraph &
-  operator=(const AbstractGraph& graph);
-
-  MatrixGraph &
-  operator=(const MatrixGraph& graph);
-
-  virtual
-  ~MatrixGraph();
-
-  virtual bool
-  addArc(const arc_t &arc);
-
-  virtual bool
-  addArc(vertex_t src, vertex_t dest, weight_t w);
-
-  virtual void
-  rmArc(const arc_t &arc);
-
-  virtual void
-  rmArc(vertex_t src, vertex_t dest);
-
-  virtual void
-  rmAllArc();
-
-  virtual void
-  updateArc(const arc_t &arc);
-
-  virtual weight_t
-  increaseWeight(vertex_t src, vertex_t dest, weight_t w);
-
-  virtual uint
-  getNbrVertices() const;
-
-  virtual list<neighbor_t>
-  getSuccessors(vertex_t vertex) const;
-
-  virtual list<neighbor_t>
-  getPredecessors(vertex_t vertex) const;
-
-  virtual weight_t
-  getWeight(vertex_t src, vertex_t dest) const;
-
-private:
-  weight_t **matrix;
-  uint nbr_vertices;
-
-protected:
-  void
-  _clear();
-
-  void
-  _construct(int nbr_vertices);
-
-  void
-  _construct(const AbstractGraph& graph);
-
-};
-\end{verbatim}
 
 \subsection{Génération aléatoire d'un graphe}
 
