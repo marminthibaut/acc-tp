@@ -7,8 +7,10 @@ endif
 CC=g++
 LDFLAGS=
 
-main: bin/main.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/utils.o
-	${CC} -o bin/$@ bin/*.o ${CFLAGS} ${LDFLAGS}
+all: test 
+
+test: bin/main.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/utils.o
+	${CC} -o bin/$@ $^ ${CFLAGS} ${LDFLAGS}
 
 
 
