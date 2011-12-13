@@ -1,5 +1,5 @@
-\subsection{Série de tests}
-\begin{frame}{Tests \& résultats}{Série de tests}
+\subsection{Méthode de tests}
+\begin{frame}{Méthode de tests}{Série de tests}
 \begin{block}{Complexité}
   \begin{itemize}
     \item Edmonds-Karp : $O(nm^2)$
@@ -14,22 +14,32 @@
 \end{block}
 \end{frame}
 
-\subsection{Méthode de test}
-\begin{frame}{Tests \& résultats}{Méthode de test}
+\begin{frame}{Méthode de tests}{Profiling}
+\begin{block}{GNU gprof}
+Profiler, analyse du code en fonction du temps passé par chaque fonction à l’exécution.
 \begin{itemize}
-\item utilisation de gprof
-\item etc\ldots
+\item Compilation avec l'argument \texttt{-pg}
+\item Exécution du programme, génération du fichier \texttt{gmon.out}
+\item Exportation des statistiques en fichier texte
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Résultat test 1}
-\begin{frame}{Tests \& résultats}{Résultat test 1}
+\begin{frame}{Tests \& résultats}{Profiling}
+\begin{block}{GNU gprof}
+Statistique fournies pour chaque fonction :
+\begin{itemize}
+\item \% temps cpu total
+\item temps cpu
+\item temps cpu par appel (de manière cumulative ou non)
+\end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Résultat test 2}
-\begin{frame}{Tests \& résultats}{Résultat test 2}
+\subsection{Résultats}
+\begin{frame}{Résultats}{Test 1}
 \end{frame}
-
-\subsection{Résultat test 3}
-\begin{frame}{Tests \& résultats}{Résultat test 3}
+\begin{frame}{Résultats}{Test 2}
+\end{frame}
+\begin{frame}{Résultats}{Test 3}
 \end{frame}
