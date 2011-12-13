@@ -1,0 +1,394 @@
+
+\section{Partie 3}
+
+\subsection{Objectifs}
+
+Le but de ce projet est de réaliser un solveur du problème de flot maximum. Pour cela, il 
+nous est proposé d'implementer l'algorithme d'Edmonds-Karp ainsi que l'algorithme de Dinic.
+
+\subsection{Spécification fonctionnelles}
+
+Le programme devra être capable de générer aléatoirement des graphes de type \emph{réseau de transport}
+comportant un nombre de sommets et d'arêtes défini. Il devra aussi proposer deux fonctions 
+de résolution du problème de flots sur un tel réseau, l'une implémentant l'algorithme d'Edmonds-Karp et
+l'autre celui de Dinic. Ces deux fonctions devront générer et retourner le graphe d'écart final. Enfin
+le programme devra disposer d'une fonction d'affichage de la valeur du flot maximum ainsi que de la 
+valeur du flot sur chaque arc.
+
+\subsection{Spécification technique}
+
+\subsubsection{Choix du langage de programmation}
+
+Le programme sera réaliser en C++ afin de bénéficier des performances en termes de rapidité d'execution 
+du langage ainsi que de l'aspect objet permettant d'abstraire la représentation d'une graphe.
+
+\subsubsection{Structures}
+
+typedef int weight_t;
+typedef uint vertex_t;
+
+typedef struct
+{
+  vertex_t u;
+  vertex_t v;
+} edge;
+
+typedef struct
+{
+  vertex_t vertex_src;
+  vertex_t vertex_dest;
+  weight_t weight;
+} arc_t;
+
+typedef struct
+{
+  vertex_t vertex;
+  weight_t weight;
+} neighbor_t;
+  
+typedef list<vertex_t> path_t;
+    
+\subsubsection{Representation d'un graphe}
+
+Nous avons choisi d'abstraire la représentation d'un graphe via une
+classe abstraite que nous avons nommé AbstractGraph dont nous proposerons
+deux implémentations une par liste d'adjacence \emph{AdjacencyListGraph} 
+et une par matrice \emph{MatrixGraph}
+
+class AbstractGraph
+{
+public:
+
+  AbstractGraph();
+  virtual
+  ~AbstractGraph() = 0;
+
+  virtual bool
+  addArc(const arc_t &arc) = 0;
+
+  virtual bool
+  addArc(vertex_t src, vertex_t dest, weight_t w) = 0;
+
+  virtual void
+  rmArc(const arc_t &arc) = 0;
+
+  virtual void
+  rmArc(vertex_t src, vertex_t dest) = 0;
+
+  virtual void
+  rmAllArc() = 0;
+
+  virtual void
+  updateArc(const arc_t &arc) = 0;
+
+  virtual weight_t
+  increaseWeight(vertex_t src, vertex_t dest, weight_t w) = 0;
+
+  virtual uint
+  getNbrVertices() const = 0;
+
+  virtual string
+  toString() const;
+
+  virtual list<neighbor_t>
+  getSuccessors(vertex_t vertex) const = 0;
+
+  virtual list<neighbor_t>
+  getPredecessors(vertex_t vertex) const = 0;
+
+  virtual weight_t
+  getWeight(vertex_t src, vertex_t dest) const = 0;
+
+};
+
+\subsubsubsection{AdjacencyListGraph}
+
+La classes AdjacencyListGraph devra représenter un graphe sous forme
+de deux liste d'adjacence une liste d'adjacence représentant les 
+successeur d'un sommet et l'autre représentant les prédécesseur d'un sommet.
+
+Ce doublon de l'information permet d'accéléré l'accès au voisin d'un sommet, 
+notament à ces prédécesseur. En effet en sauvegardant une liste des prédécesseurs
+de chaque arcs nous accédons a un prédécesseur d'un sommet en O(m) alors 
+que si nous avions qu'une liste des successeur cette accès ce ferait en 
+O(nm).
+
+Ce gain de performance en terme de rapidité ce fait au détriment de la
+quantité de mémoire utilisé, mais celle-ci n'augmente que d'une valeur
+constante par rapport au nombre d'arcs.
+
+class AdjacencyListGraph : public AbstractGraph
+{
+
+public:
+  //************************************************************************************************
+  //      CONSTRUCTOR
+  //************************************************************************************************
+
+  AdjacencyListGraph(uint nbr_vertices);
+
+  AdjacencyListGraph(const AbstractGraph& graph);
+  AdjacencyListGraph(const AdjacencyListGraph& graph);
+
+  AdjacencyListGraph &
+  operator=(const AbstractGraph& graph);
+  AdjacencyListGraph &
+  operator=(const AdjacencyListGraph& graph);
+
+  virtual
+  ~AdjacencyListGraph();
+
+  virtual bool
+  addArc(const arc_t &arc);
+
+  virtual bool
+  addArc(vertex_t src, vertex_t dest, weight_t w);
+
+  virtual void
+  rmArc(const arc_t &arc);
+
+  virtual void
+  rmArc(vertex_t src, vertex_t dest);
+
+  virtual void
+  rmAllArc();
+
+  virtual void
+  updateArc(const arc_t &arc);
+
+  virtual weight_t
+  increaseWeight(vertex_t src, vertex_t dest, weight_t w);
+
+  virtual uint
+  getNbrVertices() const;
+
+  virtual list<neighbor_t>
+  getSuccessors(vertex_t vertex) const;
+
+  virtual list<neighbor_t>
+  getPredecessors(vertex_t vertex) const;
+
+  virtual weight_t
+  getWeight(vertex_t src, vertex_t dest) const;
+
+private:
+  list<neighbor_t> *successors, *predecessors;
+  uint nbr_vertices;
+
+protected:
+  void
+  _clear();
+
+  void
+  _construct(const AbstractGraph& graph);
+
+};
+
+\subsubsubsection{MatrixGraph}
+
+class MatrixGraph : public AbstractGraph
+{
+
+public:
+  //************************************************************************************************
+  //      CONSTRUCTOR
+  //************************************************************************************************
+
+  MatrixGraph(uint nbr_vertices);
+
+  MatrixGraph(const AbstractGraph& graph);
+
+  MatrixGraph(const MatrixGraph& graph);
+
+  MatrixGraph &
+  operator=(const AbstractGraph& graph);
+
+  MatrixGraph &
+  operator=(const MatrixGraph& graph);
+
+  virtual
+  ~MatrixGraph();
+
+  virtual bool
+  addArc(const arc_t &arc);
+
+  virtual bool
+  addArc(vertex_t src, vertex_t dest, weight_t w);
+
+  virtual void
+  rmArc(const arc_t &arc);
+
+  virtual void
+  rmArc(vertex_t src, vertex_t dest);
+
+  virtual void
+  rmAllArc();
+
+  virtual void
+  updateArc(const arc_t &arc);
+
+  virtual weight_t
+  increaseWeight(vertex_t src, vertex_t dest, weight_t w);
+
+  virtual uint
+  getNbrVertices() const;
+
+  virtual list<neighbor_t>
+  getSuccessors(vertex_t vertex) const;
+
+  virtual list<neighbor_t>
+  getPredecessors(vertex_t vertex) const;
+
+  virtual weight_t
+  getWeight(vertex_t src, vertex_t dest) const;
+
+private:
+  weight_t **matrix;
+  uint nbr_vertices;
+
+protected:
+  void
+  _clear();
+
+  void
+  _construct(int nbr_vertices);
+
+  void
+  _construct(const AbstractGraph& graph);
+
+};
+
+\subsubsection{Génération aléatoire d'un graphe}
+
+
+/**
+ * A random flow network generator
+ * Attention si le graph passé en paramètre contient des arcs ceux-ci seront
+ * supprimé.
+ * @param graph une référence vers un graph initialiser avec un nombre de sommets
+ * @param rate la proportion d'arcs à ajouter au graphe en pourcentage par rapport au graphe complet.
+ * @param min_weight valuation minimal des arcs
+ * @param max_weight valuation maximal des arcs
+ */
+void
+flowNetworkGenerator(AbstractGraph& graph, float rate, uint min_weight = 1,
+    uint max_weight = 1);
+
+\subsubsection{Fonctions générales}
+
+/**
+ * Cette procédure génère une chaîne de caractères représentant l'affichage
+ * de la valeur total du flot sur le réseau de transport ainsi que la valeur
+ * du flot sur chaque arc.
+ * @param flow_network le réseau de transport
+ * @param residual_network le graphe d'écart associé
+ */
+string
+flowToString(const AbstractGraph& flow_network,
+    const AbstractGraph& residual_network);
+
+
+
+\subsubsection{Edmonds-Karp}
+
+/**
+ * Cette fonction retourne le plus court chemin en nombre d'arcs depuis
+ * le sommet start jusqu'au sommet end
+ * @param g un graphe
+ * @param start le sommet de départ
+ * @param end le sommet d'arriver
+ * @return le plus court chemin en nombre d'arcs de start à end
+ */
+path_t
+leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
+
+/**
+ * Cette fonction retourne la plus petite valuation présente sur un chemin 
+ * donné dans un graphe
+ * @param g un graphe
+ * @param path une chemin dans g
+ * @return la plus petite valuation présente sur le chemin path dans g 
+ */
+weight_t
+lightestArc(AbstractGraph& g, path_t path);
+
+/**
+ * Cette fonction converti un chemin en chaîne de caractère dans un but d'affichage
+ * @param path le chemin
+ * @param g le graphe
+ */
+string
+pathToString(path_t path, const AbstractGraph& g);
+
+/**
+ * Mise à jour du graphe d'écart depuis un chemin et la valeur du flot à ajouter
+ * sur ce chemin
+ * @param le graphe de couche
+ * @param p le chemin
+ * @param k la valeur du flot à ajouter
+ */
+void
+updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);
+
+
+/**
+ * algorithme d'Edmonds-Karp
+ * @param flow_network le réseau de transport
+ * @param src le sommet source
+ * @param dest le puit
+ * @return le graphe d'écart final
+ */
+AdjacencyListGraph
+edmondsKarp(const AbstractGraph& flow_network, vertex_t src, vertex_t dest);
+
+
+
+\subsubsection{Dinic}
+
+
+/**
+ * Mise à jour du graphe d'écart depuis un flot
+ * @param residual_network le graphe de couche
+ * @param p le flot
+ */
+void
+updateResidualNetwork(AbstractGraph& residual_network, AbstractGraph& flow);
+
+/**
+ * Génération du graphe de couche associé au réseau de transport
+ * @param residual_network le graphe d'écart
+ * @param src la source
+ * @param dest le puit
+ * @return le graphe de couche
+ */
+LevelGraph
+generateLevelGraph(const AbstractGraph& residual_network, vertex_t src,
+    vertex_t dest);
+
+/**
+ * Calcul du flot bloquant
+ * @param level_graph le graphe de couche
+ * @param src la source
+ * @param dest le puit
+ * @return un flot bloquant
+ */
+AdjacencyListGraph
+blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest);
+
+
+/**
+ * algorithme de Dinic
+ * @param flow_network le réseau de transport
+ * @param src le sommet source
+ * @param dest le puit
+ * @return le graphe d'écart final
+ */
+AdjacencyListGraph
+dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest);
+
+
+
+
+
+
+
