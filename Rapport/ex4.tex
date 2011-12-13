@@ -1,23 +1,49 @@
-\section{Objectifs}
-Le but de ce projet est de réaliser un solveur du problème de flot maximum. Pour cela, il 
-nous est proposé d’implémenter l'algorithme d'Edmonds-Karp ainsi que l'algorithme de Dinic.
+\textit{Le but de ce TP est d'implémenter deux algorithme de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées.}
 
 \section{Spécification fonctionnelles}
 
-Le programme devra être capable de générer aléatoirement des graphes de type \emph{réseau de transport}
-comportant un nombre de sommets et d'arêtes défini. Il devra aussi proposer deux fonctions 
-de résolution du problème de flots sur un tel réseau, l'une implémentant l'algorithme d'Edmonds-Karp et
-l'autre celui de Dinic. Ces deux fonctions devront générer et retourner le graphe d'écart final. Enfin
-le programme devra disposer d'une fonction d'affichage de la valeur du flot maximum ainsi que de la 
-valeur du flot sur chaque arc.
+\subsection{Résolution du problème de flot maximum}
+
+Le programme doit être capable de :
+\begin{itemize}
+\item générer et d'actualiser les graphes d'écart successifs
+\item calculer la valeur du flot obtenu à partir du graphe d'écart final
+\item résoudre le problème de flot maximum en suivant l'algorithme d'\textbf{Edmonds-Karp}
+\item résoudre le problème de flot maximum en suivant l'algorithme de \textbf{Dinic}
+\item retourner la solution de manière exploitable pour l'analyse
+\end{itemize}
+
+Il faudra veiller à conserver les complexités des deux algorithmes, notamment en prenant garde aux structures de données et librairies utilisées.
+
+\subsection{Génération de graphes aléatoires}
+
+La génération aléatoire de graphes de type \emph{réseau de transport} permettra de tester les deux algorithmes. Il faudra tout de même veiller à ce que le graphe soit connexe. La génération du graphe devra être paramétrable selon la taille (nombre de sommets) et la couverture (nombre d'arcs).
 
 \section{Spécification technique}
 
 \subsection{Programmation C++}
-Le programme sera réaliser en C++ afin de bénéficier des performances en termes de rapidité d'execution 
-du langage ainsi que de l'aspect objet permettant d'abstraire la représentation d'une graphe.
+Parce qu'il s'agit d'un bon compromis entre langage orienté objet et langage de bas niveau, nous avons choisi de développer cette application en C++. Nous pourrons ainsi abstraire la gestion des graphes (notamment des structures de données) dans nos algorithmes, tout en gardant la possibilité d'optimiser le code grâce à la flexibilité du langage C.
 
 \subsection{Structures de données}
+
+Plusieurs structures de données sont possibles. Nous avons choisi d'implémenter une représentation par liste d'adjacence et par matrice d'adjacence.
+\begin{description}
+\item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
+\item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$).
+\end{description}
+
+Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante au nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacence. Sur des graphes très dense, on utilisera plutôt des matrice d'adjacence, permettant un accès au données plus rapide. 
+
+Ce choix s'effectue en général en fonction des ressources matériels disponibles.
+
+\subsection{Modélisation}
+Dans un but d'abstraction de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}.
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+\subsection{Structures}
+
+La représentation des 
 
 \begin{verbatim}
 typedef int weight_t;
