@@ -1,0 +1,242 @@
+\subsubsection{implementation}
+
+\subsubsubsection{Génération aléatoire de réseau de transport}
+
+  Au cours du projet, plusieurs implémentation de l'algorithme de
+  génération de réseau de transport ont été proposés. Le premier, naif,
+  correspond à l'algorithme suivant :
+  
+\algo{flowNetworkGenerator1}
+param : g, rate, min_weight, max_weight
+
+nbr_vertices = g.getNbrVertices();
+nbr_arcs = nbr_vertices * rate;
+
+//génération d'un chemin
+for( u = 1; u < nbr_vertices; ++u )
+{
+  weight = rand(min, max);
+  g.add(u-1, u);
+  --nb_arcs
+}
+
+while( nbr_arcs < 0 )
+{
+  u = rand % nbr_vertices
+  v = rand % nbr_vertices
+  
+  if( u != nbr_vertices - 1 && v != 0 && !g.contains(u,v) )
+  {
+    weight = rand(min, max);
+    g.add(u,v,weight);
+    --nbr_arcs;
+  }
+}
+\finalgo
+
+Cette technique bien que fonctionnelle pour des graphe peut dense
+ne peut être utilisé pour des graphes denses. En effet, cette algorithme 
+ne fourni aucune garanti d'arrêt. Une deuxième approche à donc été 
+de généré tout les arcs possible dans une liste chainé et de piocher parmis ces arcs.
+
+\algo{flowNetworkGenerator2}
+{
+param : g, rate, min_weight, max_weight
+
+nbr_vertices = g.getNbrVertices();
+nbr_arcs = nbr_vertices * rate;
+list<edge> list;
+
+//génération des arcs possibles
+for (u = 0; u < nbr_vertices - 1; ++u)
+{
+  //Pour tout u, on crée l'arc u, u+1 afin d'assurer l'existance
+  //d'un chemin de la source vers le puit
+  g.addArc(u,u+1,rand(min_weight, max_weight));
+  --nb_arcs;
+  
+  for (v = u + 2; v < nbr_vertices; ++v)
+    {
+      e.u = u
+      e.v = v
+      list.push_back(e);
+    }
+}
+
+while(nb_arcs > 0)
+  {
+    index = rand() % list.size();
+    e = list.get(index);                //ligne X
+
+    if(e.u == 0 || e.v == (nbr_vertices - 1) || rand() % 2 == 1)
+      graph.addArc(e.u,e.v,randMinMax(min_weight, max_weight));
+    else
+      graph.addArc(e.v,e.u,randMinMax(min_weight, max_weight));
+
+    --nb_arcs;
+    list.remove(index);
+  }
+}
+\finalgo
+
+Cette algorithme s'arretera a tout les coups, par contre la //ligne X//
+a une complexité en O(n²). En effet, la liste contient l'ensemble des arcs
+pouvant être généré soit n(n-1)/2 arcs. Comme celle-ci est une liste chaîner
+il peut être nécessaire de parcourir toute la liste pour atteindre l'arcs
+voulu.
+
+Notre approche final a été de modifier l'algorithme précédent en remplacant
+la liste chaîner par un tableau qui offre un accès en O(1), malheureusement
+avec cette approche nous perdons l'avantage d'une liste chaîner pour la suppression.
+Nous avons donc décider de ne pas supprimer mais simplement de marquer
+les sommets comme étant utiliser. L'algorithme final est le suivant : 
+
+\begin{algorithm}[H]
+  \caption{flowNetworkGenerator(AbstractGraph& residu, float rate, uint min_weight, uint max_weight)}
+  \Donnees{
+  $flow_network$//
+  $rate$ \textit{// taux de couverture}
+  $min_weight$ \textit{// poids min}
+  $max_weight$ \textit{// poids max}
+  }
+  \Deb{
+  
+  	$nbr_vertices \leftarrow g.getNbrVertices()$\;
+	$nbr_arcs \leftarrow nbr_vertices * rate$\;
+	$list<edge> list$\;
+	$edge e$
+
+	//génération de tous les arcs possibles
+    \Pour{$u \leftarrow 0; u < nbr_vertices - 1; ++u$}
+    {
+    	//Pour tout u, on crée l'arc u, u+1 afin d'assurer l'existance
+  		//d'un chemin de la source vers le puit
+  		g.addArc(u,u+1,rand(min_weight, max_weight));
+  		--nb_arcs;
+  	  	
+  		for (v = u + 2; v < nbr_vertices; ++v)
+    	{
+      		$e.u \leftarrow u$\;
+      		$e.v \leftarrow v$\;
+      		list.push_back(e);
+    	}
+    }
+    
+    \Tq{nbr_arcs > 0}
+    {
+    	index = rand() % list.size();
+    	e = list.get(index);                //ligne X
+
+    	\Si{e.u == 0 || e.v == (nbr_vertices - 1) || rand() \% 2 == 1}
+    	{
+      		graph.addArc(e.u,e.v,randMinMax(min_weight, max_weight));
+      	}
+    	\Sinon
+    	{
+      		graph.addArc(e.v,e.u,randMinMax(min_weight, max_weight));
+		}
+		
+    	--nb_arcs;
+    	list.remove(index);
+    }
+  }
+\end{algorithm}
+
+\\ligne X\\ même complexité O(n²) mais bien meilleur en moyenne
+
+
+\subsubsubsection{Edmonds karp}
+
+\algo{Edmonds-karp}
+param g, s, p
+
+residual_network = copy(g);
+path_t path;
+int k;
+
+\tq((path = leastArcsPath(residual_network, s, p)).size() != 0)
+{
+  k = lightestArc(residual_network, path);
+  updateResidualNetwork(residual_network, path, k);
+}
+return residual_network;
+\endalgo
+
+\algo{leastArcsPath}
+
+le calcule du plus court chemin en nombre d'arcs se fait simplement
+par un parcours en largeur. Ça complexité est en O(n). Cette fonction signlera
+l'abscence de chemin de la source vers le puit en retournant un chemin vide (ne contenant
+aucun sommet)
+
+\algo{lightestArc}
+Le calcul de
+la plus petite valuation sur le chemin retourner est elle aussi en O(n).
+
+
+\algo{updateResidualNetwork}
+param residual_network, path, k
+v = path.front();
+path.pop();
+while (path.size() != 0)
+    {
+      u = v;
+      v = path.front();
+      path.pop();
+
+      residual_network.updateArc(u, v, k);
+    }
+\endalgo
+
+MatrixGraph => O(n)
+
+AdjacencyListGraph => O(n)
+En effet, comme nous parcourons un plus court chemin en nombre d'arcs 
+tq s1 -> s2 -> s3 ..... -> sn lors de la mise a jour de l'arc
+si -> sj, le sommet sj ne pourra être rencontré dans aucune des listes
+d'adjacence des sommet suivant si dans le chemin. En effet, si c'était le 
+cas cas il existerait un arc entre si et un sommet suivant sj sur le chemin =>
+donc notre chemin ne serait pas le plus court en nombre d'arc
+
+
+
+\subsubsubsection{Dinic}
+
+\algo{Dinic}
+param 
+AbstractGraph& graph, vertex_t src, vertex_t dest)
+{
+  //****************************************
+  // residual network
+  AdjacencyListGraph residual_network(graph);
+  AdjacencyListGraph flow(0);
+
+  LevelGraph level_graph = generateLevelGraph(residual_network, src, dest);
+
+  while (level_graph.getLevel(0).size() != 0)
+    {
+      //****************************************
+      // mise à jour du residual network
+      flow = blockingFlow(level_graph, src, dest);
+
+      updateResidualNetwork(residual_network, flow);
+      /*cout << "//****************************************" << endl
+       * //****************************************
+      // level graph printing
+      cout << "***" << endl;
+      cout << level_graph.toString() << endl;
+          << "// Residual network" << endl;
+      cout << residual_network.toString() << endl;
+
+      cout << "//****************************************" << endl
+          << "// nouveau flot" << endl;
+      cout << flowToString(graph, residual_network) << endl; */
+
+      level_graph = generateLevelGraph(residual_network, src, dest);
+
+    }
+
+
+
+
+
