@@ -97,7 +97,7 @@ Les deux classe précédentes n'étant pas spécialisées dans la modélisation 
 
 \subsection{Stratégies de génération des arcs}
 
-La première stratégie utilisée par notre application était naïve. Nous commencions par tracer un chemin de la source vers le puits pour s'assurer de la connexité du graphe. Puis on ajoute aléatoirement les arcs.
+La première stratégie utilisée par notre application était naïve. Nous commencions par tracer un chemin de la source vers le puits pour s'assurer de la connexité du graphe. Puis on ajoutait aléatoirement des arcs.
 
 \begin{algorithm}[H]
   \caption{flowNetworkGenerator1(G,rate,min\_weight,max\_weight)}
@@ -109,24 +109,24 @@ La première stratégie utilisée par notre application était naïve. Nous comm
   }
   \Deb{
   nb\_vertices $\leftarrow$ G.getNbrVertices()\;
-  nb\_arcs $\leftarrow$ nbr\_vertices*rate\;
+  nb\_arcs $\leftarrow$ nbr_arcs_max(nbr\_vertices)*rate\;
   
   \textit{//génération d'un chemin}\\
-  \Pour{$u = 1$; $u < $nbr\_vertices; $++u$ }{
+  \Pour{allant de 1 à $(nbr\_vertices - 1$}{
     weight $\leftarrow$ rand(min\_weight, max\_weight)\;
     g.add($u-1$, $u$)\;
-    --nb\_arcs\;
+    $--$nb\_arcs\;
   }
   
   \textit{//génération des arcs}\\  
-  \Tq{nbr\_arcs$ < 0$}{
-    $u \leftarrow$ rand \% nb\_vertices\;
-    $v \leftarrow$ rand \% nb\_vertices\;
+  \Tq{nbr\_arcs$ > 0$}{
+    $u \leftarrow$ rand \% (nb\_vertices - 1)\;
+    $v \leftarrow$ (rand \% (nb\_vertices - 1)) + 1\;
     
-    \Si{$u \neq $ nbr\_vertices$ - 1$ \textbf{ET} $v \neq 0$ \textbf{ET} !G.contains($u,v$)}{
+    \Si{!G.contains($u,v$)}{
       weight $\leftarrow$ rand(min\_weight, max\_weight)\;
       G.add($u$,$v$,weight)\;
-      --nbr\_arcs\;
+      $--$nbr\_arcs\;
     }
   }
     \Retour G\;
