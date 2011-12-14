@@ -109,24 +109,24 @@ La première stratégie utilisée par notre application était naïve. Nous comm
   }
   \Deb{
   nb\_vertices $\leftarrow$ G.getNbrVertices()\;
-  nb\_arcs $\leftarrow$ nbr_arcs_max(nbr\_vertices)*rate\;
+  nb\_arcs $\leftarrow$ nbr\_arcs\_max(nbr\_vertices)*rate\;
   
   \textit{//génération d'un chemin}\\
   \Pour{allant de 1 à $(nbr\_vertices - 1$}{
     weight $\leftarrow$ rand(min\_weight, max\_weight)\;
     g.add($u-1$, $u$)\;
-    $--$nb\_arcs\;
+    $- -$nb\_arcs\;
   }
   
   \textit{//génération des arcs}\\  
-  \Tq{nbr\_arcs$ > 0$}{
+  \Tq{nb\_arcs$ > 0$}{
     $u \leftarrow$ rand \% (nb\_vertices - 1)\;
     $v \leftarrow$ (rand \% (nb\_vertices - 1)) + 1\;
     
     \Si{!G.contains($u,v$)}{
       weight $\leftarrow$ rand(min\_weight, max\_weight)\;
       G.add($u$,$v$,weight)\;
-      $--$nbr\_arcs\;
+      $- -$nbr\_arcs\;
     }
   }
     \Retour G\;
