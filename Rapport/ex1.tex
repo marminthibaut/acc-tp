@@ -169,10 +169,11 @@ Grace aux dévelopments précédentes (questions $7$ et $12$) on reconnait:
 &=&		k(k-1)^4						\\
 &=&		P_{P_5}(k)						
 \end{eqnarray*}
-Notre premier exemple sera donc $P_5$ le chemin de taille $5$. Ensuite d'après la propriété de la question $6$ nous ne cherchions que des graphes aillant $5$ sommets et $4$ arrêtes, et d'après celle de la question $9$ ils doivent en plus être arbres. Nous proposons donc le graphe étoile $S_5 = K_{1,4}$ ainsi que l'arbre à $5$ sommets dont la particularité est d'être sans particularité:
+Notre premier exemple sera donc $P_5$ le chemin de taille $5$. Ensuite d'après la propriété de la question $6$ nous ne cherchions que des graphes aillant $5$ sommets et $4$ arrêtes, et d'après celle de la question $9$ ils doivent en plus être arbres. Nous proposons donc le graphe étoile $S_5 = K_{1,4}$ ainsi que l'arbre à $5$ sommets dont la particularité est d'être sans particularité (on l'appellera $A_5$) :
 
 \begin{center}
-$S_5$ : \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/s5ex1.pdf}} \hspace{3cm}
+$P_5$ : \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/p5ex1.pdf}} \hspace{1cm}
+$S_5$ : \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/s5ex1.pdf}} \hspace{1cm}
 $A_5$ : \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/a5ex1.pdf}}
 \end{center}
 
@@ -223,10 +224,47 @@ P_{C_{n+1}}(k)			& = & P_{C_{n+1}-e} - P_{C_{n+1}\backslash{e}}(k)	\\
 						& = & P_{P_{n+1}}(k) - P_{C_n}(k)					\\
 						& = & k(k-1)^n - \Big((k-1)^n + (-1)^n(k-1)\Big)	\\
 						& = & (k-1)(k-1)^n - (-1)^n(k-1)					\\
-						& = & (k-1)^{n+1} (-1)^{n+1}(k-1)					\\
+						& = & (k-1)^{n+1} (-1)^{n+1}(k-1)					
 \end{eqnarray*}
 On a donc $H(n+1)$.
 \end{itemize}
 Résultat des courses : $H(3) \wedge (H(n) \Rightarrow H(n+1))$. Par récurrence on a donc $H(n)$ vrai pour tout $n \geq 3$. À noter qu'un cycle de taille moins de $3$, ça se voit pas souvent.
+
 \subsection{Coloration de graphes bipartis complets}
-graphe bipartie générale
+Comme d'habitude, posons $H$ un prédicat tel que : 
+\[ H(n) \Leftrightarrow \Big(P_{K_{2,n}}(k) = \big(k(k-1)^n + k(k-1)(k-2)^n\big)\Big) \]
+\begin{itemize}
+\item Prenons comme cas de base $n = 1$. Or $K_{2,1} = P_3$ donc :
+\begin{eqnarray*}
+P_{K_{2,1}}(k)			& = & P_{P_3}(k)				\\
+						& = & k(k-1)^2					\\
+						& = & k(k-1)(1 + (k-2))			\\
+						& = & k(k-1)^1 + k(k-1)(k-2)^1	
+\end{eqnarray*}
+$H(1)$ est donc vrai.
+\item On appelle $C_{2,n}$ le graphe pseudo-biparti complet à $n$ sommets, qui se génère à partie de $K_{2,n}$ en reliant les deux sommets de la première partition :
+
+
+
+On appelle cette arrête spéciale $e^*$. On a donc :
+\[ C_{2,n}-e^* = K_{2,n} \]
+et
+\[ C_{2,n} \backslash{e^*} = S_n \]
+On rappelle que $S_n$ est un arbre. Finalement on admettera :
+\[ \forall{e} \hspace{3mm} K_{2,n}-e = K_{2,n}(k-1) \]
+En effet il ne reste que $K_{2,n-1}$ plus un sommet pendant, donc coloriable de $k-1$ manières :
+
+Supposons alors $H(n)$ vrai pour un $n$ donnée. 
+\begin{eqnarray*}
+P_{K_{2,n+1}}(k)			& = & P_{K_{2,n+1}-e} - P_{K_{2,n+1} \backslash{e}}				\\
+							& = & P_{K_{2,n}}(k-1) - P_{C_{2,n}}							\\
+							& = & P_{K_{2,n}}(k-1) - P_{K_{2,n}} + P_{S_n}					\\
+							& = & (k-2)\big(k(k-1)^n + k(k-1)(k-2)^n\big) + k(k-1)^{n-1}	\\
+							& = & k(k-1)^n(k-2) + k(k-1)(k-2)^{n+1} + k(k-1)^{n-1}			\\
+							& = & k(k-1)^{n-1}\big((k-1)(k-2) + 1\big) + k(k-1)(k-2)^{n+1}	\\
+							& = & FIXME														\\
+							& = & k(k-1)^{n+1} + k(k-1)(k-2)^{n+1}
+\end{eqnarray*}
+On a donc $H(n+1)$.
+\end{itemize}
+Comme avant $H(1) \wedge (H(n) \Rightarrow H(n+1))$ implique par récurrence que $H(n)$ sera vrai pour tout $n \geq 1$.
