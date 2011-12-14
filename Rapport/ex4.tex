@@ -1,6 +1,6 @@
-\textit{Le but de ce TP est d'implémenter deux algorithme de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées. Une troisième partie sera consacrée aux tests effectués sur les deux algorithmes ainsi qu'à l'analyse des résultats.}
+\textit{Le but de ce TP est d'implémenter deux algorithmes de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées. Une troisième partie sera consacrée aux tests effectués sur les deux algorithmes ainsi qu'à l'analyse des résultats.}
 
-\section{Spécification fonctionnelles}
+\section{Spécifications fonctionnelles}
 
 \subsection{Résolution du problème de flot maximum}
 
@@ -13,31 +13,32 @@ Le programme doit être capable de :
 \item retourner la solution de manière exploitable pour l'analyse
 \end{itemize}
 
-Il faudra veiller à conserver les complexités des deux algorithmes, notamment en prenant garde aux structures de données et librairies utilisées.
+Il faudra veiller à conserver la complexité des deux algorithmes, notamment en prenant garde aux structures de données et librairies utilisées.
 
 \subsection{Génération aléatoire d'un réseau de transport}
 
-La génération aléatoire de graphes de type réseau de transport permettra de tester les deux algorithmes. Il faudra veiller à ce que le graphe respecte les conditions d'un réseau de transport notamment la possession d'une source et d'un puits, la pondération des arcs (capacités), et assurer la connexité du graphe. La génération de ce réseau de transport devra être paramétrable selon la taille (nombre de sommets) et la couverture (nombre d'arcs).
+La génération aléatoire de graphes de type réseau de transport permettra de tester les deux algorithmes. Il faudra veiller à ce que le graphe respecte les conditions d'un réseau de transport notamment la possession d'une source et d'un puits, la pondération des arcs (capacités), et assurer la connexité du graphe. La génération de ce réseau de transport devra être paramétrable selon la taille (nombre de sommets) et la densité (nombre d'arcs).
 
-\section{Spécification technique}
+\section{Spécifications techniques}
 
 \subsection{Programmation C++}
-Parce qu'il s'agit d'un bon compromis entre langage orienté objet et langage de bas niveau, nous avons choisi de développer cette application en C++. Nous pourrons ainsi abstraire la gestion des graphes (notamment des structures de données) dans nos algorithmes, tout en gardant la possibilité d'optimiser le code grâce à la flexibilité du langage C.
+En plus de sa notoriété, nous avons choisi de développer l'application en C++ car il s'agit d'un bon compromis entre langage orienté objet et langage de bas niveau. Nous pourrons ainsi abstraire la gestion des graphes (notamment des structures de données) dans nos algorithmes, tout en gardant la possibilité d'optimiser le code grâce à la flexibilité du langage C.
 
 \subsection{Structures de données}
 
-Plusieurs structures de données sont possibles. Nous avons choisi d'implémenter une représentation par listes d'adjacences et une autre par matrice d'adjacences.
+\subsubsection{Graphes}
+Les graphes peuvent êtres stockés à l'aide différents types de structures de données. Nous avons choisi d'en implémenter deux :  par listes d'adjacences et par matrice d'adjacences.
 \begin{description}
 \item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
 \item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$). Cette structure a l'avantage d'offrir un accès direct à un arc pour deux sommets donnés.
 \end{description}
 
-Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera plutôt des matrice d'adjacences, permettant un accès aux données plus rapide. 
+Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera en revanche des matrices d'adjacences, permettant un accès aux données plus rapide. 
 
-Ce choix s'effectue en général en fonction des ressources matériels disponibles.
+Les ressources matériels disponibles peuvent également orienter ce choix.
 
 \subsection{Modélisation}
-Dans un but d'abstraction de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}. Cela permet une grande généricité des algorithme développés, ce qui permet d'utiliser une structure de données de manière totalement détachée des algorithmes.
+Afin de s'abstraire de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}. Cela permet une grande généricité des algorithme développés, ce qui permet d'utiliser une structure de données de manière totalement détachée des algorithmes.
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=\textwidth]{files/diag_class}
@@ -46,17 +47,16 @@ Dans un but d'abstraction de la structure de donnée, nous avons choisi de crée
 \end{figure}
 
 \FloatBarrier
-\subsection{Implémentation}
 
-\subsubsection{Types et structures}
+\subsection{Types et structures}
 
 Déclaration des types \texttt{weight\_t}, \texttt{vertex\_t} et \texttt{path\_t}, et des structures \texttt{edge}, \texttt{neighbor\_t}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/structs}
 
-\subsubsection{Classe \texttt{AbstractGraph}}
+\subsection{Classe \texttt{AbstractGraph}}
 
-Cette classe déclare une série de méthodes qui doivent êtres implémentés dans les classes filles.
+Cette classe permet une abstraction des différentes représentations d'un graphe (structures de données utilisées). Elle déclare les méthodes qui doivent êtres implémentés dans les classes filles.
 
 Header de la classe \texttt{AbstractGraph}
 
@@ -67,7 +67,7 @@ Cette classe représente un réseau de transport sous la forme
 de deux listes d'adjacences : une représente les 
 successeurs d'un sommet, l'autre les prédécesseurs.
 
-Ce doublon d'information permet d'accélérer l'accès aux voisins d'un sommet, notamment à ces prédécesseurs. En effet, cette méthode nous permet d'accéder aux prédécesseurs directement (complexité de $O(m)$) alors que l'accès via la liste des successeurs implique une recherche des arcs pour chaque sommet (complexité de $O(nm)$).
+Ce doublon d'information permet d'accélérer l'accès aux voisins d'un sommet, notamment à ces prédécesseurs. En effet, cette méthode nous permet d'accéder à une liste des prédécesseurs directement (complexité de $O(1)$) alors que l'accès via les listes des successeurs implique le parcours de toutes ces listes (complexité de $O(nm)$).
 
 Ces doubles listes d'adjacences nous assurent un gain de performances en terme de rapidité, qui se fait au détriment de la quantité de mémoire utilisé, qui se trouve doublée.
 

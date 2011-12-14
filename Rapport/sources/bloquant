@@ -1,0 +1,9 @@
+/**
+ * Calcul du flot bloquant
+ * @param level_graph le graphe de couche
+ * @param src la source
+ * @param dest le puit
+ * @return un flot bloquant
+ */
+AdjacencyListGraph
+blockingFlow(LevelGraph& level_graph, vertex_t src, vertex_t dest);

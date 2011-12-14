@@ -1,0 +1,7 @@
+/**
+ * Mise a jour du graphe d'ecart depuis un flot
+ * @param residual_network le graphe de couche
+ * @param p le flot
+ */
+void
+updateResidualNetwork(AbstractGraph& residual_network, AbstractGraph& flow);

@@ -1,0 +1,9 @@
+/**
+ * algorithme de Dinic
+ * @param flow_network le reseau de transport
+ * @param src le sommet source
+ * @param dest le puits
+ * @return le graphe d'ecart final
+ */
+AdjacencyListGrap
+dinic(const AbstractGraph& graph, vertex_t src, vertex_t dest);
