@@ -191,6 +191,8 @@ Dans tous les cas, nous sommes certain de l'arrêt de cet algorithme. Il faut ve
 \subsection{Méthode implémentée}
 Cette fonctionnalité est assurée par la fonction \texttt{flowNetworkGenerator} qui construit aléatoirement un réseau de transport sur le graphe passé en paramètre. Elle permet de spécifier le nombre de sommets, la densité du graphe (taux d'arêtes dans le graphe par rapport à un graphe complet non orienté ayant le même nombre de sommets) et l'intervalle des capacités aléatoires.
 
+Notons que cette méthode utilise la fonction \texttt{rand()} fournis par la librairie standard. Cette fonction \og pseudo-aléatoire \fg nécessite l'initialisation d'un générateur via la fonction \texttt{srand(int)}. Il est donc possible de sauvegarder la \og graine \fg, paramètre passée à la fonction \texttt{srand(int)}, afin de pouvoir régénérer un graphe identique.
+
 Entête de la méthode de génération aléatoire de réseaux de transport
 \lstinputlisting[language=C++,morekeywords={}]{./sources/aleatoire}
 
@@ -220,9 +222,10 @@ Entête des principales méthodes utilisées par la procédure \texttt{dinic}
 Pour tester les performances des deux algorithmes implémentés, nous avons générer une série de problèmes à résoudre sur des réseaux de transports ayant les paramètres suivants :
 \begin{itemize}
 \item nombre de sommets variant de 100 à 1000 par palier de 100,
-\item densité du graphe variant de 10\% à 100\% par palier de 10.
+\item densité du graphe variant de 10\% à 100\% par palier de 10,
+\item capacité des arcs variant de 1 à 20.
 \end{itemize}
-Pour chaque test (un nombre de sommets et une densité donnés), nous avons généré dix graphes afin de travailler sur des moyennes lors de l'analyse.
+Pour chaque test (un nombre de sommets et une densité donnés), nous avons généré 100 graphes afin de travailler sur des moyennes lors de l'analyse.
 
 \subsubsection{GNU gprof}
 Nous avons évalué les algorithmes en fonction de leurs temps d'exécution. Le temps réel d'exécution (real time) ayant peu de sens pour effectuer des statistiques correctes, nous avons choisi de mesurer les temps CPU (CPU time). Le temps CPU est le temps alloué au processus par le système d'exploitation sur le processeur. Contrairement au temps réel, le temps CPU est indépendant des autres processus en cours d'activité et aux interruptions systèmes : il s'agit du temps effectivement passé par le CPU pour traiter le processus.
