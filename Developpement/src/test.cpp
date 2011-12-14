@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <stdio.h>
 
 using namespace std;
@@ -8,7 +8,7 @@ using namespace std;
 #include "graph/LevelGraph.h"
 #include "graph/MatrixGraph.h"
 
-#include "includes/flow.h"
+#include "graph/flow/flow.h"
 
 
 int
@@ -40,16 +40,15 @@ main(int argc, char** argv)
 
   for (int i = 0; i < nbr_exec; ++i)
     {
-      printf("%d%%", i);
+      printf("%d", i);
       fflush(stdout);
 
       flowNetworkGenerator(g, float(percent_arcs) / 100., 1, 20);
-      cout << g.toString() << endl;
 
-      //dinic(g, src, dest);
-      //edmondsKarp(g, src, dest);
+      dinic(g, src, dest);
+      edmondsKarp(g, src, dest);
 
-     printf("\10\10");
+     printf("\10");
      for(int j = i; j >= 10; j /= 10)
         printf("\10");
 

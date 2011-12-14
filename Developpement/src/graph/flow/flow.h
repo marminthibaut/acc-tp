@@ -8,7 +8,7 @@
 #ifndef FLOW_H_
 #define FLOW_H_
 
-#include "../graph/LevelGraph.h"
+#include "../LevelGraph.h"
 
 
 /*******************************************************************************
@@ -24,6 +24,14 @@
  */
 string
 flowToString(const AbstractGraph& flow_network,
+    const AbstractGraph& residual_network);
+
+/**
+ * @param flow_network le réseau de transport
+ * @param residual_network le graphe d'écart associé
+ */
+string
+flowToDotString(const AbstractGraph& flow_network,
     const AbstractGraph& residual_network);
 
 

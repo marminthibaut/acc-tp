@@ -7,12 +7,20 @@ endif
 CC=g++
 LDFLAGS=
 
-all: test 
+all: test dinic edmondskarp
 
-test: bin/main.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/utils.o
+dinic: bin/dinic_main.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/dinic.o bin/edmondskarp.o  bin/utils.o
+	${CC} -o bin/$@ $^ ${CFLAGS} ${LDFLAGS}
+
+edmondskarp: bin/edmondskarp_main.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/dinic.o bin/edmondskarp.o  bin/utils.o
+	${CC} -o bin/$@ $^ ${CFLAGS} ${LDFLAGS}
+
+test: bin/test.o bin/MatrixGraph.o bin/LevelGraph.o bin/graph.o bin/AdjacencyListGraph.o bin/flow.o bin/dinic.o bin/edmondskarp.o  bin/utils.o
 	${CC} -o bin/$@ $^ ${CFLAGS} ${LDFLAGS}
 
 
+bin/%.o : src/graph/flow/src/%.cpp
+	${CC} -c -o $@ $< ${CFLAGS}
 
 bin/%.o : src/graph/src/%.cpp
 	${CC} -c -o $@ $< ${CFLAGS}
