@@ -24,23 +24,36 @@ La densité du graphe correspond à son taux d'arêtes par rapport au nombre d'a
 
 \section{Spécifications techniques}
 
-\subsection{Programmation C++}
+\subsection{Langage de programmation et organisation}
+
+\subsubsection{Programmation C++}
 En plus de sa notoriété, nous avons choisi de développer l'application en C++ car il s'agit d'un bon compromis entre langage orienté objet et langage de bas niveau. Nous pourrons ainsi abstraire la gestion des graphes (notamment des structures de données) dans nos algorithmes, tout en gardant la possibilité d'optimiser le code grâce à la flexibilité du langage C.
 
-\subsection{Structures de données}
+\subsubsection{Utilisation d'un gestionnaire de version}
+Nous avons d'utiliser un gestionnaire de version afin de pouvoir sauvegarder et partager notre code entre les membres
+de l'équipe.	
 
-\subsubsection{Graphes}
-Les graphes peuvent êtres stockés à l'aide différents types de structures de données. Nous avons choisi d'en implémenter deux :  par listes d'adjacences et par matrice d'adjacences.
-\begin{description}
-\item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
-\item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$). Cette structure a l'avantage d'offrir un accès direct à un arc pour deux sommets donnés.
-\end{description}
+\subsection{Représentation du problème de flot maximum}
 
-Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera en revanche des matrices d'adjacences, permettant un accès aux données plus rapide. 
+Le problème du flot maximum n'est défini que pour un certain type de graphes appelé \emph{réseau de transport}.
 
-Les ressources matériels disponibles peuvent également orienter ce choix.
+\subsubsection{Réseau de transport}
+Les réseaux de transport peuvent êtres représenté par un graphe orienté pondéré pour lequel on défini un sommet
+source et un sommet puits. Le sommet source à la particularité de ne pas avoir de prédecesseur et le puits celui
+de ne pas avoir de successeur. La valuation d'un arcs représente sa capacité maximal.
+
+\subsubsection{Graphe d'écart}
+Les graphes d'écart peuvent êtres simplement représenté par un graphe orienté pondéré.
+
+\subsubsection{Graphe de couches}
+Les graphes de couches peuvent êtres représenté par un graphe orienté pondéré auquel on ajoute un tableau 
+de listes de sommets indexé par le numéro de couche. Chaque liste représente donc une couche du graphe, elle contient donc l'ensemble des sommets se trouvant à une distance d du graphe où d est le numéro de la couche.
+
 
 \subsection{Modélisation}
+
+\subsubsection{Diagramme de classes}
+
 Afin de s'abstraire de la structure de donnée, nous avons choisi de créer une classe abstraite \texttt{AbstractGraph} dont deux classes fille héritent. Un graphe peut donc être de type \texttt{AdjacencyListGraph} ou \texttt{MatrixGraph}. Cela permet une grande généricité des algorithme développés, ce qui permet d'utiliser une structure de données de manière totalement détachée des algorithmes.
 \begin{figure}[t]
 \begin{center}
@@ -51,13 +64,31 @@ Afin de s'abstraire de la structure de donnée, nous avons choisi de créer une 
 
 \FloatBarrier
 
+Les graphes peuvent être stockés à l'aide différents types de structures de données. Nous avons choisi d'en implémenter deux :  par listes d'adjacences et par matrice d'adjacences.
+\begin{description}
+\item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
+\item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$). Cette structure a l'avantage d'offrir un accès direct à un arc pour deux sommets donnés.
+\end{description}
+
+Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera en revanche des matrices d'adjacences, permettant un accès aux données plus rapide. 
+
+Les ressources matériels disponibles peuvent également orienter ce choix.
+
+\subsubsection{Application aux réseaux de transport}
+Les deux classe précédentes n'étant pas spécialisées dans la modélisation de réseaux de transport, nous adopterons les conventions suivantes :
+\begin{itemize}
+\item le sommet zéro (premier sommet) représente la source,
+\item le sommet n (dernier sommet) représente le puits,
+\item la pondération affecté à chaque arc représente sa capacité.
+\end{itemize}
+
 \subsection{Types et structures}
 
 Déclaration des types \texttt{weight\_t}, \texttt{vertex\_t} et \texttt{path\_t}, et des structures \texttt{edge}, \texttt{neighbor\_t}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/structs}
 
-\subsection{Classe \texttt{AbstractGraph}}
+\subsubsection{Classe \texttt{AbstractGraph}}
 
 Cette classe permet une abstraction des différentes représentations d'un graphe (structures de données utilisées). Elle déclare les méthodes qui doivent êtres implémentées dans les classes filles.
 
@@ -65,7 +96,7 @@ Header de la classe \texttt{AbstractGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AbstractGraph}
 
-\subsection{Classe \texttt{AdjacencyListGraph}}
+\subsubsection{Classe \texttt{AdjacencyListGraph}}
 Cette classe représente un orienté valué sous la forme
 de deux listes d'adjacences : une représente les 
 successeurs d'un sommet, l'autre les prédécesseurs.
@@ -79,21 +110,13 @@ Header de la classe \texttt{AdjacencyListGraph}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AdjacencyListGraph}
 
 
-\subsection{Classe \texttt{MatrixGraph}}
+\subsubsection{Classe \texttt{MatrixGraph}}
 
 Cette classe représente un graphe orienté valué sous la forme d'une matrice d'adjacence. L'absence d'un arc est représenté par la valeur $-1$. Toute valeur positive représente la pondération de l'arc.
 
 Header de la classe \texttt{MatrixGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/MatrixGraph}
-
-\subsection{Application aux réseaux de transport}
-Les deux classe précédentes n'étant pas spécialisées dans la modélisation de réseaux de transport, nous adopterons les conventions suivantes :
-\begin{itemize}
-\item le sommet zéro (premier sommet) représente la source,
-\item le sommet n (dernier sommet) représente le puits,
-\item la pondération affecté à chaque arc représente sa capacité.
-\end{itemize}
 
 
 \section{Génération aléatoire de réseaux de transport}
