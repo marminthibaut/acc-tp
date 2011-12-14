@@ -99,9 +99,44 @@ $D = C-(a,b)$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gDex1
 $F = C-(b,ed)$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gFex1.pdf}}& et & $C \backslash(b,ed) = P_3$ : & \raisebox{-0.5\height}{\includegraphics[width=2cm]{files/gC-ex1.pdf}}
 \end{tabular}
 
-\subsection{Coefficients alternatifs}
-TODO coéfficient de $k^n$ est 1, alternating - and + etc 
+\subsection{Particularités des polynômes chromatiques}
+Nous cherchions à prouver que pour tout graphe $G$ à $n$ sommets et $m$ arrêtes, avec $C = \{c_i\}$ un ensemble de coéfficients naturelles (donc positives) : 
+\[ P_G(k) = k^n - mk^{n-1} + \sum_{i = 2}^n \Big(\big(1 - 2(2\bmod{i})\big)(c_ik^{n-i})\Big) \]
+On nomera $F_k(n,m,C)$ cette forme polynomiale particulière. Soit $H$ un prédicat tel que :
+\[ H(n,m) \Leftrightarrow \forall{G(n,m)}, \hspace{1mm} \exists{C} \hspace{1mm} 
+										| \hspace{1mm} P_G(k) = F(n, m, C) \]
+On montrera par récurance que $H(n,m)$ est vrai pour tout $n$ et tout $m$ :
+\begin{itemize}
+\item \textbf{Sommets -- cas de base} \\
+Pour $n = 1$ on a $P_G(k) = k$, donc $H(0,1)$ est vérifié.
+\item \textbf{Sommets -- pas récursif} \\ Supposons qu'il existe un nombre de sommets $n_0$ et un nombre d'arrêtes $m_0$ tel que $H(m_0,n_0)$ soit vrai. Soit $G$ un graphe à $n_0$ sommets et $m_0$ arrêtes, et $G^+$ le graphe généré en reliant un nouveau sommet $s'$ à une selection de $n' \leq n_0$ sommets de $G$. On aura donc $(k-n')$ manières de colorier $s'$. De ce fait:
+\[ P_{G^+}(k) = P_G(k)(k-n') \]
+Où $P_G(k)$ est de la forme $F$. $P_G^+(k)$ est donc de la forme:
+\begin{eqnarray*}
+&&	F(n,m,C)(k-n')			\\
+&=& F(n,m,C)k - n'F(n,m,C)	\\
+\end{eqnarray*} 
+\begin{itemize}
+\item \textbf{Maintient des signes alternatifs} \\ 
+Le fait de multiplier par $k$ "décale" les termes du polynomiale à gauche. Soustraire $n'F_k(n,m,C)$ retranche alors au coéfficient de chaque terme $n'$ fois celui de leur voisin de gauche, avec $0 \leq n' \leq n$. Or si le term est positive, ce fameux voisin de gauche est négative par hypothèse, donc son coéfficient augmentera. De même si le term est négative son coéfficient va diminuer. Les signes resteront donc alternatifs dans $P_G^+(k)$.
+\item \textbf{Maintient de $k^n$} \\
+$k^{n}$ deviendra $k^{n+1}$ dans $F_k(n,m,C)k$ et, n'aillant pas de voisin gauche dans $F_k(n,m,C)$, on ne lui retranchera rien. La propriété sur le terme de plus haut degré est donc maintenu.
+\item \textbf{Maintient de $mk^{n-1}$} \\
+Le terme $-mk^{n-1}$, aillant pour voisin gauche $k^n$, deviendra $-mk^n - n'k^n = -(m+n')k^n$, $m+n'$ étant le nombre d'arrêtes de $G^+$. La propriété sur le second terme de plus haut degré est alors maintenu aussi.
+\end{itemize}
 
+\item \textbf{Arrêtes -- cas de base} \\
+Pour $m = 0$ on a $G = \overline{K}_n$ et donc $P_G(k) = P_{\overline{K}_n}(k) = k^n$. Du coup $\forall n \in \mathbb{N^+}$, $H(0,n)$ est vrai.
+\item \textbf{Arrêtes -- pas récursive} \\
+Supposons qu'il existe un nombre d'arrêtes $m_0$ tel que pour tout $m \leq m_0$ et tout $n$ on a $H(m_0,n)$. Soit $G$ un graphe à $m_0 + 1$ arrêtes. D'après la formule du question $3$ on a donc:
+\begin{eqnarray*}
+P_G(k) &=& P_{G-e}(k) - P_{G \backslash e}(k)	\\
+		&=& A - B								\\	
+\end{eqnarray*}
+Où $A$ et $B$ sont de la forme $F_k$. $P_G(k)$, lui, est donc de la forme:
+\[ F_k(n,m-1,C') - F_k(n-1,m-1,C'') \]
+
+\end {itemize}
 
 \subsection{Polynôme chromatique de $K_{1,5}$}
 $K_{1,5}$ étant un arbre, on aura $k$ choix de coloration pour la racine, peu importe le choix de celle-ci, et $k-1$ pour les autres, car chacun qu'on considère sera relié à exactement une autre déjà colorié. En totale ça nous fait donc:
@@ -122,7 +157,7 @@ G = \bigcup_{i=0}^n C_i & \Rightarrow & P_G(k)=\prod_{i=0}^n P_{C_i}(k) \\
 \subsection{Coloration d'arbres}
 Supposons qu'on ait un graphe $G$ tel que $P_G(k) = k(k-1)^{n-1}$ :
 \begin {itemize}
-\item Intuitivement ceci veut dire qu'on a $k$ choix de couleurs pour le premier sommet colorié, puis $(k-1)$ pour chacun des $(n-1)$ autres. Du coup chaque sommet, lors de sa coloration, ne doit être en contact qu'avec un seul sommet déjà colorié. Ceci n'est possible que dans un graphe sans cycle. 
+\item Intuitivement ceci veut dire qu'on a $k$ choix de couleurs pour le premier sommet colorié, puis $(k-1)$ pour chacun des $(n-1)$ autres. Du coup chaque sommet, lors de sa coloration, ne doit être en contact qu'avec un seul sommet déjà colorié. Ceci n'est possible que dans un graphe sans cycle, car même avec un seul cycle on aura au plus $k(k-1)^{n-2}(k-2) < k(k-1)^{n-1}$.
 \item 
 \end {itemize}
 
