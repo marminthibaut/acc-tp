@@ -337,8 +337,8 @@ Dans le pire des cas le nombre de variables d'une instance de 2--SAT est égale 
 \begin{itemize}
 \item On appellera Absurd--Graph le problème de décision consistant de savoir si un variable partage avec la négation une composante fortement connexe (ou $CFC$) du graphe de satisfaction. 
 \item Toute arc ajouté par $GrapheSatisfaction$ correspond à une contrainte de la forme $((x \vee y) \wedge \neg x) \Rightarrow y)$, donc une implication. Étant donnée les $CFC$, calculés par l'algorithme de $Tarjan$, on peut vérifier linéairement en le nombre de sommets si le graphe de satisfaction est "absurde", ce qui corresponderait effectivement à $(\neg(x) \Leftrightarrow x)$.
-\item Dans le cas contraire il suffit de prendre l'inverse de l'ordre topologique calculée par $Tarjan$ et d'affecter les variables de chaque composante comme précise l'article. Ceci nous garantie de ne pas avoir d'interprétations $\bot \Rightarrow \top$, seuls à pouvoir casser l'enchaînement des implications. 
-\item Nous finissions alors soit avec une affection modèle, soit l'affirmation de l'insatisfiabilité de la forme normale conjonctive. Un tri topologique de notre graphe étiqueté permet donc de résoudre le problème 2--SAT.
+\item Dans le cas contraire il suffit de prendre l'inverse de l'ordre topologique calculée par $Tarjan$ et d'affecter les variables de chaque composante comme précise l'article de Philipe Gambette. Ceci nous garantie de ne pas avoir d'interprétations $\bot \Rightarrow \top$, seuls à pouvoir casser l'enchaînement des implications. 
+\item Nous finissions alors soit avec une affection modèle, soit l'affirmation de l'insatisfiabilité de l'instance 2--SAT. Un algorithme pour résoudre Absurd--Graph (à savoir $Tarjan$ et des poussières) permet donc de résoudre le problème 2--SAT.
 \end{itemize}
 \end{enumerate}
 
