@@ -122,7 +122,7 @@ Le fait de multiplier par $k$ "décale" les termes du polynomiale à gauche. Sou
 \item \textbf{Maintient de $k^n$} \\
 $k^{n}$ deviendra $k^{n+1}$ dans $F_k(n,m,C)k$ et, n'aillant pas de voisin gauche dans $F_k(n,m,C)$, on ne lui retranchera rien. La propriété sur le terme de plus haut degré est donc maintenu.
 \item \textbf{Maintient de $mk^{n-1}$} \\
-Le terme $-mk^{n-1}$, aillant pour voisin gauche $k^n$, deviendra $-mk^n - n'k^n = -(m+n')k^n$, $m+n'$ étant le nombre d'arrêtes de $G^+$. La propriété sur le second terme de plus haut degré est alors maintenu aussi.
+Le terme $-mk^{n-1}$, aillant pour voisin gauche $k^n$, deviendra \[-mk^n - n'k^n = -(m+n')k^n \] $(m+n')$ étant le nombre d'arrêtes de $G^+$. La propriétée sur le second terme de plus haut degré est alors maintenu aussi.
 \end{itemize}
 
 \item \textbf{Arrêtes -- cas de base} \\
@@ -157,9 +157,10 @@ G = \bigcup_{i=0}^n C_i & \Rightarrow & P_G(k)=\prod_{i=0}^n P_{C_i}(k) \\
 \subsection{Coloration d'arbres}
 Supposons qu'on ait un graphe $G$ tel que $P_G(k) = k(k-1)^{n-1}$ :
 \begin {itemize}
-\item Intuitivement ceci veut dire qu'on a $k$ choix de couleurs pour le premier sommet colorié, puis $(k-1)$ pour chacun des $(n-1)$ autres. Du coup chaque sommet, lors de sa coloration, ne doit être en contact qu'avec un seul sommet déjà colorié. Ceci n'est possible que dans un graphe sans cycle, car même avec un seul cycle on aura au plus $k(k-1)^{n-2}(k-2) < k(k-1)^{n-1}$.
-\item 
+\item Intuitivement ceci veut dire qu'on a $k$ choix de couleurs pour le premier sommet colorié, puis $(k-1)$ pour chacun des $(n-1)$ autres. Du coup chaque sommet, lors de sa coloration, ne doit être en contact qu'avec un seul sommet déjà colorié. Ceci n'est possible que dans un graphe sans cycle, car même avec un seul cycle on aura au plus $k(k-1)^{n-2}(k-2) < k(k-1)^{n-1}$ colorations différentes.
+\item De même si $G$ est une forêt, même s'il n'est composé que de deux composantes connexes, il devraient y avoir au moins $k^2(k-1)^{n-2} > k(k-1)^{n-1}$ colorations possibles.
 \end {itemize}
+On a donc $G$ connexe et sans cycle: c'est la définition même d'un arbre.
 
 \subsection{$k^5 - 4k^4 + 6k^3 - 4k^2 + k$}
 Grace aux dévelopments précédentes (questions $7$ et $12$) on reconnait:
