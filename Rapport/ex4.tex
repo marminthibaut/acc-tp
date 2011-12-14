@@ -112,7 +112,7 @@ La première stratégie utilisée par notre application était naïve. Nous comm
   nb\_arcs $\leftarrow$ nbr\_arcs\_max(nbr\_vertices)*rate\;
   
   \textit{//génération d'un chemin}\\
-  \Pour{allant de 1 à $(nbr\_vertices - 1$}{
+  \Pour{$u$ allant de 1 à $(nbr\_vertices - 1$}{
     weight $\leftarrow$ rand(min\_weight, max\_weight)\;
     g.add($u-1$, $u$)\;
     $- -$nb\_arcs\;
@@ -133,8 +133,65 @@ La première stratégie utilisée par notre application était naïve. Nous comm
   }
 \end{algorithm}
 
-\subsection{Méthode finale}
+Cet algorithme, bien que \og plutôt \fg fonctionnel pour des graphes peu denses ne fourni aucune garantie d'arrêt. Nous avons donc réfléchi à une deuxième approche, qui consistait à générer tout les arcs possibles dans un tableau de type vector puis de piocher parmi ces arcs.
+
+\begin{algorithm}[H]
+  \caption{flowNetworkGenerator(G,rate,min\_weight,max\_weight)}
+  \Donnees{\\
+    G \textit{// Graphe d'entrée}\\
+    rate \textit{// Densité}\\
+    min\_weight \textit{// Capacité minimum}\\
+    max\_weight \textit{// Capacité maximum}
+  }
+  \Deb{
+  nb\_vertices $\leftarrow$ G.getNbrVertices()\;
+  nb\_arcs $\leftarrow$ nbr\_arcs\_max(nbr\_vertices)*rate\;
+  vector$<$edge$>$vector\;
+  edge e\;
+  
+ \textit{//génération de tous les arcs possibles}\\  
+  \Pour{ $u$ allant de 1 à $(nbr\_vertices - 1$}{
+    \textit{//Pour tout u, on crée l'arc u, u+1 afin d'assurer l’existence}\\
+    \textit{//d'un chemin entre la source et le puits}
+    G.addArc($u$,$u+1$,rand(min\_weight, max\_weight))\;
+    $- -$nb\_arcs\;
+    
+    \Pour{$v$ allant de $u + 2$ à nb\_vertices$-1$}{
+      e.u $\leftarrow$ $u$\;
+      e.v $\leftarrow$ $v$\;
+      vector.push\_back(e)\;
+    }
+  }
+  
+  \textit{//ajout des arcs}\\  
+  \Tq{nb\_arcs$ > 0$}{
+  index $\leftarrow$ rand() \% vector.size()\;
+  \Tq{vector[index]$=$nil}{
+  index $= ++$index \% vector.size()\;
+  }
+  
+  e $\leftarrow$ vector.get(index)\;
+  
+  \Si{e.u $=0$ \textbf{OU} e.v $=$ nb\_vertices $-1$ \textbf{OU} rand() \% $2=1$}{
+  	G.addArc(e.u,e.v,randMinMax(min\_weight,max\_weight)\;
+  }
+  \Sinon{
+    G.addArc(e.v,e.u,randMinMax(min\_weight,max\_weight)\;
+  }
+  $- -$nb\_arcs\;
+  vector[index]$=$nil\;
+  }
+    \Retour G\;
+  }
+\end{algorithm}
+
+Dans tous les cas, nous sommes certain de l'arrêt de cet algorithme. Il faut veiller à utiliser un type tableau en marquant à \og nil \fg les arcs ajoutés. En effet, nous avions commencé par utiliser une liste chainée mais la fonction \texttt{list.get(...)} a une complexité en $O(n^2)$.
+
+
+\subsection{Méthode implémentée}
 Cette fonctionnalité est assurée par la fonction \texttt{flowNetworkGenerator} qui construit aléatoirement un réseau de transport sur le graphe passé en paramètre. Elle permet de spécifier le nombre de sommets, la densité du graphe (taux d'arêtes dans le graphe par rapport à un graphe complet non orienté ayant le même nombre de sommets) et l'intervalle des capacités aléatoires.
+
+Notons que cette méthode utilise la fonction \texttt{rand()} fournis par la librairie standard. Cette fonction \og pseudo-aléatoire \fg nécessite l'initialisation d'un générateur via la fonction \texttt{srand(int)}. Il est donc possible de sauvegarder la \og graine \fg, paramètre passée à la fonction \texttt{srand(int)}, afin de pouvoir régénérer un graphe identique.
 
 Entête de la méthode de génération aléatoire de réseaux de transport
 \lstinputlisting[language=C++,morekeywords={}]{./sources/aleatoire}
@@ -165,9 +222,10 @@ Entête des principales méthodes utilisées par la procédure \texttt{dinic}
 Pour tester les performances des deux algorithmes implémentés, nous avons générer une série de problèmes à résoudre sur des réseaux de transports ayant les paramètres suivants :
 \begin{itemize}
 \item nombre de sommets variant de 100 à 1000 par palier de 100,
-\item densité du graphe variant de 10\% à 100\% par palier de 10.
+\item densité du graphe variant de 10\% à 100\% par palier de 10,
+\item capacité des arcs variant de 1 à 20.
 \end{itemize}
-Pour chaque test (un nombre de sommets et une densité donnés), nous avons généré dix graphes afin de travailler sur des moyennes lors de l'analyse.
+Pour chaque test (un nombre de sommets et une densité donnés), nous avons généré 100 graphes afin de travailler sur des moyennes lors de l'analyse.
 
 \subsubsection{GNU gprof}
 Nous avons évalué les algorithmes en fonction de leurs temps d'exécution. Le temps réel d'exécution (real time) ayant peu de sens pour effectuer des statistiques correctes, nous avons choisi de mesurer les temps CPU (CPU time). Le temps CPU est le temps alloué au processus par le système d'exploitation sur le processeur. Contrairement au temps réel, le temps CPU est indépendant des autres processus en cours d'activité et aux interruptions systèmes : il s'agit du temps effectivement passé par le CPU pour traiter le processus.
