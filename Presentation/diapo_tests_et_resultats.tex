@@ -37,9 +37,43 @@ Statistique fournies pour chaque fonction :
 \end{frame}
 
 \subsection{Résultats}
-\begin{frame}{Résultats}{Test 1}
+\begin{frame}{Résultats}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/c20}
+\end{center}
 \end{frame}
-\begin{frame}{Résultats}{Test 2}
+\begin{frame}{Résultats}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/c50}
+\end{center}
 \end{frame}
-\begin{frame}{Résultats}{Test 3}
+\begin{frame}{Résultats}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/c80}
+\end{center}
+\end{frame}
+\begin{frame}{Résultats}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/c20_low}
+\end{center}
+\end{frame}
+\begin{frame}{Résultats}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/c80_low}
+\end{center}
+\end{frame}
+\begin{frame}{Résultats}{Conclusion}
+\begin{itemize}
+\item Dinic globalement plus rapide
+\item Surtout sur des graphes peu denses
+\item Edmonds-Karp efficace sur des petits graphes
+\end{itemize}
+$\Rightarrow$ Cohérence avec les complexités théoriques
+\begin{center}
+\begin{tabular}{ccc}
+&$\swarrow\ \ \ \ \ \ \searrow$&\\
+Dinic&&Edmonds-Karp\\
+$O(nm^2)$&&$O(n^2m)$
+\end{tabular}
+\end{center}
 \end{frame}

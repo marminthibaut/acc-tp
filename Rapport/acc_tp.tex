@@ -4,6 +4,7 @@
 \usepackage{fancyhdr}
 \usepackage{enumerate}
 \usepackage{graphicx}
+\usepackage[french]{minitoc}
 \usepackage{multirow}
 \usepackage{placeins}
 \usepackage{listings}
@@ -91,6 +92,8 @@ morekeywords=true
 \lstset{emph={ varchar , integer , bigint , date , smallint , real , OLD , NEW , plpgsql , ROWTYPE},
 emphstyle=\color{type}}
 
+\dominitoc
+
 
 
 \input{includes/garde}
@@ -98,6 +101,7 @@ emphstyle=\color{type}}
 \tableofcontents
 \clearemptydoublepage
 \chapter{Partie théorique}
+\minitoc
 
 \section{Algorithmique}
 \input{ex1}
@@ -109,6 +113,7 @@ emphstyle=\color{type}}
 \input{ex3}
 \clearemptydoublepage
 \chapter{Partie pratique}
+\minitoc
 \input{ex4}
 
 
