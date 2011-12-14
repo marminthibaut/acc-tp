@@ -56,13 +56,13 @@ Déclaration des types \texttt{weight\_t}, \texttt{vertex\_t} et \texttt{path\_t
 
 \subsection{Classe \texttt{AbstractGraph}}
 
-Cette classe permet une abstraction des différentes représentations d'un graphe (structures de données utilisées). Elle déclare les méthodes qui doivent êtres implémentés dans les classes filles.
+Cette classe permet une abstraction des différentes représentations d'un graphe (structures de données utilisées). Elle déclare les méthodes qui doivent êtres implémentées dans les classes filles.
 
 Header de la classe \texttt{AbstractGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AbstractGraph}
 
-\subsubsection{Classe \texttt{AdjacencyListGraph}}
+\subsection{Classe \texttt{AdjacencyListGraph}}
 Cette classe représente un réseau de transport sous la forme
 de deux listes d'adjacences : une représente les 
 successeurs d'un sommet, l'autre les prédécesseurs.
@@ -76,19 +76,19 @@ Header de la classe \texttt{AdjacencyListGraph}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AdjacencyListGraph}
 
 
-\subsubsection{Classe \texttt{MatrixGraph}}
+\subsection{Classe \texttt{MatrixGraph}}
 
 Header de la classe \texttt{MatrixGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/MatrixGraph}
 
-\subsection{Génération de réseaux de transport aléatoires}
+\section{Génération de réseaux de transport aléatoires}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/aleatoire}
 
-\subsection{Procédures principales}
+\section{Procédures principales}
 
- \subsection{Algorithme de Dinic}
+\subsection{Algorithme de Dinic}
 \subsubsection{Mise à jour du graphe d'écart}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/ecart}
 
@@ -97,15 +97,6 @@ Header de la classe \texttt{MatrixGraph}
 
 \subsubsection{Exécution de Dinic}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/dinic}
-
-\section{Implémentation}
-
-\subsection{Génération aléatoire de réseaux de transports}
-
-
-\subsection{Edmonds-karp}
-
-\subsection{Dinic}
 
 
 \section{Tests \& résultats}
