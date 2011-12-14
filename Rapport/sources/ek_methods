@@ -1,0 +1,30 @@
+/**
+ * Cette fonction retourne le plus court chemin en nombre d'arcs depuis
+ * le sommet start jusqu'au sommet end
+ * @param g un graphe
+ * @param start le sommet de depart
+ * @param end le sommet d'arriver
+ * @return le plus court chemin en nombre d'arcs de start a end
+ */
+path_t
+leastArcsPath(AbstractGraph &g, vertex_t start, vertex_t end);
+
+/**
+ * Cette fonction retourne la plus petite valuation presente sur un chemin 
+ * donne dans un graphe
+ * @param g un graphe
+ * @param path une chemin dans g
+ * @return la plus petite valuation presente sur le chemin path dans g 
+ */
+weight_t
+lightestArc(AbstractGraph& g, path_t path);
+
+/**
+ * Mise a jour du graphe d'ecart depuis un chemin et la valeur du flot a ajouter
+ * sur ce chemin
+ * @param le graphe de couche
+ * @param p le chemin
+ * @param k la valeur du flot a ajouter
+ */
+void
+updateResidualNetwork(AbstractGraph& residualNetwork, path_t p, uint k);

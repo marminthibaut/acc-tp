@@ -63,7 +63,7 @@ Header de la classe \texttt{AbstractGraph}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AbstractGraph}
 
 \subsection{Classe \texttt{AdjacencyListGraph}}
-Cette classe représente un réseau de transport sous la forme
+Cette classe représente un orienté valué sous la forme
 de deux listes d'adjacences : une représente les 
 successeurs d'un sommet, l'autre les prédécesseurs.
 
@@ -78,26 +78,84 @@ Header de la classe \texttt{AdjacencyListGraph}
 
 \subsection{Classe \texttt{MatrixGraph}}
 
+Cette classe représente un graphe orienté valué sous la forme d'une matrice d'adjacence. L'absence d'un arc est représenté par la valeur $-1$. Toute valeur positive représente la pondération de l'arc.
+
 Header de la classe \texttt{MatrixGraph}
 
 \lstinputlisting[language=C++,morekeywords={}]{./sources/MatrixGraph}
 
-\section{Génération de réseaux de transport aléatoires}
+\subsection{Application aux réseaux de transport}
+Les deux classe précédentes n'étant pas spécialisées dans la modélisation de réseaux de transport, nous adopterons les conventions suivantes :
+\begin{itemize}
+\item le sommet zéro (premier sommet) représente la source,
+\item le sommet n (dernier sommet) représente le puits,
+\item la pondération affecté à chaque arc représente sa capacité.
+\end{itemize}
 
+
+\section{Génération aléatoire de réseaux de transport}
+
+\subsection{Stratégies de génération des arcs}
+
+La première stratégie utilisée par notre application était naïve. Nous commencions par tracer un chemin de la source vers le puits pour s'assurer de la connexité du graphe. Puis on ajoute aléatoirement les arcs.
+
+\begin{algorithm}[H]
+  \caption{flowNetworkGenerator1(G,rate,min\_weight,max\_weight)}
+  \Donnees{\\
+    G \textit{// Graphe d'entrée}\\
+    rate \textit{// Densité}\\
+    min\_weight \textit{// Capacité minimum}\\
+    max\_weight \textit{// Capacité maximum}
+  }
+  \Deb{
+  nb\_vertices $\leftarrow$ G.getNbrVertices()\;
+  nb\_arcs $\leftarrow$ nbr\_vertices*rate\;
+  
+  \textit{//génération d'un chemin}\\
+  \Pour{$u = 1$; $u < $nbr\_vertices; $++u$ }{
+    weight $\leftarrow$ rand(min\_weight, max\_weight)\;
+    g.add($u-1$, $u$)\;
+    --nb\_arcs\;
+  }
+  
+  \textit{//génération des arcs}\\  
+  \Tq{nbr\_arcs$ < 0$}{
+    $u \leftarrow$ rand \% nb\_vertices\;
+    $v \leftarrow$ rand \% nb\_vertices\;
+    
+    \Si{$u \neq $ nbr\_vertices$ - 1$ \textbf{ET} $v \neq 0$ \textbf{ET} !G.contains($u,v$)}{
+      weight $\leftarrow$ rand(min\_weight, max\_weight)\;
+      G.add($u$,$v$,weight)\;
+      --nbr\_arcs\;
+    }
+  }
+    \Retour G\;
+  }
+\end{algorithm}
+
+\subsection{Méthode finale}
+Cette fonctionnalité est assurée par la fonction \texttt{flowNetworkGenerator} qui construit aléatoirement un réseau de transport sur le graphe passé en paramètre. Elle permet de spécifier le nombre de sommets, la densité du graphe (taux d'arêtes dans le graphe par rapport à un graphe complet non orienté ayant le même nombre de sommets) et l'intervalle des capacités aléatoires.
+
+Entête de la méthode de génération aléatoire de réseaux de transport
 \lstinputlisting[language=C++,morekeywords={}]{./sources/aleatoire}
 
 \section{Procédures principales}
 
+\subsection{Algorithme d'Edmonds-Karp}
+
+Entête de la méthode d'exécution d'Edmonds-Karp
+\lstinputlisting[language=C++,morekeywords={}]{./sources/ek}
+
+Entête des principales méthodes utilisées par la procédure \texttt{edmondsKarp}
+\lstinputlisting[language=C++,morekeywords={}]{./sources/ek_methods}
+
 \subsection{Algorithme de Dinic}
-\subsubsection{Mise à jour du graphe d'écart}
-\lstinputlisting[language=C++,morekeywords={}]{./sources/ecart}
 
-\subsubsection{Calcul du flot bloquant}
-\lstinputlisting[language=C++,morekeywords={}]{./sources/bloquant}
-
-\subsubsection{Exécution de Dinic}
+Entête de la méthode d'exécution de Dinic
 \lstinputlisting[language=C++,morekeywords={}]{./sources/dinic}
 
+Entête des principales méthodes utilisées par la procédure \texttt{dinic}
+\lstinputlisting[language=C++,morekeywords={}]{./sources/dinic_methods}
 
 \section{Tests \& résultats}
 

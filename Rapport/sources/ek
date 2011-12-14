@@ -1,0 +1,9 @@
+/**
+ * algorithme d'Edmonds-Karp
+ * @param flow_network le reseau de transport
+ * @param src le sommet source
+ * @param dest le puit
+ * @return le graphe d'ecart final
+ */
+AdjacencyListGraph
+edmondsKarp(const AbstractGraph& flow_network, vertex_t src, vertex_t dest);
