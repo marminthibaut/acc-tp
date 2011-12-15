@@ -3,7 +3,7 @@
 
 \begin{block}{Idée générale}
 \begin{itemize}
-\item Trouver un une chaîne ameillorante.
+\item Trouver une chaîne ameillorante.
 \item Augmenter le flot le long de cette chaîne.
 \end{itemize}
 \end{block}
@@ -17,11 +17,11 @@
 \includegraphics[width=0.3\textwidth]{img/maudit}
 
 \end{frame}
-\begin{frame}{Algorithmes}{Edmonds-Karp : $O(n^5)$}
+\begin{frame}{Algorithmes}{Edmonds-Karp : $O(n^2m)$}
 
 \begin{block}{Idée générale}
 \begin{itemize}
-\item Prendre le chemin le plus court en nombre d'arcs
+\item Prendre la chaîne le plus court en nombre d'arcs
 \end{itemize}
 \end{block}
 
@@ -34,11 +34,11 @@
 
 \end{frame}
 
-\begin{frame}{Algorithmes}{Dinic : $O(n^4)$}
+\begin{frame}{Algorithmes}{Dinic : $O(nm^2)$}
 \begin{block}{Idée générale}
 \begin{itemize}
 \item Rechercher un ensemble de chemins à la fois
-\item Trouver un "flot bloquant" dans le "graphe de couches"
+\item Trouver un "Flot Bloquant" dans le "Graphe de Couches"
 \end{itemize}
 \end{block}
 \end{frame}
