@@ -42,16 +42,14 @@ P_{K_n-e}(k) -  P_{K_n\backslash e}(k) &=& (\prod_{i=0}^{n-2}(k-i))(k-(n-2)) - \
 &=& \prod_{i=0}^{n-1}(k-i)\\
 &=& P_{K_n}(k)
 \end{eqnarray*}
-Tout graphe de rang $n$ pouvant se générer à partir de $K_n$ (en enlevant des arrêtes) on cherchera à prouver que la suppression d'arrête conserve notre propriété. Autrement dit on aimerait montrer que pour tout graphe $G$ et tout arrête $a$ de celui-ci:
+Tout graphe de rang $n$ pouvant se générer à partir de $K_n$ (en enlevant des arrêtes) on cherchera à prouver que la suppression d'arrête conserve notre propriété. On admettra que pour tout graphe $G$ et tout arrête $a$ de celui-ci ($a$ et $e$ sont supposés distinctes):
 
 \begin{eqnarray*}
 &&P_G(k) = P_{G-e}(k) - P_{G \backslash e}(k) \\
 &\Rightarrow&  P_{G-a}(k) = P_{G-e-a}(k) - P_{G \backslash e-a}(k)
 \end{eqnarray*}
 
-On supposera évidemment que $a$ et $e$ sont distinctes. 
-
-TODO FINISH
+Par induction structurelle on a donc $P_G(k) = P_{G-e}(k) - P_{G \backslash e}(k)$ pour tout graphe $G$.
 
 \subsection{Polynôme chromatique ?}
 Soit $H$ un prédicat tel que :
@@ -108,8 +106,8 @@ On nomera $F_k(n,m,C)$ cette forme polynomiale particulière. Soit $H$ un prédi
 On montrera par récurance que $H(n,m)$ est vrai pour tout $n$ et tout $m$ :
 \begin{itemize}
 \item \textbf{Sommets -- cas de base} \\
-Pour $n = 1$ on a $P_G(k) = k$, donc $H(0,1)$ est vérifié.
-\item \textbf{Sommets -- pas récursif} \\ Supposons qu'il existe un nombre de sommets $n_0$ et un nombre d'arrêtes $m_0$ tel que $H(m_0,n_0)$ soit vrai. Soit $G$ un graphe à $n_0$ sommets et $m_0$ arrêtes, et $G^+$ le graphe généré en reliant un nouveau sommet $s'$ à une selection de $n' \leq n_0$ sommets de $G$. On aura donc $(k-n')$ manières de colorier $s'$. De ce fait:
+Pour $n = 1$ on a $P_G(k) = k$, donc $H(1,0)$ est vérifié.
+\item \textbf{Sommets -- pas récursif} \\ Supposons qu'il existe un nombre de sommets $n_0$ et un nombre d'arrêtes $m_0$ tel que $H(n_0,m_0)$ soit vrai. Soit $G$ un graphe à $n_0$ sommets et $m_0$ arrêtes, et $G^+$ le graphe généré en reliant un nouveau sommet $s'$ à une selection de $n' \leq n_0$ sommets de $G$. On aura donc $(k-n')$ manières de colorier $s'$. De ce fait:
 \[ P_{G^+}(k) = P_G(k)(k-n') \]
 Où $P_G(k)$ est de la forme $F$. $P_G^+(k)$ est donc de la forme:
 \begin{eqnarray*}
@@ -124,19 +122,25 @@ $k^{n}$ deviendra $k^{n+1}$ dans $F_k(n,m,C)k$ et, n'aillant pas de voisin gauch
 \item \textbf{Maintient de $mk^{n-1}$} \\
 Le terme $-mk^{n-1}$, aillant pour voisin gauche $k^n$, deviendra \[-mk^n - n'k^n = -(m+n')k^n \] $(m+n')$ étant le nombre d'arrêtes de $G^+$. La propriétée sur le second terme de plus haut degré est alors maintenu aussi.
 \end{itemize}
+On a donc $H(n_0+1, m_0)$, qui nous servira pas la suite $\ldots$
 
 \item \textbf{Arrêtes -- cas de base} \\
-Pour $m = 0$ on a $G = \overline{K}_n$ et donc $P_G(k) = P_{\overline{K}_n}(k) = k^n$. Du coup $\forall n \in \mathbb{N^+}$, $H(0,n)$ est vrai.
+Pour $m = 0$ on a $G = \overline{K}_n$ et donc $P_G(k) = P_{\overline{K}_n}(k) = k^n$. Du coup $\forall n \in \mathbb{N^+}$, $H(n,0)$ est vrai.
 \item \textbf{Arrêtes -- pas récursive} \\
-Supposons qu'il existe un nombre d'arrêtes $m_0$ tel que pour tout $m \leq m_0$ et tout $n$ on a $H(m_0,n)$. Soit $G$ un graphe à $m_0 + 1$ arrêtes. D'après la formule du question $3$ on a donc:
+Supposons qu'il existe un nombre d'arrêtes $m_0$ tel que pour tout $m \leq m_0$ et tout $n$ on a $H(n,m_0)$. Soit $G$ un graphe à $n$ sommets et $m_0 + 1$ arrêtes. D'après la formule du question $3$ on a donc:
 \begin{eqnarray*}
 P_G(k) &=& P_{G-e}(k) - P_{G \backslash e}(k)	\\
-		&=& A - B									
+		&=& F_k(n,m_0,C') - F_k(n-1,m_0+1-n',C'')	\\
+		&=& \Big( k^n - m_0k^{n-1} + \ldots \Big) - \Big( k^{n-1} - (m_0+1-n')k^{n-2} + \ldots \Big) 	\\
+		&=& k^n - (m_0+1)k^{n-1} + \ldots	\\
+		&=& F_k(n, m_0+1, C''')									
 \end{eqnarray*}
-Où $A$ et $B$ sont de la forme $F_k$. $P_G(k)$, lui, est donc de la forme:
-\[ F_k(n,m-1,C') - F_k(n-1,m-1,C'') \]
 
+On a admet ci-dessus la conservation de alternance des signes. De ce fait on a $H(n,m_0+1)$.
 \end {itemize}
+Nous avions démontrés :
+\[ H(1,0) \wedge H(n,0) \wedge (H(n,m) \Rightarrow H(n+1,m)) \wedge (H(n,m \Rightarrow H(n,m+1)) \]
+Par récurrence on a donc $H(n,m)$ pour tout pair $(n,m)$ de $\mathbb{N}^*\times{\mathbb{N}}$
 
 \subsection{Polynôme chromatique de $K_{1,5}$}
 $K_{1,5}$ étant un arbre, on aura $k$ choix de coloration pour la racine, peu importe le choix de celle-ci, et $k-1$ pour les autres, car chacun qu'on considère sera relié à exactement une autre déjà colorié. En totale ça nous fait donc:
@@ -162,7 +166,7 @@ Supposons qu'on ait un graphe $G$ tel que $P_G(k) = k(k-1)^{n-1}$ :
 \end {itemize}
 On a donc $G$ connexe et sans cycle: c'est la définition même d'un arbre.
 
-\subsection{$k^5 - 4k^4 + 6k^3 - 4k^2 + k$}
+\subsection{Trois graphes}
 Grace aux dévelopments précédentes (questions $7$ et $12$) on reconnait:
 \begin{eqnarray*}
 &&		k^5 - 4k^4 + 6k^3 - 4k^2 + k 	\\	
@@ -266,9 +270,7 @@ P_{K_{2,n+1}}(k)			& = & P_{K_{2,n+1}-e} - P_{K_{2,n+1} \backslash{e}}				\\
 							& = & P_{K_{2,n}}(k-1) - P_{C_{2,n}}							\\
 							& = & P_{K_{2,n}}(k-1) - P_{K_{2,n}} + P_{S_n}					\\
 							& = & (k-2)\big(k(k-1)^n + k(k-1)(k-2)^n\big) + k(k-1)^{n-1}	\\
-							& = & k(k-1)^n(k-2) + k(k-1)(k-2)^{n+1} + k(k-1)^{n-1}			\\
-							& = & k(k-1)^{n-1}\big((k-1)(k-2) + 1\big) + k(k-1)(k-2)^{n+1}	\\
-							& = & FIXME														\\
+							& = & \ldots													\\
 							& = & k(k-1)^{n+1} + k(k-1)(k-2)^{n+1}
 \end{eqnarray*}
 On a donc $H(n+1)$.
