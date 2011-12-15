@@ -21,15 +21,15 @@ où & $ c_i = ( l_{i1} \vee l_{i2} \vee l_{i3} ) $\\
 avec & $ l_{ij} = v$ ou $ \neg v$\\
 \end{tabular}
 \end{description}
-\item La réduction du problème SAT peut être définit en montrant que chaque clause $c$ de $\mathcal{C}$ peut-être transformée en un ensemble de clauses $\mathcal{C'}$ tel que pour toute affectation rendant vrai l'ensemble des clauses de $\mathcal{C}$, on peut trouver une affectation rendant vrai chaque clause de $\mathcal{C'}$. Chaque clause de $\mathcal{C'}$ devant être de taille exactement 3. La réciproque doit également être montrée.
+\item La réduction du problème SAT peut être définit en montrant que chaque clause $c$ de $\mathcal{C}$ peut-être transformée en un ensemble de clauses $\mathcal{C'}$ tel que pour toute affectation rendant vrai l'ensemble des clauses de $\mathcal{C}$, nous pouvons trouver une affectation rendant vrai chaque clause de $\mathcal{C'}$. Chaque clause de $\mathcal{C'}$ devant être de taille exactement 3. La réciproque doit également être montrée.
 
 Définissons les réductions :
 
 \begin{description}
 \item \mathversion{bold} $k = 1$ \mathversion{normal}
 
-Soit $ci_1$ une clause de taille 1, on a $ci_1 = (l)$.
-Ajoutons deux variables $v_1, v_2 \notin \mathcal{V}$ et transformons la clause $c$ en quatre clauses. On obtient l'ensemble $\mathcal{C}_1 = \lbrace c_1, c_2, c_3, c_4 \rbrace$ avec :
+Soit $ci_1$ une clause de taille 1, nous avons $ci_1 = (l)$.
+Ajoutons deux variables $v_1, v_2 \notin \mathcal{V}$ et transformons la clause $c$ en quatre clauses. Nous obtenons l'ensemble $\mathcal{C}_1 = \lbrace c_1, c_2, c_3, c_4 \rbrace$ avec :
 \[ c_1 = ( l \vee v_1 \vee v_2 )\]
 \[ c_2 = ( l \vee v_1 \vee \neg v_2 )\]
 \[ c_3 = ( l \vee \neg v_1 \vee v_2 )\]
@@ -37,8 +37,8 @@ Ajoutons deux variables $v_1, v_2 \notin \mathcal{V}$ et transformons la clause 
 
 \item \mathversion{bold} $k = 2$ \mathversion{normal}
 
-Soit $ci_2$ une clause de taille 2, on a $ci_2 = ( l_1 \vee l_2 )$.
-Ajoutons une variable $v \notin \mathcal{V}$ et transformons la clause $c$ en deux clauses. On obtient l'ensemble $\mathcal{C}_2 = \lbrace c_1, c_2 \rbrace$ avec :
+Soit $ci_2$ une clause de taille 2, nous avons $ci_2 = ( l_1 \vee l_2 )$.
+Ajoutons une variable $v \notin \mathcal{V}$ et transformons la clause $c$ en deux clauses. Nous obtenons l'ensemble $\mathcal{C}_2 = \lbrace c_1, c_2 \rbrace$ avec :
 \[ c_1 = ( l_1 \vee l_2 \vee v )\]
 \[ c_2 = ( l_1 \vee l_2 \vee \neg v )\]
 
@@ -49,7 +49,7 @@ La clause $ci_3$ ne subit pas de transformation.
 
 \item \mathversion{bold} $k > 3$ \mathversion{normal}
 
-Soit la clause $ci_k = ( l_1 \vee l_2 \vee \cdots \vee l_k )$. On ajoute $(k - 3)$ nouvelles variables $(v_1, v_2 \ldots v_{k-3})$.
+Soit la clause $ci_k = ( l_1 \vee l_2 \vee \cdots \vee l_k )$. Nous ajoutons $(k - 3)$ nouvelles variables $(v_1, v_2 \ldots v_{k-3})$.
 
 \[ \mathcal{C}_k = \underbrace{(l_1 \vee l_2 \vee v_1)}_{c_1} \bigwedge_{i=1}^{k-4}\left[ \underbrace{(\neg v_i \vee l_{i+2} \vee v_{i+1})}_{c_{i+1}}\right]  \wedge \underbrace{(\neg v_{k-3} \vee l_{k-1} \vee l_{k})}_{c_{k-2}} \]
 
@@ -70,7 +70,7 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
  		Prenons une interprétation $I_2'$ avec :
  		\[ val(I_2,l_1) = val(I_2',l_1) \]
   		\[ val(I_2,l_2) = val(I_2',l_2) \]
-  		Peu importe l'affectation de $v$ dans $I_2'$, on a $val(I_2',\mathcal{C}_2) = \top$.
+  		Peu importe l'affectation de $v$ dans $I_2'$, nous avons $val(I_2',\mathcal{C}_2) = \top$.
   		
   		\item Soit une interprétation $I_k$ qui satisfasse la clause $ci_k$ :
   		\[ \exists i, val(I_k,l_i) = \top \]
@@ -82,7 +82,7 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
   		\forall j \in \mathbb{N}^* \mid (i-1) \leq j \leq (k-3), val(I_k', v_j) & = & \bot \\
   		\end{eqnarray*}
   		
-  		On obtient :
+  		Nous obtenons :
   		\[ val(I_k',\mathcal{C}_k) = \top\]
   		
  	\end{itemize}
@@ -92,21 +92,21 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
  	\begin{itemize}
  	\item Prenons une interprétation $I_1$ telle que $val(I_1,\mathcal{C}_1) = \top$.
  	
- 	Sans perte de généralité, on suppose que : 
+ 	Sans perte de généralité, nous supposons que : 
  	\[ val(I_1,v_1) = val(I_1,v_2) = \top \]
  	La clause $c_4$ de $\mathcal{C}_1$ ne peut être satisfaite que si $val(I_1,l) = \top$.
  	
- 	On a donc :
+ 	Nous avons donc :
  	\[ val(I_1,ci_1) = \top \]
  	
  	\item Prenons une interprétation $I_2$ telle que $val(I_2,\mathcal{C}_2) = \top$.
  	
- 	Sans perte de généralité on suppose que :
+ 	Sans perte de généralité supposons que :
  	\[val(I_2,v) = \top \]
  	
  	La clause $c_2$ de $\mathcal{C}_2$ ne peut être satisfaire que si $val(I_2,(l_1 \vee l_2)) = \top$.
  	
- 	On a donc :
+ 	Nous avons donc :
  	\[ val(I_2,ci_2) = \top \]
  	
  	\item Prenons une interprétation $I_k$ telle que $val(I_k,\mathcal{C}_k) = \top$ et montrons qu'il existe forcément un $i$ tel que $val(I_k,l_i) = \top$.
@@ -125,7 +125,7 @@ Montrons que SAT est vrai si et seulement si 3--SAT est vrai :
 	
 	Pour que l'interprétation $I_k$ satisfasse $\mathcal{C}_k$, il doit exister un $i \in \mathbb{N}^*$ tel que $i \leq k$ et que $val(I_k,l_i) = \top$.
 	
-	On a donc :
+	Nous avons donc :
 	\[ val(I_k,ci_k) = \top \]
  	 	
  	\end{itemize}
@@ -160,7 +160,7 @@ $v_k = \theta(k)$, donc borné par la taille de F. La réduction s'effectue donc
 Il est possible de réduire le problème SAT à 3--SAT en un temps polynomial, SAT étant NP-complet, 3--SAT l'est aussi.
 \item Soit $\mathcal{C}$ un ensemble de clause à $n_v$ variables avec $n_1$ clauses de taille 1, $n_2$ clauses de taille 2, $n_3$ clauses de taille 3, $n_4$ clauses de taille 4 et $n_5$ clauses de taille 5. Calculons le nombre de variables et le nombre de clauses obtenues après réduction (respectivement $n_v'$ et $n_c'$).
 
-Les points (b) et (c) permettent de déterminer pour une clause de taille $k$, le nombre de clause obtenues et le nombre de variables ajoutées après réduction. On peut donc en déduire la tableau suivant :
+Les points (b) et (c) permettent de déterminer pour une clause de taille $k$, le nombre de clause obtenues et le nombre de variables ajoutées après réduction. Nous pouvons donc en déduire la tableau suivant :
 
 \begin{tabularx}{\textwidth}{| X || c | c | c | c | c |}
 \hline
@@ -179,7 +179,7 @@ Nombre de clauses obtenues par clause 	& 4 	& 2 	& 1 	& 2 	& 3 	\\
 
 \end{tabularx}
 
-On a donc :
+Nous avons donc :
 \[ n_v' = n_v + 2n_1 + n_2 + n_4 + 2n_5 \]
 \[ n_c' = 4n_1 + 2n_2 + n_3 + 2n_4 + 3n_5 \]
 \end{enumerate}
@@ -201,7 +201,7 @@ c_1&=&(l_1 \vee v) \\
 c_2&=&(l_2 \vee l_3 \vee \neg v)
 \end{eqnarray*}
 
-On a donc la clause $c_2$ de taille 3.
+Nous avons donc la clause $c_2$ de taille 3.
 
 \item[Cas 2 :] décomposons cette clause en trois clauses $c_1$, $c_2$ et $c_3$ de taille 1 :
 \begin{eqnarray*}
@@ -216,11 +216,8 @@ c_1 & = & (l_1 \vee v_1 \vee \neg v_2) \\
 c_2 & = & (l_2 \vee \neg v_1 \vee v_2)\\
 c_3 & = & (l_3 \vee v_1 \vee v_2)
 \end{eqnarray*}
-On a donc également des clauses de taille 3. La réduction définie ci-avant ne permet donc pas la réduction de 3--SAT vers 2--SAT.
+Nous avons donc également des clauses de taille 3. La réduction définie ci-avant ne permet donc pas la réduction de 3--SAT vers 2--SAT.
 \end{description}
-
-
-
 
 \subsection{2--SAT, un problème polynomial}
 \begin{enumerate}[(a)]
@@ -326,22 +323,19 @@ Cet algorithme effectue un parcours de $\mathcal{V}$ et un parcours de $\mathcal
 	}
 \end{algorithm}
 
-L'algorithme \texttt{Tarjan\_Main} initialise la date de visite de chaque sommet à zéro. On constate que les deux algorithmes exécutent \texttt{Tarjan\_Rec} uniquement sur des sommet dont la date de première visite est nulle. Or chaque appel à \texttt{Tarjan\_Rec} affecte une date de visite supérieure à zéro au sommet courant. \texttt{Tarjan\_Rec} est donc appelé exactement une fois par sommet.
+L'algorithme \texttt{Tarjan\_Main} initialise la date de visite de chaque sommet à zéro. Nous constatons que les deux algorithmes exécutent \texttt{Tarjan\_Rec} uniquement sur des sommet dont la date de première visite est nulle. Or chaque appel à \texttt{Tarjan\_Rec} affecte une date de visite supérieure à zéro au sommet courant. \texttt{Tarjan\_Rec} est donc appelé exactement une fois par sommet.
 
 De même, un sommet n'est empilé qu'à l'exécution de \texttt{Tarjan\_Rec}, donc chaque sommet ne sera empilé (et donc dépilé) qu'une seule fois. La boucle de l'algorithme \texttt{Tarjan\_Rec} (ligne 13) a une complexité globale en $O(|\mathcal{V}|)$.
 
-En revanche, la bouche ligne 6 est effectuée une fois pour chaque voisin du sommet courant, donc $|\mathcal{V}|$ fois au pire pour chaque appelle. \texttt{Tarjan\_Rec} n'étant appelée que $|\mathcal{V}|$ fois en totale on arrive donc à une complexité de $O(|\mathcal{V}|^2)$.
+En revanche, la bouche ligne 6 est effectuée une fois pour chaque voisin du sommet courant, donc $|\mathcal{V}|$ fois au pire pour chaque appelle. \texttt{Tarjan\_Rec} n'étant appelée que $|\mathcal{V}|$ fois en totale nous arrivons donc à une complexité de $O(|\mathcal{V}|^2)$.
 
 Dans le pire des cas le nombre de variables d'une instance de 2--SAT est égale à deux fois le nombre de clauses (chaque clause comportant dans ce cas deux variables uniques). Or notre conversion génère deux sommets par variable. La complexité de l'algorithme en fonction du nombre de clauses est donc de $O(|\mathcal{C}|^2)$.
 
 \item 
 \begin{itemize}
-\item On appellera Absurd--Graph le problème de décision consistant de savoir si un variable partage avec la négation une composante fortement connexe (ou $CFC$) du graphe de satisfaction. 
-\item Toute arc ajouté par $GrapheSatisfaction$ correspond à une contrainte de la forme $((x \vee y) \wedge \neg x) \Rightarrow y)$, donc une implication. Étant donnée les $CFC$, calculés par l'algorithme de $Tarjan$, on peut vérifier linéairement en le nombre de sommets si le graphe de satisfaction est "absurde", ce qui corresponderait effectivement à $(\neg(x) \Leftrightarrow x)$.
-\item Dans le cas contraire il suffit de prendre l'inverse de l'ordre topologique calculée par $Tarjan$ et d'affecter les variables de chaque composante comme précise l'article de Philipe Gambette. Ceci nous garantie de ne pas avoir d'interprétations $\bot \Rightarrow \top$, seuls à pouvoir casser l'enchaînement des implications. 
-\item Nous finissions alors soit avec une affection modèle, soit l'affirmation de l'insatisfiabilité de l'instance 2--SAT. Un algorithme pour résoudre Absurd--Graph (à savoir $Tarjan$ et des poussières) permet donc de résoudre le problème 2--SAT.
+\item Nous appellerons \emph{Absurd--Graph} le problème de décision consistant de savoir si une variable partage avec la négation une composante fortement connexe (ou $CFC$) du graphe de satisfaction. 
+\item Tout arc ajouté par $GrapheSatisfaction$ correspond à une contrainte de la forme $((x \vee y) \wedge \neg x) \Rightarrow y)$, donc une implication. Étant donnée les $CFC$, calculés par l'algorithme de $Tarjan$, nous pouvons vérifier linéairement en le nombre de sommets si le graphe de satisfaction est \og absurde \fg, ce qui correspondrait effectivement à $(\neg(x) \Leftrightarrow x)$.
+\item Dans le cas contraire il faut prendre l'inverse de l'ordre topologique calculée par $Tarjan$ et affecter les variables de chaque composante comme précise l'article de Philipe Gambette. Ceci nous garantie de ne pas avoir d'interprétations $( \bot \Rightarrow \top )$, seuls à pouvoir casser l'enchaînement des implications. 
+\item Nous finissions alors soit avec une affection modèle, soit avec l'affirmation de l'insatisfiabilité de l'instance 2--SAT. Un algorithme pour résoudre \emph{Absurd--Graph} permet donc de résoudre le problème 2--SAT.
 \end{itemize}
 \end{enumerate}
-
-
-

@@ -1,16 +1,18 @@
 \textit{Le but de ce TP est d'implémenter deux algorithmes de résolution du problème de flot maximum : l'algorithme d'Edmonds-Karp et l'algorithme de Dinic. Nous commencerons par spécifier les fonctionnalités que devra implémenter notre programme, puis nous détaillerons la manière dont ces fonctionnalités ont été développées. Une troisième partie sera consacrée aux tests effectués sur les deux algorithmes ainsi qu'à l'analyse des résultats.}
 
+\pagebreak
+
 \section{Spécifications fonctionnelles}
 
 \subsection{Résolution du problème de flot maximum}
 
 Le programme doit être capable de :
 \begin{itemize}
-\item générer et d'actualiser les graphes d'écarts successifs
-\item calculer la valeur du flot obtenu à partir du graphe d'écart final
-\item résoudre le problème de flot maximum en suivant l'algorithme d'\textbf{Edmonds-Karp}
-\item résoudre le problème de flot maximum en suivant l'algorithme de \textbf{Dinic}
-\item retourner la solution de manière exploitable pour l'analyse
+\item générer et d'actualiser les graphes d'écarts successifs,
+\item calculer la valeur du flot obtenu à partir du graphe d'écart final,
+\item résoudre le problème de flot maximum en suivant l'algorithme d'\textbf{Edmonds-Karp},
+\item résoudre le problème de flot maximum en suivant l'algorithme de \textbf{Dinic},
+\item retourner la solution de manière exploitable pour l'analyse.
 \end{itemize}
 
 Il faudra veiller à conserver la complexité des deux algorithmes, notamment en prenant garde aux structures de données et librairies utilisées.
@@ -30,24 +32,29 @@ La densité du graphe correspond à son taux d'arêtes par rapport au nombre d'a
 En plus de sa notoriété, nous avons choisi de développer l'application en C++ car il s'agit d'un bon compromis entre langage orienté objet et langage de bas niveau. Nous pourrons ainsi abstraire la gestion des graphes (notamment des structures de données) dans nos algorithmes, tout en gardant la possibilité d'optimiser le code grâce à la flexibilité du langage C++.
 
 \subsubsection{Utilisation d'un gestionnaire de version}
-Nous avons d'utilisés un gestionnaire de version afin de pouvoir sauvegarder et partager notre code entre les membres
-de l'équipe.	
+Afin de faciliter le travail en groupe, nous avons choisi de déposer notre projet en ligne sur le gestionnaire de versions \emph{GitHub}. 
+
+Ce type d'outil permet :
+\begin{itemize}
+\item la sauvegarde d'un historique des différentes versions,
+\item l'annulation de certaines modifications,
+\item de permettre le partage des modifications,
+\item la fusion de modifications effectuées sur un même fichier par des membres différents,
+\item d'assurer un stockage en ligne sûr du projet.
+\end{itemize}
 
 \subsection{Représentation du problème de flot maximum}
 
-Le problème du flot maximum n'est défini que pour un certain type de graphes appelé \emph{réseau de transport}.
+Le problème du flot maximum n'est défini que pour un certain type de graphes appelés \emph{réseaux de transport}.
 
 \subsubsection{Réseau de transport}
-Les réseaux de transport peuvent êtres représenté par un graphe orienté pondéré pour lequel on défini un sommet
-source et un sommet puits. Le sommet source à la particularité de ne pas avoir de prédecesseur et le puits celui
-de ne pas avoir de successeur. La valuation d'un arcs représente sa capacité maximal.
+Un réseau de transport peut être représenté par un graphe orienté pondéré pour lequel on définit un sommet source et un sommet puits. Le sommet source a la particularité de ne pas avoir de prédécesseur et le puits celui de ne pas avoir de successeur. La valuation d'un arcs représente sa capacité maximale.
 
 \subsubsection{Graphe d'écart}
-Les graphes d'écart peuvent êtres simplement représenté par un graphe orienté pondéré.
+Un graphe d'écart peut être représenté simplement par un graphe orienté pondéré.
 
 \subsubsection{Graphe de couches}
-Les graphes de couches peuvent êtres représenté par un graphe orienté pondéré auquel on ajoute un tableau 
-de listes de sommets indexé par le numéro de couche. Chaque liste représente donc une couche du graphe, elle contient donc l'ensemble des sommets se trouvant à une distance d du graphe où d est le numéro de la couche.
+Un graphe de couches peut être représenté par un graphe orienté pondéré auquel on ajoute un tableau de listes de sommets indexé par le numéro de couche. Chaque liste représente donc une couche du graphe, elle contient donc l'ensemble des sommets se trouvant à une distance $d$ de la source où $d$ est le numéro de la couche.
 
 
 \subsection{Modélisation}
@@ -64,7 +71,7 @@ Afin de s'abstraire de la structure de donnée, nous avons choisi de créer une 
 
 \FloatBarrier
 
-Les graphes peuvent être stockés à l'aide différents types de structures de données. Nous avons choisi d'en implémenter deux :  par listes d'adjacences et par matrice d'adjacences.
+Les graphes peuvent être stockés à l'aide de différents types de structures de données. Nous avons choisi d'en implémenter deux :  par listes d'adjacences et par matrice d'adjacences.
 \begin{description}
 \item[Listes d'adjacences] : chaque sommet possède la liste de ses voisins. Ces listes ont l'avantage d'allouer de la mémoire uniquement lorsqu'une information doit être stockée. 
 \item[Matrice d'adjacences] : la mémoire allouée pour cette structure de données ne dépend que du nombre de sommets ($n^2$). Cette structure a l'avantage d'offrir un accès direct à un arc pour deux sommets donnés.
@@ -72,10 +79,10 @@ Les graphes peuvent être stockés à l'aide différents types de structures de 
 
 Dans un but d'optimisation mémoire, on utilise en général des listes d'adjacences lorsque l'on travail sur des graphes peu denses. En effet, la taille allouée par cette structure de données étant directement dépendante du nombre d'arcs, elle est donc réduite par rapport aux matrices d'adjacences. Sur des graphes très dense, on utilisera en revanche des matrices d'adjacences, permettant un accès aux données plus rapide. 
 
-Les ressources matériels disponibles peuvent également orienter ce choix.
+Les ressources matérielles disponibles peuvent également orienter ce choix.
 
 \subsubsection{Application aux réseaux de transport}
-Les deux classe précédentes n'étant pas spécialisées dans la modélisation de réseaux de transport, nous adopterons les conventions suivantes :
+Les deux classes précédentes n'étant pas spécialisées dans la modélisation de réseaux de transport, nous adopterons les conventions suivantes :
 \begin{itemize}
 \item le sommet zéro (premier sommet) représente la source,
 \item le sommet n (dernier sommet) représente le puits,
@@ -97,13 +104,11 @@ Header de la classe \texttt{AbstractGraph}
 \lstinputlisting[language=C++,morekeywords={}]{./sources/AbstractGraph}
 
 \subsubsection{Classe \texttt{AdjacencyListGraph}}
-Cette classe représente un orienté valué sous la forme
-de deux listes d'adjacences : une représente les 
-successeurs d'un sommet, l'autre les prédécesseurs.
+Cette classe représente un graphe orienté pondéré sous la forme de deux listes d'adjacences : une représente les successeurs d'un sommet, l'autre les prédécesseurs.
 
 Ce doublon d'information permet d'accélérer l'accès aux voisins d'un sommet, notamment à ces prédécesseurs. En effet, cette méthode nous permet d'accéder à une liste des prédécesseurs directement (complexité de $O(1)$) alors que l'accès via les listes des successeurs implique le parcours de toutes ces listes (complexité de $O(nm)$).
 
-Ces doubles listes d'adjacences nous assurent un gain de performances en terme de rapidité, qui se fait au détriment de la quantité de mémoire utilisé, qui se trouve doublée.
+Ces doubles listes d'adjacences nous assurent un gain de performances en terme de rapidité, qui se fait au détriment de la quantité de mémoire utilisée, qui se trouve doublée.
 
 Header de la classe \texttt{AdjacencyListGraph}
 
@@ -112,7 +117,7 @@ Header de la classe \texttt{AdjacencyListGraph}
 
 \subsubsection{Classe \texttt{MatrixGraph}}
 
-Cette classe représente un graphe orienté valué sous la forme d'une matrice d'adjacence. L'absence d'un arc est représenté par la valeur $-1$. Toute valeur positive représente la pondération de l'arc.
+Cette classe représente un graphe orienté pondéré sous la forme d'une matrice d'adjacence. L'absence d'un arc est représenté par la valeur $-1$. Toute valeur positive représente la pondération de l'arc.
 
 Header de la classe \texttt{MatrixGraph}
 
@@ -159,7 +164,7 @@ La première stratégie utilisée par notre application était naïve. Nous comm
   }
 \end{algorithm}
 
-Cet algorithme, bien que \og plutôt \fg fonctionnel pour des graphes peu denses ne fourni aucune garantie d'arrêt. Nous avons donc réfléchi à une deuxième approche, qui consistait à générer tout les arcs possibles dans un tableau de type vector puis de piocher parmi ces arcs.
+Cet algorithme, bien que \og plutôt \fg fonctionnel pour des graphes peu denses ne fourni aucune garantie d'arrêt. Nous avons donc réfléchi à une deuxième approche, qui consistait à générer tout les arcs possibles dans un tableau de type \texttt{vector} puis de piocher parmi ces arcs.
 
 \begin{algorithm}[H]
   \caption{flowNetworkGenerator(G,rate,min\_weight,max\_weight)}
@@ -211,7 +216,7 @@ Cet algorithme, bien que \og plutôt \fg fonctionnel pour des graphes peu denses
   }
 \end{algorithm}
 
-Dans tous les cas, nous sommes certain de l'arrêt de cet algorithme. Il faut veiller à utiliser un type tableau en marquant à \og nil \fg les arcs ajoutés. En effet, nous avions commencé par utiliser une liste chainée mais la fonction \texttt{list.get(...)} a une complexité en $O(n^2)$.
+Dans tous les cas, nous sommes certains de l'arrêt de cet algorithme. Il faut veiller à utiliser un type tableau en marquant à \og \texttt{nil} \fg les arcs ajoutés. En effet, nous avions commencé par utiliser une liste chainée mais la fonction \texttt{list.get(...)} a une complexité en $O(n^2)$.
 
 
 \subsection{Méthode implémentée}
@@ -231,7 +236,7 @@ La méthode \texttt{edmondsKarp} permet l'exécution de cet algorithme. Il prend
 Entête de la méthode d'exécution d'Edmonds-Karp
 \lstinputlisting[language=C++,morekeywords={}]{./sources/ek}
 
-La recherche du plus court chemin en nombre d'arc est implémenté par la fonction \texttt{leastArcsPath} qui effectue un parcours en largeur. Sa complexité est donc en $O(n+m)$ avec structure par listes d'adjacences, et en $O(n^2)$ par avec une structure par matrice d'adjacences.
+La recherche du plus court chemin en nombre d'arc est implémentée par la fonction \texttt{leastArcsPath} qui effectue un parcours en largeur. Sa complexité est donc en $O(n+m)$ avec structure par listes d'adjacences, et en $O(n^2)$ par avec une structure par matrice d'adjacences.
 
 La mise à jour du graphe d'écart est assurée par la méthode \texttt{updateResidualNetwork} avec une complexité en $O(n)$.
 
@@ -275,7 +280,7 @@ A partir des données obtenues, nous avons essayé de créer une série de graph
 \begin{itemize}
   \item (1) le nombre de sommets (en conservant une densité identique),
   \item (2) la densité (en conservant un nombre d'arcs identique),
-  \item (3) le nombre d'arcs (en faisant donc varier le nombre d'arc et la densité).
+  \item (3) le nombre d'arcs (en faisant donc varier le nombre d'arcs et la densité).
 \end{itemize}
 
 Seule la représentation (1) permet de mettre en évidence un phénomène intéressent. Ci-après sont donc présentés trois graphiques, pour des densités de 20\%, 50\% et 80\%.
@@ -312,7 +317,7 @@ Ce résultat est cohérent, étant donné les complexité des algorithmes :
 \end{itemize}
 il est normal que la densité influe plus sur le premier que le second.
 
-Nous nous sommes cependant intéressés aux résultats obtenus sur des plus petits graphes. Voici deux graphiques qui montre nos résultats sur des graphes inférieurs à 200 sommets.
+Nous nous sommes cependant intéressés aux résultats obtenus sur des plus petits graphes. Voici deux graphiques qui montrent nos résultats sur des graphes inférieurs à 200 sommets.
 
 \begin{figure}[h!]
 \begin{center}
@@ -328,6 +333,6 @@ Nous nous sommes cependant intéressés aux résultats obtenus sur des plus peti
 \caption{Temps CPU en fonction du nombre de sommets (valeur faible), densité de 80\%}
 \end{figure}
 
-On remarque ici qu'en faite, l'algorithme d'Edmonds-Karp est plus rapide que Dinic sur des graphes de 160 sommets pour une densité de 20\%, et 120 sommets pour une densité de 80\%.
+On remarque ici que l'algorithme d'Edmonds-Karp est plus rapide que Dinic sur des graphes de 160 sommets pour une densité de 20\%, et 120 sommets pour une densité de 80\%.
 
-De manière général, on constate que l'algorithme de Dinic est plus rapide qu'Edmonds-Karp, surtout sur des graphes peu denses. Edmonds-Karp demeure cependant plus rapide sur des graphes extrêmement petits (nombre de sommets inférieurs à 150), d'autant plus si le graphe est peu dense.
+De manière générale, on constate que l'algorithme de Dinic est plus rapide qu'Edmonds-Karp, surtout sur des graphes peu denses. Edmonds-Karp demeure cependant plus rapide sur des graphes extrêmement petits (nombre de sommets inférieur à 150), d'autant plus si le graphe est peu dense.

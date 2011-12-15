@@ -1,17 +1,17 @@
 \subsection{Choix Techniques}
 
-\begin{frame}{Choix du langage de programmation}
+\begin{frame}{Choix Techniques}{Langage de programmation}
 	\begin{block}{C++}
   	\begin{itemize}
     	\item rapidité d'éxecution
-    	\item langage à objets
+    	\item langage orienté objets
     	\item connaissance du langage
     	\item langage très répandu
   	\end{itemize}
 	\end{block}
 \end{frame}
 
-\begin{frame}{Utilisation d'un gestionnaire de version}
+\begin{frame}{Choix Techniques}{Gestionnaire de version}
 	\begin{block}{git - the stupid content tracker}
   	\begin{itemize}
     	\item sauvegarde
@@ -22,7 +22,9 @@
 \end{frame}
 
 \subsection{Structures}
-\begin{frame}{Représentation du problème de flot maximum}
+\begin{frame}{Structures}{Représentation du problème de flot maximum}
+\begin{columns}[t]
+  \begin{column}[l]{0.3\textwidth}
 	\begin{block}{Réseau de transport}
   	\begin{itemize}
     	\item Graphe orienté pondéré
@@ -30,24 +32,26 @@
     	\item un puits
   	\end{itemize}
 	\end{block}
+	\end{column}
+    \begin{column}[l]{0.3\textwidth}
 	\begin{block}{Graphe d'écarts}
   	\begin{itemize}
     	\item Graphe orienté pondéré
   	\end{itemize}
 	\end{block}
-\end{frame}
-
-
-\begin{frame}{Représentation du problème de flot maximum}
-	\begin{block}{Graphe de couches}
+	\end{column}
+    \begin{column}[l]{0.4\textwidth}
+		\begin{block}{Graphe de couches}
   	\begin{itemize}
     	\item Graphe orienté pondéré
   	  \item Représenation des couches par un tableau de listes de sommets.
   	\end{itemize}
 	\end{block}
+	\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Diagramme de classes}
+\begin{frame}{Structures}{Diagramme de classes}
 	\begin{figure}
 	\includegraphics[width=0.8\textwidth]{img/diag_class.pdf}
 	\end{figure}
@@ -56,11 +60,11 @@
 
 \subsection{Mise en oeuvre des algorithmes}
 
-\begin{frame}{Edmonds-Karp}
+\begin{frame}{Mise en oeuvre des algorithmes}{Edmonds-Karp}
 	\begin{block}{Recherche du plus court chemin en nombre d'arcs}
   	Parcours en largeur
   	\begin{itemize}
-    	\item Graphes en listes d'adjacences : O(n+m)
+    	\item Graphes en listes d'adjacences : O(m)
   	  \item Graphes en matrice d'adjacences : O($n^2$)
   	\end{itemize}
   \end{block}
@@ -69,18 +73,17 @@
   	Décrementation du poids de chaque arc u,v du chemin \\
   	Incrémentation du poids de chaque arc v,u \\
   	\begin{itemize}
-    	\item Graphes en listes d'adjacences : O(n+m)
+    	\item Graphes en listes d'adjacences : O(m)
   	  \item Graphes en matrice d'adjacences : O(n)
   	\end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Dinic}
+\begin{frame}{Mise en oeuvre des algorithmes}{Dinic}
 	\begin{block}{Génération du graphe de couches}
   	Parcours en largeur + stockage d'une liste de parents par sommets
   \end{block}
   \begin{block}{Calcul du flot bloquant}
-  	Parcours en largeur + stockage d'une liste de parents par sommets
   	\begin{itemize}
     	\item Graphes en listes d'adjacences : O(nm)
   	  \item Graphes en matrice d'adjacences : O($n^2$m)
@@ -91,13 +94,13 @@
   	Décrementation du poids de chaque arc u,v du chemin \\
   	Incrémentation du poids de chaque arc v,u \\
   	\begin{itemize}
-    	\item Graphes en listes d'adjacences : O($m^2$)
+    	\item Graphes en listes d'adjacences : O($m$)
   	  \item Graphes en matrice d'adjacences : O($n^2$)
   	\end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Génération de réseaux de transport aléatoires}
+\begin{frame}{Mise en oeuvre des algorithmes}{Génération de réseaux de transport aléatoires}
 	\begin{block}{Deux stratégies}
   	\begin{itemize}
   		\item Tirage aléatoire de deux sommets

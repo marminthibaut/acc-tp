@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="6cm" height="8cm" viewBox="-49 -71 104 144" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="6cm" height="8cm" viewBox="-49 -72 104 145" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
     <ellipse style="fill: #000000" cx="-44.5" cy="0.5" rx="3" ry="3"/>
     <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="-44.5" cy="0.5" rx="3" ry="3"/>
@@ -29,22 +29,22 @@
     <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M -44.9892,4.46074 A 46.1735,46.1735 0 0 0 47.2103,7.81751"/>
     <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="53.2013,15.0222 47.1955,5.59191 43.2547,16.0547 "/>
   </g>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.2416" y="-58.93">
-    <tspan x="-4.2416" y="-58.93">1</tspan>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.2416" y="-58.93">
+    <tspan x="-4.2416" y="-58.93">2</tspan>
   </text>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.8666" y="36.17">
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.8666" y="36.17">
     <tspan x="-4.8666" y="36.17">...</tspan>
   </text>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-5.4916" y="69.57">
-    <tspan x="-5.4916" y="69.57">C*</tspan>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-5.4916" y="69.57">
+    <tspan x="-5.4916" y="69.57">2</tspan>
   </text>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-3.2416" y="-29.18">
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-3.2416" y="-29.18">
     <tspan x="-3.2416" y="-29.18">2</tspan>
   </text>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-2.2416" y="-5.18">
-    <tspan x="-2.2416" y="-5.18">3</tspan>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-3.7416" y="-5.18">
+    <tspan x="-3.7416" y="-5.18">2</tspan>
   </text>
-  <text style="fill: #000000;text-anchor:start;font-size:12.7998;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.4916" y="16.32">
-    <tspan x="-4.4916" y="16.32">4</tspan>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="-4.4916" y="16.32">
+    <tspan x="-4.4916" y="16.32">2</tspan>
   </text>
 </svg>

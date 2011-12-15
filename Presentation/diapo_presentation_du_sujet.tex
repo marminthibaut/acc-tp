@@ -8,13 +8,19 @@
 \end{itemize}
 \end{block}
 
+\begin{columns}
+  \begin{column}[l]{0.6\textwidth}
 \begin{block}{Faiblesses}
 \begin{itemize}
 \item "Pseudo-exponentielle" : $O(n^3)$, mais seulement pour des capacités bornées \ldots
 \item "Diamant maudit" : $2\times{M}$ itérations! 
 \end{itemize}
 \end{block}
-\includegraphics[width=0.3\textwidth]{img/maudit}
+\end{column}
+\begin{column}[l]{0.4\textwidth}
+\includegraphics[width=0.5\textwidth]{img/maudit}
+\end{column}
+\end{columns}
 
 \end{frame}
 \begin{frame}{Algorithmes}{Edmonds-Karp : $O(n^2m)$}
@@ -25,20 +31,42 @@
 \end{itemize}
 \end{block}
 
+\begin{columns}
+  \begin{column}[l]{0.6\textwidth}
 \begin{block}{Faiblesses}
-\begin{itemize}
-\item Graphes avec de multiples chemins de plus en plus longs \dots
-\end{itemize}
-\end{block}
-\includegraphics[width=0.3\textwidth]{img/anti_ek}
+    \begin{itemize}
+      \item Graphes avec de multiples chemins de même taille\dots
+    \end{itemize}
+    \end{block}
+  \end{column}
+ \begin{column}[r]{0.4\textwidth}
+    \includegraphics[width=0.5\textwidth]{img/anti_ek}
+  \end{column}
+\end{columns}
 
 \end{frame}
 
 \begin{frame}{Algorithmes}{Dinic : $O(nm^2)$}
 \begin{block}{Idée générale}
 \begin{itemize}
-\item Rechercher un ensemble de chemins à la fois
+\item Rechercher l'ensemble des plus courts chemins
 \item Trouver un "Flot Bloquant" dans le "Graphe de Couches"
 \end{itemize}
 \end{block}
+
+\begin{columns}
+  \begin{column}[l]{0.6\textwidth}
+
+  \begin{column}[l]{0.6\textwidth}
+\begin{block}{Faiblesses}
+    \begin{itemize}
+      \item Graphes avec de multiples chemins de plus en plus longs\dots
+    \end{itemize}
+    \end{block}
+  \end{column}
+  \end{column}
+ \begin{column}[r]{0.4\textwidth}
+    \includegraphics[width=0.5\textwidth]{img/anti_dinic}
+  \end{column}
+\end{columns}
 \end{frame}
