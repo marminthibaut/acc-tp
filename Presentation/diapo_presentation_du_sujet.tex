@@ -11,19 +11,33 @@
 \begin{block}{Défauts}
 \begin{itemize}
 \item "Pseudo-exponentielle"
-\item "Diamond maudit"
+\item "Diamond maudit" : $2\times{M}$ itérations! 
+\includegraphics[width=0.3\textwidth]{img/maudit}
 \end{itemize}
 \end{block}
 
 \end{frame}
 \begin{frame}{Algorithmes}{Edmonds-Karp : $O(n^5)$}
+
 \begin{block}{Idée générale}
 \begin{itemize}
 \item Prendre le chemin le plus court en nombre d'arcs
 \end{itemize}
 \end{block}
+
+\begin{block}{Défauts}
+\begin{itemize}
+\item Graphes avec de multiple chemins de plus en plus longs \dots
+\end{itemize}
+\end{block}
+
 \end{frame}
 
 \begin{frame}{Algorithmes}{Dinic : $O(n^4)$}
-Testing also
+\begin{block}{Idée générale}
+\begin{itemize}
+\item Rechercher un ensemble de chemins à la fois
+\item Trouver un "flot bloquant" dans le "graphe de couches"
+\end{itemize}
+\end{block}
 \end{frame}
