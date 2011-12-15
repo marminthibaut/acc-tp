@@ -25,14 +25,14 @@
 \begin{frame}{Représentation du problème de flot maximum}
 	\begin{block}{Réseau de transport}
   	\begin{itemize}
-    	\item Graphe orienté et pondéré
+    	\item Graphe orienté pondéré
     	\item une source
     	\item un puits
   	\end{itemize}
 	\end{block}
 	\begin{block}{Graphe d'écarts}
   	\begin{itemize}
-    	\item Graphe orienté et pondéré
+    	\item Graphe orienté pondéré
   	\end{itemize}
 	\end{block}
 \end{frame}
@@ -41,8 +41,8 @@
 \begin{frame}{Représentation du problème de flot maximum}
 	\begin{block}{Graphe de couches}
   	\begin{itemize}
-    	\item Graphe orienté et pondéré
-  	  \item un tableau de listes de sommets (chaque liste représente une couche)
+    	\item Graphe orienté pondéré
+  	  \item Représenation des couches par un tableau de listes de sommets.
   	\end{itemize}
 	\end{block}
 \end{frame}
@@ -55,6 +55,48 @@
 \end{frame}
 
 \subsection{Mise en oeuvre des algorithmes}
+
+\begin{frame}{Edmonds-Karp}
+	\begin{block}{Recherche du plus court chemin en nombre d'arcs}
+  	Parcours en largeur
+  	\begin{itemize}
+    	\item Graphes en listes d'adjacences : O(n+m)
+  	  \item Graphes en matrice d'adjacences : O($n^2$)
+  	\end{itemize}
+  \end{block}
+  \begin{block}{Mise à jour du graphe d'écart}
+  	Parcours du chemin \\
+  	Décrementation du poids de chaque arc u,v du chemin \\
+  	Incrémentation du poids de chaque arc v,u \\
+  	\begin{itemize}
+    	\item Graphes en listes d'adjacences : O(n+m)
+  	  \item Graphes en matrice d'adjacences : O(n)
+  	\end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Dinic}
+	\begin{block}{Génération du graphe de couches}
+  	Parcours en largeur + stockage d'une liste de parents par sommets
+  \end{block}
+  \begin{block}{Calcul du flot bloquant}
+  	Parcours en largeur + stockage d'une liste de parents par sommets
+  	\begin{itemize}
+    	\item Graphes en listes d'adjacences : O(nm)
+  	  \item Graphes en matrice d'adjacences : O($n^2$m)
+  	\end{itemize}
+  \end{block}
+	\begin{block}{Mise à jour du graphe d'écart}
+  	Pour chaque arcs du flot bloquant \\
+  	Décrementation du poids de chaque arc u,v du chemin \\
+  	Incrémentation du poids de chaque arc v,u \\
+  	\begin{itemize}
+    	\item Graphes en listes d'adjacences : O($m^2$)
+  	  \item Graphes en matrice d'adjacences : O($n^2$)
+  	\end{itemize}
+  \end{block}
+\end{frame}
+
 \begin{frame}{Génération de réseaux de transport aléatoires}
 	\begin{block}{Deux stratégies}
   	\begin{itemize}
@@ -62,17 +104,4 @@
   		\item Génération de tous les arcs possibles et tirage d'un arc
   	\end{itemize}
 	\end{block}
-\end{frame}
-
-\begin{frame}{Edmonds-Karp}
-	 \begin{itemize}
-  	\item Recherche du plus court chemin en nombre d'arcs par un parcours en largeur
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Dinic}
-	 \begin{itemize}
-	 	\item Génération du graphe de couche par un parcours en largeur en stockant l'ensemble des parents.
-  	\item Complexité de l'accès au prédécesseur dans le graphe de couche pour le calcul du flot bloquant
-  \end{itemize}
 \end{frame}
